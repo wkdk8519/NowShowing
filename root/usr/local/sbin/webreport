@@ -107,9 +107,10 @@ class Report
             if element['type'] == 'movie'
                 # Checks to see if a section filter was applied
                 # If so, checks to see if this section should be reported
-                if !$advanced['plex']['sections'].nil?
-                    if !$advanced['plex']['sections'].include?(element['title'])
-                        break
+                if !$advanced['plex']['libraries_to_skip'].nil?
+                    if $advanced['plex']['libraries_to_skip'].include?(element['title'])
+                        $logger.info("Skipping Movie Library: #{element['title']}")
+			next
                     end
                 end
 
@@ -213,9 +214,10 @@ class Report
             if element['type'] == 'show'
                 # Checks to see if a section filter was applied
                 # If so, checks to see if this section should be reported
-                if !$advanced['plex']['sections'].nil?
-                    if !$advanced['plex']['sections'].include?(element['title'])
-                        break
+                if !$advanced['plex']['libraries_to_skip'].nil?
+                    if $advanced['plex']['libraries_to_skip'].include?(element['title'])
+                        $logger.info("Skipping TV Library: #{element['title']}")
+			next
                     end
                 end
 
