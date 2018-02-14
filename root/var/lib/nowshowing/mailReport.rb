@@ -85,17 +85,18 @@ class MailReport
 
         #Get owner's email as well and add it to the list of recpients
         users.push(plexTv.get('/users/account')['user']['email'][0])
-
-        users.each do | user |
+     
+	#used to send individual email. Now it bcc's one email
+        #users.each do | user |
             mail = Mail.new do
                 from "#{$advanced['mail']['from']} <#{$config['mail']['username']}>"
-                to user
+                bcc users
                 subject $advanced['mail']['subject'] + " " + (I18n.l Time.now.to_date)
                 content_type 'text/html; charset=UTF-8'
                 body body
             end
 
             mail.deliver!
-        end
+        #end
     end
 end
