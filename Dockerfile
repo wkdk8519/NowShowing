@@ -36,4 +36,4 @@ apk del --purge build-dependencies
 
 # Start s6 init & webserver
 ENTRYPOINT ["/init"]
-CMD ["webserver"]
+CMD ["lighttpd" "-D" "-f" "/etc/lighttpd/lighttpd.conf"]
