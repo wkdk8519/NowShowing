@@ -1,4 +1,4 @@
-FROM php:7.2.2-fpm-alpine3.6
+FROM php:7.1.14-fpm-alpine3.4
 MAINTAINER ninthwalker
 
 ENV UPDATED_ON 16FEB2018
