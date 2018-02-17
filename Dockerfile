@@ -3,6 +3,7 @@ MAINTAINER ninthwalker
 
 ENV UPDATED_ON 17FEB2018
 ENV NOWSHOWING_VERSION 2.0
+
 VOLUME /config
 EXPOSE 6878 
 
@@ -10,7 +11,7 @@ EXPOSE 6878
 COPY root/ s6-overlay/ /
 
 # Install permanent packages
-RUN apk add --no-cache ruby ruby-json ruby-io-console curl-dev tzdata shadow && \
+RUN apk add --no-cache ruby ruby-json ruby-io-console curl-dev lighttpd tzdata shadow && \
 
 # Install temporary build dependencies
 apk add --no-cache --virtual build-dependencies \
