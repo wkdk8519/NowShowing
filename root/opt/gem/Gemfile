@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'json', '1.8.5'
-gem 'httparty', '0.13.1'
+gem 'httparty', '0.15.5'
 gem 'mail', '2.6.3'
 gem 'logger', '1.2.8'
 gem 'highline', '1.7.1'
