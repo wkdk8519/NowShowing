@@ -1,4 +1,4 @@
-FROM php:7.2.2-fpm-alpine3.7
+FROM alpine:3.7
 MAINTAINER ninthwalker
 
 ENV UPDATED_ON 17FEB2018
@@ -11,7 +11,7 @@ EXPOSE 6878
 COPY root/ s6-overlay/ /
 
 # Install permanent packages
-RUN apk add --no-cache ruby ruby-json ruby-io-console curl-dev lighttpd tzdata shadow && \
+RUN apk add --no-cache ruby ruby-json ruby-io-console curl-dev lighttpd php7-cgi tzdata shadow && \
 
 # Install temporary build dependencies
 apk add --no-cache --virtual build-dependencies \
