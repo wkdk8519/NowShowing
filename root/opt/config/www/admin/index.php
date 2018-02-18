@@ -253,7 +253,7 @@ Required.
 
 <label>
 <span>Recipients Email:</span>
-<textarea name="recipients_email" value="<?=$recipients_email_array]?>" type="text"></textarea>
+<textarea name="recipients_email" value="<?=$recipients_email_array?>" type="text"></textarea>
 <div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
 Enter additional emails to send to, besides your Plex friends.<br>
 Enter emails seperated by commas.<br>
