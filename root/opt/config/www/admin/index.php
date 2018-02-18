@@ -253,7 +253,7 @@ Required.
 
 <label>
 <span>Recipients Email:</span>
-<textarea name="recipients_email" value="<?=$adv['mail']['recipients_email']?>" type="text"></textarea>
+<textarea name="recipients_email" value="<?=$recipients_email_array]?>" type="text"></textarea>
 <div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
 Enter additional emails to send to, besides your Plex friends.<br>
 Enter emails seperated by commas.<br>
@@ -264,7 +264,7 @@ Optional, except when 'Email Plex Users' is set to 'No'. Then at least one email
 
 <label>
 <span>Recipients:</span>
-<textarea name="recipients" value="<?=$adv['mail']['recipients']?>" type="text"></textarea>
+<textarea name="recipients" value="<?=$recipients_array?>" type="text"></textarea>
 <div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
 Plex usernames of any Plex friends to be notified.<br>
 Used if the 'Email Plex Users' is set to 'No'.<br>
@@ -379,7 +379,7 @@ Webpage language for title/headlines/footer, etc.
 
 <label>
 <span>Libraries To Skip:</span>
-<textarea name="libraries_to_skip" value="<?=$adv['plex']['libraries_to_skip']?>" type="text"></textarea>
+<textarea name="libraries_to_skip" value="<?=$libraries_to_skip_array?>" type="text"></textarea>
 <div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
 List of Plex libraries to <i><b>NOT</b></i> report on.<br>
 Enter library names seperated by commas. <b>Case-Sensative!</b><br>
