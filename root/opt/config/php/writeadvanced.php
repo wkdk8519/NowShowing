@@ -1,7 +1,7 @@
 <?php
 include('Spyc.php');
 if(isset($_POST['submit'])) {
-  $file = "../advanced.yaml";
+  $file = "../../advanced.yaml";
 
   $libraries_to_skip = explode(',',$_POST['libraries_to_skip']);
   $recipients_email = explode(',',$_POST['recipients_email']);
