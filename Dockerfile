@@ -11,7 +11,7 @@ EXPOSE 6878
 COPY root/ s6-overlay/ /
 
 # Install permanent packages
-RUN apk add --no-cache ruby ruby-json ruby-io-console curl-dev lighttpd php7-cgi tzdata shadow && \
+RUN apk add --no-cache ruby ruby-json ruby-io-console curl-dev lighttpd php7-cgi busybox-suid procps tzdata shadow && \
 
 # Install temporary build dependencies
 apk add --no-cache --virtual build-dependencies \

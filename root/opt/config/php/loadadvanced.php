@@ -1,6 +1,6 @@
 <?php
 # Load current advanced.yaml settings
-include('Spyc.php');
+include('spyc.php');
 $adv = Spyc::YAMLLoad('../../advanced.yaml');
 $recipients_array = implode(',',$adv['mail']['recipients']);
 $recipients_email_array = implode(',',$adv['mail']['recipients_email']);

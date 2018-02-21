@@ -14,9 +14,8 @@ ruby /usr/local/sbin/create-cron
 ruby /usr/local/sbin/config-setup
 
 #read nowshowing_schedule.cron on container startup and add to crontab.
-echo "$(cat /opt/nowshowing_schedule.cron)" > /crontab.tmp
-crontab /crontab.tmp
-rm -rf /crontab.tmp
+chown xyz:xyz /opt/nowshowing_schedule.cron
+crontab -u xyz /opt/nowshowing_schedule.cron
 crond
 
-echo "Setup complete! Please read directions for advanced settings and changing the schedule."
+echo "Please login at http://hostServerIP:hostPort/admin to configure settings"

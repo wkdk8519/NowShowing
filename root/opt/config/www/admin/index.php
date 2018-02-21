@@ -31,118 +31,66 @@
   
   <!-- Main Stylesheet File -->
   <link href="../css/style.css" rel="stylesheet">
+  <link href="../css/admin.css" rel="stylesheet">
   
   <?php include '../../php/loadadvanced.php';
 		include '../../php/writeadvanced.php';
   ?>
-<style>
+  
+<script type="text/javascript">
+$(function() {
+    $("#test_report_form").submit(function() {
+		if (confirm('Send Test Report?')) {
+			$('#test_button').attr("disabled", true);
+			$.ajax({
+				xhr: function () {
+					var xhr = new window.XMLHttpRequest();
+					xhr.upload.addEventListener("progress", function (evt) {
+						if (evt.lengthComputable) {
+							if (evt.lengthComputable) {
+								console.log("start");
+								$('#test_status').css({
+									color: 'red'
+								});
+								$('#test_status').text("Test Report: Running");
+								$('.status').css({
+									visibility: 'visible'
+								});
+							}
+						}
+					}, false);
 
-body {
-  color: #282a2d;
-}
+					xhr.addEventListener("progress", function (evt) {
+						if (evt.lengthComputable) {
+							console.log("end");
+							$('#test_status').css({
+									color: 'green'
+							});
+							$('.status').css({
+								visibility: 'hidden'
+							});
+						}
+					}, false);
 
-.mytooltip {
-    position: absolute;
-    display: inline-block;
-    color: #006080;
-}
+					return xhr;
+				},
+				type: 'POST',
+				url: "test_report.php",
+				data: { 'test_details' : $('input:checkbox:checked').val(),
+						test_report: "test_report"},
+				success: function (data) {
+					$('#test_status').text("Test Report: Finished");
+				},
+				complete: function (data){
+                    $('#test_button').attr("disabled", false);
+                }
+			});
+		}
+			return false;
+	});
+});
+</script>
 
-.mytooltip .mytooltiptext {
-    visibility: hidden;
-    position: absolute;
-    width: 400px;
-    background-color: #555;
-    color: #fff;
-	font-weight:normal;
-	font-size: 14px;
-    text-align: center;
-    padding: 5px 0;
-    border-radius: 6px;
-    z-index: 1;
-    opacity: 0;
-    transition: opacity .6s;
-}
-
-.mytooltip-right {
-    top: -5px;
-    left: 30px;
-}
-
-.mytooltip-right::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    right: 100%;
-    margin-top: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: transparent #555 transparent transparent;
-}
-
-.mytooltip:hover .mytooltiptext {
-    visibility: visible;
-    opacity: 1;
-}
-
-label {
-    display:block;
-    position:relative;
-}
-
-label span {
-    font-weight:bold;
-    position:absolute;
-    left: 3px;
-}
-
-label input, label select {
-    margin-left: 150px;
-	font-weight:normal;
-}
-
-.fa {
-	color: grey;
-	font-size: 18px;
-    position: absolute;
-    display: inline-block;
-	vertical-align: middle;
-	margin-left: 3px;
-}
-
-h3 {
-	margin-bottom: 0px;
-}
-
-.mybutton {
-  display: inline-block;
-  vertical-align: middle;
-  -webkit-transform: perspective(1px) translateZ(0);
-  transform: perspective(1px) translateZ(0);
-  box-shadow: 0 0 1px transparent;
-  overflow: hidden;
-  -webkit-transition-duration: 0.2s;
-  transition-duration: 0.2s;
-  -webkit-transition-property: color, background-color;
-  transition-property: color, background-color;
-  background-color: #3f4245;
-  color: white;
-  padding: 5px 20px;
-  border: 1px solid black;
-  font-weight:bold;
-}
-.mybutton:hover, .mybutton:focus, .mybutton:active {
-  background-color: #e5a00d;
-  color: #282a2d;
-}
-
-textarea {
-	width: 266px;
-	height: auto;
-	margin-left: 150px;
-	font-weight:normal;
-}
-
-</style>
 </head>
 <body>  
   
@@ -177,8 +125,15 @@ textarea {
 	<li><a data-toggle="tab" href="#report">Report</a></li>
 	<li><a data-toggle="tab" href="#tools">Tools</a></li>
     <li><button class="mybutton" type="submit" value="submit" name="submit" form="myform" style="margin-top:4px;margin-left:150px;" onclick="return confirm('Are you sure? This will overwrite all settings.')">Save Settings</button></li>
-  </ul>
-
+	<li id="test_status" style="margin-top:10px;margin-left:10px;vertical-align:middle;font-weight:bold;"></li>
+	<li class="status">
+	   <div class="spinner">
+          <div class="bounce1"></div>
+          <div class="bounce2"></div>
+          <div class="bounce3"></div>
+       </div>
+   </li>
+</ul>
 <form id="myform" action="" method="post">
 
 <!--==========================
@@ -189,22 +144,23 @@ textarea {
 <div id="welcome" class="tab-pane fade in active"></p>
 <h3>Welcome</h3></p>
 <p>The NowShowing docker provides a summary of new media that has recently been added to Plex.<br>
-NowShowing can generate an email for your users and a webpage for people to visit.<br>
-You can use the following tabs to configure advanced settings.</p>
+NowShowing can generate an email for your users and a webpage for them to visit.<br>
+Please use the 'Config' tab to configure the minimum required settings.<br>
+The rest of the tabs can be used for other options and advanced settings.</p>
 - Thanks for using NowShowing!
 </p>
 </div>
-	
+
 <!--==========================
   Email Settings
 ============================-->
 <div id="email" class="tab-pane fade"></p>
 <h3>Email Settings</h3>
-<hr width="440px" align="left" style="border-color:black";><br>
+<hr width="440px" align="left" style="border-color:black;"><br>
 
 <label>
 <span>Email Title:</span>
-<input name="title" value="<?=$adv['email']['title']?>" type="text" size="30" />
+<input name="title" value="<?=strip_tags($adv['email']['title'])?>" type="text" size="30" />
 <div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
 Banner title for the email body.
 </span></div>
@@ -212,7 +168,7 @@ Banner title for the email body.
 
 <label>
 <span>Email Image:</span>
-<input name="image" value="<?=$adv['email']['image']?>" type="text" size="30" />
+<input name="image" value="<?=strip_tags($adv['email']['image'])?>" type="text" size="30" />
 <div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
 URL to image.<br>
 ie: https://imgur.com/image.png
@@ -221,7 +177,7 @@ ie: https://imgur.com/image.png
 
 <label>
 <span>Email Footer:</span>
-<input name="footer" value="<?=$adv['email']['footer']?>" type="text" size="30" />
+<input name="footer" value="<?=strip_tags($adv['email']['footer'])?>" type="text" size="30" />
 <div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
 Email footer tagline.<br>
 Optional.
@@ -234,7 +190,7 @@ Optional.
 
 <label>
 <span>From:</span>
-<input name="from" value="<?=$adv['mail']['from']?>" type="text" size="30" required />
+<input name="from" value="<?=strip_tags($adv['mail']['from'])?>" type="text" size="30" required />
 <div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
 Display name of the sender.<br>
 Required.
@@ -243,7 +199,7 @@ Required.
 
 <label>
 <span>Subject:</span>
-<input name="subject" value="<?=$adv['mail']['subject']?>" type="text" size="30" required />
+<input name="subject" value="<?=strip_tags($adv['mail']['subject'])?>" type="text" size="30" required />
 <div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
 Subject of the email.<br>
 Date is automatically added to end of subject.<br>
@@ -252,8 +208,8 @@ Required.
 </label><br>
 
 <label>
-<span>Recipients Email:</span>
-<textarea name="recipients_email" type="text"><?=$recipients_email_array?></textarea>
+<span>Additional Emails:</span>
+<textarea name="recipients_email" type="text"><?=strip_tags($recipients_email_array)?></textarea>
 <div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
 Enter additional emails to send to, besides your Plex friends.<br>
 Enter emails seperated by commas.<br>
@@ -263,8 +219,8 @@ Optional, except when 'Email Plex Users' is set to 'No'. Then at least one email
 </label><br>
 
 <label>
-<span>Recipients:</span>
-<textarea name="recipients" type="text"><?=$recipients_array?></textarea>
+<span>Additional Users:</span>
+<textarea name="recipients" type="text"><?=strip_tags($recipients_array)?></textarea>
 <div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
 Plex usernames of any Plex friends to be notified.<br>
 Used if the 'Email Plex Users' is set to 'No'.<br>
@@ -277,9 +233,9 @@ Optional.
 <label>
 <span>Email Language:</span>
 <select name="language">
-  <option value="en" <?=$adv['email']['language'] == 'en' ? ' selected="selected"' : '';?>>English</option>
-  <option value="de" <?=$adv['email']['language'] == 'de' ? ' selected="selected"' : '';?>>German</option>
-  <option value="fr" <?=$adv['email']['language'] == 'fr' ? ' selected="selected"' : '';?>>French</option>
+  <option value="en" <?=strip_tags($adv['email']['language']) == 'en' ? ' selected="selected"' : '';?>>English</option>
+  <option value="de" <?=strip_tags($adv['email']['language']) == 'de' ? ' selected="selected"' : '';?>>German</option>
+  <option value="fr" <?=strip_tags($adv['email']['language']) == 'fr' ? ' selected="selected"' : '';?>>French</option>
 </select>
 <div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
 Email Language. Best-effort when grabbing metadata.<br>
@@ -293,11 +249,11 @@ If language selected is not found, falls back to english.
 ============================-->
 <div id="web" class="tab-pane fade"></p>
 <h3>Web Settings</h3>
-<hr width="440px" align="left" style="border-color:black";><br>
+<hr width="440px" align="left" style="border-color:black;"><br>
 
 <label>
 <span>Web Title Image:</span>
-<input name="title_image" value="<?=$adv['web']['title_image']?>" type="text" size="30" />
+<input name="title_image" value="<?=strip_tags($adv['web']['title_image'])?>" type="text" size="30" />
 <div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
 This is the main image across the curtain background.<br>
 URL or local path.<br>
@@ -307,7 +263,7 @@ ie: https://imgur.com/image.png or img/myimage.png
 
 <label>
 <span>Web Logo:</span>
-<input name="logo" value="<?=$adv['web']['logo']?>" type="text" size="30" />
+<input name="logo" value="<?=strip_tags($adv['web']['logo'])?>" type="text" size="30" />
 <div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
 Small logo in the left of the banner as you scroll.<br>
 URL or local path.<br>
@@ -317,7 +273,7 @@ ie: https://imgur.com/image.png or img/myimage.png
 
 <label>
 <span>Web Headline Title:</span>
-<input name="headline_title" value="<?=$adv['web']['headline_title']?>" type="text" size="30" required />
+<input name="headline_title" value="<?=strip_tags($adv['web']['headline_title'])?>" type="text" size="30" required />
 <div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
 Top subtitle under main title image.<br>
 This comes before the scrolling headliners below.<br>
@@ -327,7 +283,7 @@ Required.
 
 <label>
 <span>Web Headliners:</span>
-<input name="headliners" value="<?=$adv['web']['headliners']?>" type="text" size="30"/>
+<input name="headliners" value="<?=strip_tags($adv['web']['headliners'])?>" type="text" size="30"/>
 <div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
 Words to rotate through after the Headline Title.<br>
 Seperate words by a comma.<br>
@@ -338,7 +294,7 @@ Optional.
 
 <label>
 <span>Web Footer:</span>
-<input name="web_footer" value="<?=$adv['web']['footer']?>" type="text" size="30" />
+<input name="web_footer" value="<?=strip_tags($adv['web']['footer'])?>" type="text" size="30" />
 <div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
 Web footer tagline.<br>
 Optional.
@@ -348,9 +304,9 @@ Optional.
 <label>
 <span>Web Language:</span>
 <select name="web_language">
-  <option value="en" <?=$adv['web']['language'] == 'en' ? ' selected="selected"' : '';?>>English</option>
-  <option value="de" <?=$adv['web']['language'] == 'de' ? ' selected="selected"' : '';?>>German</option>
-  <option value="fr" <?=$adv['web']['language'] == 'fr' ? ' selected="selected"' : '';?>>French</option>
+  <option value="en" <?=strip_tags($adv['web']['language']) == 'en' ? ' selected="selected"' : '';?>>English</option>
+  <option value="de" <?=strip_tags($adv['web']['language']) == 'de' ? ' selected="selected"' : '';?>>German</option>
+  <option value="fr" <?=strip_tags($adv['web']['language']) == 'fr' ? ' selected="selected"' : '';?>>French</option>
 </select>
 <div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
 Webpage language for title/headlines/footer, etc.
@@ -363,13 +319,13 @@ Webpage language for title/headlines/footer, etc.
 ============================-->
 <div id="plex" class="tab-pane fade"></p>
 <h3>Plex Settings</h3>
-<hr width="440px" align="left" style="border-color:black";><br>
+<hr width="440px" align="left" style="border-color:black;"><br>
 
 <label>
 <span>Email Plex Users:</span>
 <select name="plex_user_emails">
-  <option value="yes" <?=$adv['plex']['plex_user_emails'] == 'yes' ? ' selected="selected"' : '';?>>Yes</option>
-  <option value="no" <?=$adv['plex']['plex_user_emails'] == 'no' ? ' selected="selected"' : '';?>>No</option>
+  <option value="yes" <?=strip_tags($adv['plex']['plex_user_emails']) == 'yes' ? ' selected="selected"' : '';?>>Yes</option>
+  <option value="no" <?=strip_tags($adv['plex']['plex_user_emails']) == 'no' ? ' selected="selected"' : '';?>>No</option>
 </select>
 <div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
 'Yes' will send to all plex users emails.<br>
@@ -379,7 +335,7 @@ Webpage language for title/headlines/footer, etc.
 
 <label>
 <span>Libraries To Skip:</span>
-<textarea name="libraries_to_skip" type="text"><?=$libraries_to_skip_array?></textarea>
+<textarea name="libraries_to_skip" type="text"><?=strip_tags($libraries_to_skip_array)?></textarea>
 <div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
 List of Plex libraries to <i><b>NOT</b></i> report on.<br>
 Enter library names seperated by commas. <b>Case-Sensative!</b><br>
@@ -393,26 +349,27 @@ ie: TV Shows,Kids Movies
 ============================-->
 <div id="report" class="tab-pane fade"></p>
 <h3>Report Settings</h3>
-<hr width="440px" align="left" style="border-color:black";><br>
+<hr width="440px" align="left" style="border-color:black;"><br>
 
 <label>
-<span>Test Email:</span>
+<span>Test Cron Schedule:</span>
 <select name="test">
-  <option value="disable" <?=$adv['report']['test'] == 'disable' ? ' selected="selected"' : '';?>>No</option>
-  <option value="enable" <?=$adv['report']['test'] == 'enable' ? ' selected="selected"' : '';?>>Yes</option>
+  <option value="disable" <?=strip_tags($adv['report']['test']) == 'disable' ? ' selected="selected"' : '';?>>No</option>
+  <option value="enable" <?=strip_tags($adv['report']['test']) == 'enable' ? ' selected="selected"' : '';?>>Yes</option>
 </select>
 <div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
-Creates webpage and sends email only to self.<br>
-For testing purposes.<br>
-Uses 'Email Report Time'
+For testing cron schedule.<br>
+See Tools section for On-demand test.<br>
+Will use Email Report Time to send email only to yourself<br>
+and create the webpage. For testing purposes.
 </span></div>
 </label><br>
 
 <label>
 <span>Extra Details:</span>
 <select name="extra_details">
-  <option value="yes" <?=$adv['report']['extra_details'] == 'yes' ? ' selected="selected"' : '';?>>Yes</option>
-  <option value="no" <?=$adv['report']['extra_details'] == 'no' ? ' selected="selected"' : '';?>>No</option>
+  <option value="yes" <?=strip_tags($adv['report']['extra_details']) == 'yes' ? ' selected="selected"' : '';?>>Yes</option>
+  <option value="no" <?=strip_tags($adv['report']['extra_details']) == 'no' ? ' selected="selected"' : '';?>>No</option>
 </select>
 <div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
 Adds extra info when available like Ratings, Cast, Release Date, etc.<br>
@@ -422,13 +379,13 @@ Adds extra info when available like Ratings, Cast, Release Date, etc.<br>
 <label>
 <span>Days To Report On:</span>
 <select name="interval">
-  <option value="7" <?=$adv['report']['interval'] == '7' ? ' selected="selected"' : '';?>>Seven</option>
-  <option value="6" <?=$adv['report']['interval'] == '6' ? ' selected="selected"' : '';?>>Six</option>
-  <option value="5" <?=$adv['report']['interval'] == '5' ? ' selected="selected"' : '';?>>Five</option>
-  <option value="4" <?=$adv['report']['interval'] == '4' ? ' selected="selected"' : '';?>>Four</option>
-  <option value="3" <?=$adv['report']['interval'] == '3' ? ' selected="selected"' : '';?>>Three</option>
-  <option value="2" <?=$adv['report']['interval'] == '2' ? ' selected="selected"' : '';?>>Two</option>
-  <option value="1" <?=$adv['report']['interval'] == '1' ? ' selected="selected"' : '';?>>One</option>
+  <option value="7" <?=strip_tags($adv['report']['interval']) == '7' ? ' selected="selected"' : '';?>>Seven</option>
+  <option value="6" <?=strip_tags($adv['report']['interval']) == '6' ? ' selected="selected"' : '';?>>Six</option>
+  <option value="5" <?=strip_tags($adv['report']['interval']) == '5' ? ' selected="selected"' : '';?>>Five</option>
+  <option value="4" <?=strip_tags($adv['report']['interval']) == '4' ? ' selected="selected"' : '';?>>Four</option>
+  <option value="3" <?=strip_tags($adv['report']['interval']) == '3' ? ' selected="selected"' : '';?>>Three</option>
+  <option value="2" <?=strip_tags($adv['report']['interval']) == '2' ? ' selected="selected"' : '';?>>Two</option>
+  <option value="1" <?=strip_tags($adv['report']['interval']) == '1' ? ' selected="selected"' : '';?>>One</option>
 </select>
 <div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
 Number of days to search back on for reporting.<br>
@@ -439,9 +396,9 @@ Number of days to search back on for reporting.<br>
 <label>
 <span>Report Type:</span>
 <select name="report_type">
-  <option value="both" <?=$adv['report']['report_type'] == 'both' ? ' selected="selected"' : '';?>>Web & Email</option>
-  <option value="webonly" <?=$adv['report']['report_type'] == 'webonly' ? ' selected="selected"' : '';?>>Web Only</option>
-  <option value="emailonly" <?=$adv['report']['report_type'] == 'emailonly' ? ' selected="selected"' : '';?>>Email Only</option>
+  <option value="both" <?=strip_tags($adv['report']['report_type']) == 'both' ? ' selected="selected"' : '';?>>Web & Email</option>
+  <option value="webonly" <?=strip_tags($adv['report']['report_type']) == 'webonly' ? ' selected="selected"' : '';?>>Web Only</option>
+  <option value="emailonly" <?=strip_tags($adv['report']['report_type']) == 'emailonly' ? ' selected="selected"' : '';?>>Email Only</option>
 </select>
 <div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
 Which reports to generate.
@@ -450,7 +407,7 @@ Which reports to generate.
 
 <label>
 <span>Email Report Time:</span>
-<input name="email_report_time" value="<?=$adv['report']['email_report_time']?>" type="text" size="15" />
+<input name="email_report_time" value="<?=strip_tags($adv['report']['email_report_time'])?>" type="text" size="15" />
 <div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right" style="text-align:left">
 &nbsp;&nbsp; Time to send email report. In Cron format.<br>
 &nbsp;&nbsp; ie: 30 10 * * 5 [Every Friday at 10:30am]<br>
@@ -468,7 +425,7 @@ Which reports to generate.
 
 <label>
 <span>Web Report Time:</span>
-<input name="web_report_time" value="<?=$adv['report']['web_report_time']?>" type="text" size="15" />
+<input name="web_report_time" value="<?=strip_tags($adv['report']['web_report_time'])?>" type="text" size="15" />
 <div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right" style="text-align:left">
 &nbsp;&nbsp; Time to create webpage report. In Cron format.<br>
 &nbsp;&nbsp; ie: 30 23 * * * [Every day at 11:30pm]<br>
@@ -490,22 +447,30 @@ Which reports to generate.
 ============================-->
 <div id="tools" class="tab-pane fade"></p>
 <h3>Tools</h3>
-<hr width="440px" align="left" style="border-color:black";>
-<button class="mybutton" type="submit2" value="submit2" name="submit2" style="margin-top:4px" onclick="return confirm('Send test report?')">Test Report</button><br>
-- Send a test email to yourself & create webpage.</p>
+<hr width="440px" align="left" style="border-color:black;">
+<form action="" id="test_report_form" method="post">
+<button id="test_button" class="mybutton" type="submit" value="test_report" name="test_report">Test Report</button>
+<input type="checkbox" name="test_details" value="test_details" style="margin-left:10px;"> Include Extra Details?
+</form>
+<label>
+<div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
+Adds extra info when available like Ratings, Cast, Release Date, etc.<br>
+</span></div>
+</label>
+<p>- Send a test email to yourself & create webpage.</p>
 
-<button class="mybutton" type="submit3" value="submit3" name="submit3" style="margin-top:4px" onclick="return confirm('Are you sure? This will reset all settings to Defaul values')">Reset to Default</button><br>
+<button class="mybutton" type="submit" value="submit3n" name="submit3" style="margin-top:4px" onclick="return confirm('Are you sure? This will reset all settings to Defaul values')">Reset to Default</button><br>
 - Reset all advanced settings to default.</p><br>
 
 <h4>Help Links</h4>
-<hr width="440px" align="left" style="border-color:black";>
+<hr width="440px" align="left" style="border-color:black;">
 <a href="https://github.com/ninthwalker/NowShowing" target="_blank">Github</a><br>
 - Lots of helpful information on the <a href="https://github.com/ninthwalker/NowShowing/wiki" target="_blank">Wiki</a> or open an <a href="https://github.com/ninthwalker/NowShowing/issues" target="_blank">issue</a> for help.</p>
 
 <a href="https://lime-technology.com/forums/topic/56483-support-ninthwalker-nowshowing/" target="_blank">unRAID Forums</a><br>
 - Get help in the support forums.</p>
 
-<hr width="440px" align="left" style="border-color:black";>
+<hr width="440px" align="left" style="border-color:black;">
 
 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
 <input type="hidden" name="cmd" value="_s-xclick">
@@ -528,7 +493,7 @@ Which reports to generate.
   <script src="../lib/easing/easing.js"></script>
   
   <!-- Template Specisifc Custom Javascript File -->
-  <script src="../js/custom.js"></script>
+  <!-- <script src="../js/custom.js"></script> -->
 
 </body>
 </html>
