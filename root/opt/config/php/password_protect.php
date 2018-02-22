@@ -49,14 +49,14 @@ $LOGIN_INFORMATION = array(
 // Add login/password pairs below, like described above
 // NOTE: all rows except last must have comma "," at the end of line
 $LOGIN_INFORMATION = array(
-  'mypassword'
+  'brent' => 'mypassword'
 );
 
 // request login? true - show login and password boxes, false - password box only
 define('USE_USERNAME', false);
 
 // User will be redirected to this page after logout
-// define('LOGOUT_URL', 'http://www.example.com/');
+// define('LOGOUT_URL', '../');
 
 // time out after NN minutes of inactivity. Set to 0 to not timeout
 define('TIMEOUT_MINUTES', 30);
@@ -85,7 +85,7 @@ $timeout = (TIMEOUT_MINUTES == 0 ? 0 : time() + TIMEOUT_MINUTES * 60);
 // logout?
 if(isset($_GET['logout'])) {
   setcookie("verify", '', $timeout, '/'); // clear password;
-  header('Location: ' . LOGOUT_URL);
+  header('location: ' .$_SERVER['HTTP_HOST']);
   exit();
 }
 
@@ -108,7 +108,7 @@ function showLoginPasswordProtect($error_msg) {
   <form method="post">
     </p>
 	<h2>NowShowing</h2></p>
-    <h3>Please enter password to access this page</h3>
+    <h3>Please enter username/password to access NowShowing Settings</h3>
     <font color="red"><?php echo $error_msg; ?></font><br />
 <?php if (USE_USERNAME) echo 'Login:<br /><input type="input" name="access_login" /><br />Password:<br />'; ?>
     <input type="password" name="access_password" /><p></p><input type="submit" name="Submit" value="Submit" />

@@ -106,7 +106,8 @@ $(function() {
       </div>
         
       <nav id="nav-menu-container">
-        <font color="#e5a00d" size="5">ADVANCED CONFIG SETTINGS</font>
+        <font color="#e5a00d" size="5">CONFIG SETTINGS</font>
+		<a href="../admin/index.php?logout=1">Logout</a>
       </nav><!-- #nav-menu-container -->
     </div>
   </header><!-- #header -->
@@ -119,6 +120,7 @@ $(function() {
 <div class="container">
   <ul class="nav nav-tabs">
     <li class="active"><a data-toggle="tab" href="#welcome">Welcome</a></li>
+	<li><a data-toggle="tab" href="#setup">Setup</a></li>
     <li><a data-toggle="tab" href="#email">Email</a></li>
     <li><a data-toggle="tab" href="#web">Web</a></li>
     <li><a data-toggle="tab" href="#plex">Plex</a></li>
@@ -145,10 +147,20 @@ $(function() {
 <h3>Welcome</h3></p>
 <p>The NowShowing docker provides a summary of new media that has recently been added to Plex.<br>
 NowShowing can generate an email for your users and a webpage for them to visit.<br>
-Please use the 'Config' tab to configure the minimum required settings.<br>
+Please use the 'Setup' tab to configure the minimum required settings.<br>
 The rest of the tabs can be used for other options and advanced settings.</p>
 - Thanks for using NowShowing!
 </p>
+</div>
+
+<!--==========================
+  Setup
+============================-->
+
+<div id="setup" class="tab-pane fade in active"></p>
+<h3>Main Setup Settings</h3>
+<hr width="440px" align="left" style="border-color:black;"></p>
+Required
 </div>
 
 <!--==========================
@@ -450,14 +462,13 @@ Which reports to generate.
 <hr width="440px" align="left" style="border-color:black;">
 <form action="" id="test_report_form" method="post">
 <button id="test_button" class="mybutton" type="submit" value="test_report" name="test_report">Test Report</button>
-<input type="checkbox" name="test_details" value="test_details" style="margin-left:10px;"> Include Extra Details?
-</form>
-<label>
-<div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
-Adds extra info when available like Ratings, Cast, Release Date, etc.<br>
+<input type="checkbox" name="test_details" value="test_details" style="margin-left:25px"> Include Extra Details? 
+<div class="mytooltip" style="margin-left:6px;"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
+Adds extra info when available like Ratings, Cast, Release Date, etc.
 </span></div>
-</label>
-<p>- Send a test email to yourself & create webpage.</p>
+</form>
+
+<p>- Send a test email to yourself & create the webpage.</p>
 
 <button class="mybutton" type="submit" value="submit3n" name="submit3" style="margin-top:4px" onclick="return confirm('Are you sure? This will reset all settings to Defaul values')">Reset to Default</button><br>
 - Reset all advanced settings to default.</p><br>
