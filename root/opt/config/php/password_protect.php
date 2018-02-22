@@ -53,7 +53,7 @@ $LOGIN_INFORMATION = array(
 );
 
 // request login? true - show login and password boxes, false - password box only
-define('USE_USERNAME', false);
+define('USE_USERNAME', true);
 
 // User will be redirected to this page after logout
 // define('LOGOUT_URL', '../');
@@ -85,7 +85,7 @@ $timeout = (TIMEOUT_MINUTES == 0 ? 0 : time() + TIMEOUT_MINUTES * 60);
 // logout?
 if(isset($_GET['logout'])) {
   setcookie("verify", '', $timeout, '/'); // clear password;
-  header('location: ' .$_SERVER['HTTP_HOST']);
+  header("Location: http://".$_SERVER['HTTP_HOST']);
   exit();
 }
 
