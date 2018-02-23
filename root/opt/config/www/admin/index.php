@@ -1,9 +1,9 @@
-<?php include("../../php/password_protect.php"); ?>
+<?php include("../../../opt/php/password_protect.php"); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>NowShowing Advanced Settings</title>
+  <title>NowShowing Settings</title>
   <meta name="robots" content="noindex, nofollow">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <meta content="" name="keywords">
@@ -33,8 +33,8 @@
   <link href="../css/style.css" rel="stylesheet">
   <link href="../css/admin.css" rel="stylesheet">
   
-  <?php include '../../php/loadadvanced.php';
-		include '../../php/writeadvanced.php';
+  <?php include '../../../opt/php/loadadvanced.php';
+		include '../../../opt/php/writeadvanced.php';
   ?>
   
 <script type="text/javascript">
@@ -144,7 +144,8 @@ $(function() {
   
 <div class="tab-content">
 <div id="welcome" class="tab-pane fade in active"></p>
-<h3>Welcome</h3></p>
+<h3>Welcome</h3>
+<hr width="440px" align="left" style="border-color:black;"></p>
 <p>The NowShowing docker provides a summary of new media that has recently been added to Plex.<br>
 NowShowing can generate an email for your users and a webpage for them to visit.<br>
 Please use the 'Setup' tab to configure the minimum required settings.<br>
@@ -157,10 +158,60 @@ The rest of the tabs can be used for other options and advanced settings.</p>
   Setup
 ============================-->
 
-<div id="setup" class="tab-pane fade in active"></p>
-<h3>Main Setup Settings</h3>
-<hr width="440px" align="left" style="border-color:black;"></p>
-Required
+<div id="setup" class="tab-pane fade"></p>
+<h3>Main Setup Settings</h3><br>
+<hr width="440px" align="left" style="border-color:black;">
+These are the minimum required settings to use NowShowing</p>
+
+<label>
+<span>Plex Server IP:</span>
+<input name="server" value="<?=strip_tags($adv['plex']['server'])?>" type="text" size="30" />
+<div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
+ie: 192.168.1.20
+</span></div>
+</label><br>
+
+<label>
+<span>Plex Token:</span>
+<input name="plex_token" value="<?=strip_tags($adv['plex']['api_key'])?>" type="text" size="30" />
+<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">Get Token</button>
+</label>
+
+<label>
+<span>SMTP Address:</span>
+<input name="smtp_address" value="<?=strip_tags($adv['mail']['address'])?>" type="text" size="30" />
+<div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
+SMTP address for email provider<br>
+ie: smtp.gmail.com
+</span></div>
+</label><br>
+
+<label>
+<span>SMTP Port:</span>
+<input name="smtp_port" value="<?=strip_tags($adv['mail']['port'])?>" type="text" size="30" />
+<div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
+SMTP port <br>
+ie: 587
+</span></div>
+</label><br>
+
+<label>
+<span>Email Username:</span>
+<input name="email_username" value="<?=strip_tags($adv['mail']['username'])?>" type="text" size="30" />
+<div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
+Email username<br>
+Usually your email address; ie: batman@gmail.com
+</span></div>
+</label><br>
+
+<label>
+<span>Email Password:</span>
+<input name="email_password" value="<?=strip_tags($adv['mail']['password'])?>" type="password" size="30" />
+<div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
+Email Password
+</span></div>
+</label><br>
+
 </div>
 
 <!--==========================
@@ -454,6 +505,49 @@ Which reports to generate.
 </label></p><br>
 </div>
 </form>
+
+<!--==========================
+  Token Modal
+============================-->
+
+<form action="gettoken.php" id="get_token_form" method="post">
+<div class="container">
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Retrieve Plex Token</h4>
+        </div>
+        <div class="modal-body">
+          <p>This will retrieve a new Plex token.<br>
+		  NowShowing does not store your username or password.</p>
+				<label>
+				<span>Plex Username</span>
+				<input name="plex_username" type="text" size="30" />
+				<div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
+				Username or Email Address for plex server account.
+				</span></div>
+				</label><br>
+		  
+				<label>
+				<span>Plex Password</span>
+				<input name="plex_password" type="password" size="30" />
+				<div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
+				Password for Plex server account.
+				</span></div>
+				</label><br>
+        </div>
+        <div class="modal-footer">
+		    <button id="gettoken_button" name="gettoken" type="submit" class="btn btn-default" value="gettoken">Get Token</button>
+            <!-- removed this from above button temporarily: data-dismiss="modal" -->			
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</form>
+
 <!--==========================
   Tools Tab
 ============================-->
@@ -503,7 +597,7 @@ Adds extra info when available like Ratings, Cast, Release Date, etc.
   <script src="../lib/stickyjs/sticky.js"></script>
   <script src="../lib/easing/easing.js"></script>
   
-  <!-- Template Specisifc Custom Javascript File -->
+  <!-- Template Specific Custom Javascript File -->
   <!-- <script src="../js/custom.js"></script> -->
 
 </body>

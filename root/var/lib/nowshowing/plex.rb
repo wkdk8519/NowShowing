@@ -12,12 +12,12 @@ class Plex
     include HTTParty
 
     def initialize(config)
-        $config = config
-        $header = { "X-Plex-Token" => "#{$config['plex']['api_key']}" }
+        $advanced = config
+        $header = { "X-Plex-Token" => "#{$advanced['plex']['api_key']}" }
 
-        self.class.headers['X-Plen-Token'] = $config['plex']['api_key']
-        if !$config['plex']['server'].nil?
-            self.class.base_uri "http://#{$config['plex']['server']}:32400/"
+        self.class.headers['X-Plen-Token'] = $advanced['plex']['api_key']
+        if !$advanced['plex']['server'].nil?
+            self.class.base_uri "http://#{$advanced['plex']['server']}:32400/"
         end
     end
 
@@ -25,7 +25,7 @@ class Plex
     format :xml
 
     def get(query, args=nil)
-        self.class.headers['X-Plex-Token'] = $config['plex']['api_key']
+        self.class.headers['X-Plex-Token'] = $advanced['plex']['api_key']
         response = self.class.get(query)
 
         if response.code != 200

@@ -13,13 +13,12 @@ require_relative '/var/lib/nowshowing/plexTv'
 # Modified by: ninthwalker
 #
 class MailReport
-    def initialize(config, advanced, options)
-        $config = config
+    def initialize(advanced, options)
 	$advanced = advanced
 	$plexEmails = options[:emails]
 	$testEmail = options[:test_email]
-        if !$config['mail']['port'].nil?
-            $port = $config['mail']['port']
+        if !$advanced['mail']['port'].nil?
+            $port = $advanced['mail']['port']
         else
             $port = 25
         end
@@ -33,11 +32,11 @@ class MailReport
 
     # Method for pulling the email information from the config and emailing all Plex users
     def sendMail(body)
-        options = { :address              => $config['mail']['address'],
+        options = { :address              => $advanced['mail']['address'],
                     :port                 => $port,
                     :domain               => 'otherdomain.com',
-                    :user_name            => $config['mail']['username'],
-                    :password             => $config['mail']['password'],
+                    :user_name            => $advanced['mail']['username'],
+                    :password             => $advanced['mail']['password'],
                     :authentication       => 'plain',
                     :enable_starttls_auto => true  }
             Mail.defaults do
@@ -48,7 +47,7 @@ class MailReport
 
         # Logic for pulling the email accounts from Plex.tv and/or the
 	# config file
-	plexTv = PlexTv.new($config)
+	plexTv = PlexTv.new($advanced)
 
 	if !$testEmail
       	    if $plexEmails
@@ -89,7 +88,7 @@ class MailReport
 	#used to send individual email. Now it bcc's one email
         #users.each do | user |
             mail = Mail.new do
-                from "#{$advanced['mail']['from']} <#{$config['mail']['username']}>"
+                from "#{$advanced['mail']['from']} <#{$advanced['mail']['username']}>"
                 bcc users
                 subject $advanced['mail']['subject'] + " " + (I18n.l Time.now.to_date)
                 content_type 'text/html; charset=UTF-8'

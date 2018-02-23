@@ -1,11 +1,11 @@
 #!/usr/bin/with-contenv sh
 
 #Copies config files and creates advanced config file if not present
-if [ -f /config/advanced.yaml ]; then
+if [ -f /config/cfg/advanced.yaml ]; then
   echo "Advanced config file detected. Keeping existing files"
 else
 # copy files incl advanced.yaml
-  cp -Rp /opt/config/* /opt/advanced.yaml /config/
+  cp -Rp /opt/config/* /config/
 fi
 
 # Always load latest cron settings
@@ -18,4 +18,4 @@ chown xyz:xyz /opt/nowshowing_schedule.cron
 crontab -u xyz /opt/nowshowing_schedule.cron
 crond
 
-echo "Please login at http://hostServerIP:hostPort/admin to configure settings"
+echo "Please go to http://hostServerIP:hostPort/admin to configure settings"

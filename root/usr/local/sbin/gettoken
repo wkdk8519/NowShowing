@@ -1,0 +1,58 @@
+#!/usr/bin/with-contenv ruby
+require 'rubygems'
+require 'json'
+require 'httparty'
+require 'highline/import'
+
+require_relative '/var/lib/nowshowing/plexTv'
+
+# Class to setup Report
+#
+# Author: Brian Stascavage
+# Email: brian@stascavage.com
+# Modified by: ninthwalker@gmail.com & groxypod@gmail.com
+#
+class Setup
+    include HTTParty
+
+    def initialize
+        begin
+            $token = Hash.new
+        rescue Errno::ENOENT => e
+            abort('Configuration file not found.  Exiting...')
+        end
+
+        $token = { 'plex'  =>
+		               { 'api_key'  => '' }
+			     }
+        $plex = PlexTv.new($token)
+    end
+
+    def setPlexApiKey
+		plexusername = ENV['PLEX_USERNAME'] 
+		plexpassword = ENV['PLEX_PASSWORD'] || []
+
+		auth = {:username => plexusername, :password => plexpassword}
+		devices = $plex.get("/devices.xml", auth, true)
+
+		devices['MediaContainer']['Device'].each do | device, index |
+			if device['provides'] == 'server'
+				$token['plex']['api_key'] = device['token']
+				return true
+			end 
+
+			if devices['MediaContainer']['Device'].size - 1 == index
+				puts "Cannot find Plex Server.  Exiting"
+				abort
+			end
+		end
+	end
+
+    def start
+        self.setPlexApiKey
+        File.open('/config/cfg/token.yaml', 'w') {|f| f.write $token.to_yaml }
+    end
+end
+
+setup_agent = Setup.new
+setup_agent.start
