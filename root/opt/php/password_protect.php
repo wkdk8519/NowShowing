@@ -49,7 +49,7 @@ $LOGIN_INFORMATION = array(
 // Add login/password pairs below, like described above
 // NOTE: all rows except last must have comma "," at the end of line
 $LOGIN_INFORMATION = array(
-  'brent' => 'mypassword'
+  '' => ''
 );
 
 // request login? true - show login and password boxes, false - password box only
@@ -85,7 +85,7 @@ $timeout = (TIMEOUT_MINUTES == 0 ? 0 : time() + TIMEOUT_MINUTES * 60);
 // logout?
 if(isset($_GET['logout'])) {
   setcookie("verify", '', $timeout, '/'); // clear password;
-  header("Location: http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
+  header("Location: http://".$_SERVER['HTTP_HOST']."/admin");
   exit();
 }
 

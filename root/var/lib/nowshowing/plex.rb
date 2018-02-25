@@ -13,9 +13,9 @@ class Plex
 
     def initialize(config)
         $advanced = config
-        $header = { "X-Plex-Token" => "#{$advanced['plex']['api_key']}" }
+        $header = { "X-Plex-Token" => "#{$advanced['token']['api_key']}" }
 
-        self.class.headers['X-Plen-Token'] = $advanced['plex']['api_key']
+        self.class.headers['X-Plex-Token'] = $advanced['token']['api_key']
         if !$advanced['plex']['server'].nil?
             self.class.base_uri "http://#{$advanced['plex']['server']}:32400/"
         end
@@ -25,7 +25,7 @@ class Plex
     format :xml
 
     def get(query, args=nil)
-        self.class.headers['X-Plex-Token'] = $advanced['plex']['api_key']
+        self.class.headers['X-Plex-Token'] = $advanced['token']['api_key']
         response = self.class.get(query)
 
         if response.code != 200

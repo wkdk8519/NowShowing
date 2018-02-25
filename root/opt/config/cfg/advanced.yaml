@@ -16,7 +16,6 @@ plex:
   libraries_to_skip:
     - ""
   server: ""
-  api_key: ""
 mail:
   from: "Plex Server"
   subject: "Now Showing"
@@ -35,3 +34,5 @@ report:
   web_report_time: '30 23 * * *'
   extra_details: "no"
   test: "disable"
+token:
+  api_key: ""

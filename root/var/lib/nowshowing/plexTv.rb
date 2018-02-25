@@ -16,8 +16,8 @@ class PlexTv
 
     def initialize(config)
         if !config.empty?
-            if !config['plex']['api_key'].empty?
-                $token = config['plex']['api_key']
+            if !config['token']['api_key'].empty?
+                $token = config['token']['api_key']
             else
                 if defined? $logger
                     $logger.error("Missing Plex token")

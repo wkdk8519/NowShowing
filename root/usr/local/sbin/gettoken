@@ -22,7 +22,7 @@ class Setup
             abort('Configuration file not found.  Exiting...')
         end
 
-        $token = { 'plex'  =>
+        $token = { 'token'  =>
 		               { 'api_key'  => '' }
 			     }
         $plex = PlexTv.new($token)
@@ -37,7 +37,7 @@ class Setup
 
 		devices['MediaContainer']['Device'].each do | device, index |
 			if device['provides'] == 'server'
-				$token['plex']['api_key'] = device['token']
+				$token['token']['api_key'] = device['token']
 				return true
 			end 
 
