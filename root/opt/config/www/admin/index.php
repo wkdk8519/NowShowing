@@ -24,6 +24,7 @@
   <link rel="stylesheet" href="../lib/admin/bootstrap.min.css">
   <script src="../lib/admin/jquery.min.js"></script>
   <script src="../lib/admin/bootstrap.min.js"></script>
+  <script src="../lib/admin/bootbox.min.js"></script>
   <!-- Bootstrap CSS File -->
   
   <!-- Libraries CSS Files -->
@@ -33,15 +34,14 @@
   <link href="../css/style.css" rel="stylesheet">
   <link href="../css/admin.css" rel="stylesheet">
   
-  <?php include '../../../opt/php/loadadvanced.php';
-		include '../../../opt/php/writeadvanced.php';
+  <?php include '/opt/php/loadadvanced.php';
   ?>
   
 <script type="text/javascript">
 $(function() {
     $("#test_report_form").submit(function() {
-		if (confirm('Send Test Report?')) {
-			$('#test_button').attr("disabled", true);
+			$('#test_report_button').attr("disabled", true);
+			$('#testReportModal').modal('hide');
 			$.ajax({
 				xhr: function () {
 					var xhr = new window.XMLHttpRequest();
@@ -49,10 +49,10 @@ $(function() {
 						if (evt.lengthComputable) {
 							if (evt.lengthComputable) {
 								console.log("start");
-								$('#test_status').css({
+								$('#status_text').css({
 									color: 'red'
 								});
-								$('#test_status').text("Test Report: Running");
+								$('#status_text').text("Test Report: Running");
 								$('.status').css({
 									visibility: 'visible'
 								});
@@ -63,7 +63,7 @@ $(function() {
 					xhr.addEventListener("progress", function (evt) {
 						if (evt.lengthComputable) {
 							console.log("end");
-							$('#test_status').css({
+							$('#status_text').css({
 									color: 'green'
 							});
 							$('.status').css({
@@ -79,18 +79,55 @@ $(function() {
 				data: { 'test_details' : $('input:checkbox:checked').val(),
 						test_report: "test_report"},
 				success: function (data) {
-					$('#test_status').text("Test Report: Finished");
+					$('#status_text').text("Test Report: Finished");
 				},
 				complete: function (data){
-                    $('#test_button').attr("disabled", false);
+                    $('#test_report_button').attr("disabled", false);
                 }
 			});
-		}
 			return false;
 	});
 });
 </script>
 
+<script type="text/javascript">
+  $("#mainform2").submit(function() {
+        $.ajax({
+            url: 'save_settings.php',
+            type: 'post',
+            data: $('#mainform').serialize(),
+            success: function(data) {
+                var response = JSON.parse(data);
+                console.log(response);
+                if (response['success']) {
+					$('#status_text').css({
+						color: 'green'
+					});
+					$('#status_text').text("Settings Saved!");
+                } 
+				else {
+					$('#status_text').css({
+						color: 'red'
+					});
+                    $('#status_text').text("Settings Saved!");
+                    //if(!$("#error").hasClass("alert alert-danger"))
+                    //    $("#error").toggleClass("alert alert-danger");
+                }
+            }
+        });
+	});
+</script>
+
+<script>
+// allows linking directly to tab name .ie: #setup
+$(function() {
+   var hash = window.location.hash;
+   if (hash) {
+     $('.nav-tabs a[href="' + hash + '"]').tab('show');
+   }
+ });
+ </script>
+ 
 </head>
 <body>  
   
@@ -106,8 +143,8 @@ $(function() {
       </div>
         
       <nav id="nav-menu-container">
-        <font color="#e5a00d" size="5">CONFIG SETTINGS</font>
-		<a href="../admin/index.php?logout=1">Logout</a>
+        <font color="#e5a00d" size="5"><b>CONFIG SETTINGS</b></font>
+		<a href="../admin/index.php?logout=1" class="mybutton">Logout</a>
       </nav><!-- #nav-menu-container -->
     </div>
   </header><!-- #header -->
@@ -126,8 +163,11 @@ $(function() {
     <li><a data-toggle="tab" href="#plex">Plex</a></li>
 	<li><a data-toggle="tab" href="#report">Report</a></li>
 	<li><a data-toggle="tab" href="#tools">Tools</a></li>
-    <li><button class="mybutton" type="submit" value="submit" name="submit" form="myform" style="margin-top:4px;margin-left:150px;" onclick="return confirm('Are you sure? This will overwrite all settings.')">Save Settings</button></li>
-	<li id="test_status" style="margin-top:10px;margin-left:10px;vertical-align:middle;font-weight:bold;"></li>
+    <li><button type="button" class="mybutton" data-toggle="modal" data-target="#settingsModal" style="margin-top:5px;margin-left:10px;vertical-align:middle;font-weight:bold;">Save Settings</button></li>
+	<!-- <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#settingsModal" style="margin-top:5px;margin-left:10px;vertical-align:middle;font-weight:bold;">Save Settings</button> -->
+	<!-- <button id="save_settings2" class="mybutton" type="submit" value="submit" name="save_settings" form="mainform" style="margin-top:4px;margin-left:50px;">Save Settings</button> ==>
+	<!-- onclick="return confirm('Are you sure? This will overwrite all settings.')" -->
+	<li id="status_text" name="status_text" style="margin-top:10px;margin-left:10px;vertical-align:middle;font-weight:bold;"></li>
 	<li class="status">
 	   <div class="spinner">
           <div class="bounce1"></div>
@@ -136,7 +176,9 @@ $(function() {
        </div>
    </li>
 </ul>
-<form id="myform" action="" method="post">
+
+<!-- Start mainform -->
+<form id="mainform" action="save_settings.php" method="post">
 
 <!--==========================
   Welcome Tab
@@ -152,6 +194,7 @@ Please use the 'Setup' tab to configure the minimum required settings.<br>
 The rest of the tabs can be used for other options and advanced settings.</p>
 - Thanks for using NowShowing!
 </p>
+
 </div>
 
 <!--==========================
@@ -159,7 +202,7 @@ The rest of the tabs can be used for other options and advanced settings.</p>
 ============================-->
 
 <div id="setup" class="tab-pane fade"></p>
-<h3>Main Setup Settings</h3><br>
+<h3>Main Setup Settings</h3>
 <hr width="440px" align="left" style="border-color:black;">
 These are the minimum required settings to use NowShowing</p>
 
@@ -169,13 +212,14 @@ These are the minimum required settings to use NowShowing</p>
 <div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
 ie: 192.168.1.20
 </span></div>
-</label><br>
+</label><br><br>
 
 <label>
 <span>Plex Token:</span>
-<input name="plex_token" value="<?=strip_tags($adv['plex']['api_key'])?>" type="text" size="30" />
-<button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">Get Token</button>
-</label>
+<input name="plex_token" value="<?=strip_tags($adv['token']['api_key'])?>" type="text" size="30" />
+<button type="button" class="mybutton" data-toggle="modal" data-target="#tokenModal" style="margin-bottom:2px;margin-left:6px;font-weight:normal;padding: 2px 8px;">Get Token</button>
+<!-- <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#tokenModal">Get Token</button> -->
+</label><br><br>
 
 <label>
 <span>SMTP Address:</span>
@@ -184,7 +228,7 @@ ie: 192.168.1.20
 SMTP address for email provider<br>
 ie: smtp.gmail.com
 </span></div>
-</label><br>
+</label><br><br>
 
 <label>
 <span>SMTP Port:</span>
@@ -193,7 +237,7 @@ ie: smtp.gmail.com
 SMTP port <br>
 ie: 587
 </span></div>
-</label><br>
+</label><br><br>
 
 <label>
 <span>Email Username:</span>
@@ -202,7 +246,7 @@ ie: 587
 Email username<br>
 Usually your email address; ie: batman@gmail.com
 </span></div>
-</label><br>
+</label><br><br>
 
 <label>
 <span>Email Password:</span>
@@ -210,7 +254,7 @@ Usually your email address; ie: batman@gmail.com
 <div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
 Email Password
 </span></div>
-</label><br>
+</label><br><br>
 
 </div>
 
@@ -227,7 +271,7 @@ Email Password
 <div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
 Banner title for the email body.
 </span></div>
-</label><br>
+</label><br><br>
 
 <label>
 <span>Email Image:</span>
@@ -236,7 +280,7 @@ Banner title for the email body.
 URL to image.<br>
 ie: https://imgur.com/image.png
 </span></div>
-</label><br>
+</label><br><br>
 
 <label>
 <span>Email Footer:</span>
@@ -245,7 +289,7 @@ ie: https://imgur.com/image.png
 Email footer tagline.<br>
 Optional.
 </span></div>
-</label><br>
+</label><br><br>
  
 <!--==========================
   Mail Settings
@@ -253,22 +297,22 @@ Optional.
 
 <label>
 <span>From:</span>
-<input name="from" value="<?=strip_tags($adv['mail']['from'])?>" type="text" size="30" required />
+<input name="from" value="<?=strip_tags($adv['mail']['from'])?>" type="text" size="30" />
 <div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
 Display name of the sender.<br>
 Required.
-</span></div><font style="margin-left:25px;font-weight:normal;color:red;font-size:12px;">(Required)</font>
-</label><br>
+</span></div></label><font style="margin-left:25px;font-weight:normal;color:red;font-size:12px;">(Required)</font>
+</p>
 
 <label>
 <span>Subject:</span>
-<input name="subject" value="<?=strip_tags($adv['mail']['subject'])?>" type="text" size="30" required />
+<input name="subject" value="<?=strip_tags($adv['mail']['subject'])?>" type="text" size="30" />
 <div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
 Subject of the email.<br>
 Date is automatically added to end of subject.<br>
 Required.
-</span></div><font style="margin-left:25px;font-weight:normal;color:red;font-size:12px;">(Required)</font>
-</label><br>
+</span></div></label><font style="margin-left:25px;font-weight:normal;color:red;font-size:12px;">(Required)</font>
+</p>
 
 <label>
 <span>Additional Emails:</span>
@@ -279,7 +323,7 @@ Enter emails seperated by commas.<br>
 ie: bob@example.com,sally@example.com<br>
 Optional, except when 'Email Plex Users' is set to 'No'. Then at least one email address is required here.
 </span></div>
-</label><br>
+</label><br><br>
 
 <label>
 <span>Additional Users:</span>
@@ -291,7 +335,7 @@ Seperate usernames with commas.<br>
 ie: myFriend1,myFriend2<br>
 Optional.
 </span></div>
-</label><br>
+</label><br><br>
 
 <label>
 <span>Email Language:</span>
@@ -304,7 +348,7 @@ Optional.
 Email Language. Best-effort when grabbing metadata.<br>
 If language selected is not found, falls back to english.
 </span></div>
-</label><br>
+</label><br><br>
 </div>
 
 <!--==========================
@@ -322,7 +366,7 @@ This is the main image across the curtain background.<br>
 URL or local path.<br>
 ie: https://imgur.com/image.png or img/myimage.png
 </span></div>
-</label><br>
+</label><br><br>
 
 <label>
 <span>Web Logo:</span>
@@ -332,17 +376,17 @@ Small logo in the left of the banner as you scroll.<br>
 URL or local path.<br>
 ie: https://imgur.com/image.png or img/myimage.png
 </span></div>
-</label><br>
+</label><br><br>
 
 <label>
 <span>Web Headline Title:</span>
-<input name="headline_title" value="<?=strip_tags($adv['web']['headline_title'])?>" type="text" size="30" required />
+<input name="headline_title" value="<?=strip_tags($adv['web']['headline_title'])?>" type="text" size="30" />
 <div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
 Top subtitle under main title image.<br>
 This comes before the scrolling headliners below.<br>
 Required.
-</span></div><font style="margin-left:25px;font-weight:normal;color:red;font-size:12px;">(Required)</font>
-</label><br>
+</span></div></label><font style="margin-left:25px;font-weight:normal;color:red;font-size:12px;">(Required)</font>
+</p>
 
 <label>
 <span>Web Headliners:</span>
@@ -353,7 +397,7 @@ Seperate words by a comma.<br>
 ie: Screams,Thrills,Laughs<br>
 Optional.
 </span></div>
-</label><br>
+</label><br><br>
 
 <label>
 <span>Web Footer:</span>
@@ -362,7 +406,7 @@ Optional.
 Web footer tagline.<br>
 Optional.
 </span></div>
-</label><br>
+</label><br><br>
 
 <label>
 <span>Web Language:</span>
@@ -394,7 +438,7 @@ Webpage language for title/headlines/footer, etc.
 'Yes' will send to all plex users emails.<br>
 'No' will <i><b>NOT</b></i> send to plex user emails and will only send to emails and users in the recipients fields below.
 </span></div>
-</label></p>
+</label><br><br>
 
 <label>
 <span>Libraries To Skip:</span>
@@ -426,7 +470,7 @@ See Tools section for On-demand test.<br>
 Will use Email Report Time to send email only to yourself<br>
 and create the webpage. For testing purposes.
 </span></div>
-</label><br>
+</label><br><br>
 
 <label>
 <span>Extra Details:</span>
@@ -437,7 +481,7 @@ and create the webpage. For testing purposes.
 <div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
 Adds extra info when available like Ratings, Cast, Release Date, etc.<br>
 </span></div>
-</label><br>
+</label><br><br>
 
 <label>
 <span>Days To Report On:</span>
@@ -454,7 +498,7 @@ Adds extra info when available like Ratings, Cast, Release Date, etc.<br>
 Number of days to search back on for reporting.<br>
 1 to 7 days.
 </span></div>
-</label><br>
+</label><br><br>
 
 <label>
 <span>Report Type:</span>
@@ -466,7 +510,7 @@ Number of days to search back on for reporting.<br>
 <div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
 Which reports to generate.
 </span></div>
-</label><br>
+</label><br><br>
 
 <label>
 <span>Email Report Time:</span>
@@ -484,7 +528,7 @@ Which reports to generate.
 &nbsp;&nbsp; | &nbsp;&nbsp;| &nbsp;&nbsp;| &nbsp;&nbsp;| &nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ( * = all day/time )<br>
 &nbsp;&nbsp; * &nbsp;&nbsp;* &nbsp;&nbsp;* &nbsp;&nbsp;* &nbsp;&nbsp;*
 </span></div>
-</label><br>
+</label><br><br>
 
 <label>
 <span>Web Report Time:</span>
@@ -502,7 +546,7 @@ Which reports to generate.
 &nbsp;&nbsp; | &nbsp;&nbsp;| &nbsp;&nbsp;| &nbsp;&nbsp;| &nbsp;&nbsp;| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ( * = all day/time )<br>
 &nbsp;&nbsp; * &nbsp;&nbsp;* &nbsp;&nbsp;* &nbsp;&nbsp;* &nbsp;&nbsp;*
 </span></div>
-</label></p><br>
+</label>
 </div>
 </form>
 
@@ -512,35 +556,90 @@ Which reports to generate.
 
 <form action="gettoken.php" id="get_token_form" method="post">
 <div class="container">
-  <div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog modal-lg">
+  <div class="modal fade" id="tokenModal" role="dialog">
+    <div class="modal-dialog modal-md">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Retrieve Plex Token</h4>
+          <h4 class="modal-title">Get Plex Token</h4>
         </div>
         <div class="modal-body">
-          <p>This will retrieve a new Plex token.<br>
-		  NowShowing does not store your username or password.</p>
+          <p>This will retrieve a Plex token.<br>
+		  This is used for authenticating to your Plex server.<br>
+		  NowShowing does not store your Plex username or password.</p>
 				<label>
-				<span>Plex Username</span>
+				<span>Plex Username:</span>
 				<input name="plex_username" type="text" size="30" />
 				<div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
 				Username or Email Address for plex server account.
 				</span></div>
-				</label><br>
+				</label><br><br>
 		  
 				<label>
-				<span>Plex Password</span>
+				<span>Plex Password:</span>
 				<input name="plex_password" type="password" size="30" />
 				<div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
 				Password for Plex server account.
 				</span></div>
-				</label><br>
+				</label><br><br>
         </div>
         <div class="modal-footer">
 		    <button id="gettoken_button" name="gettoken" type="submit" class="btn btn-default" value="gettoken">Get Token</button>
             <!-- removed this from above button temporarily: data-dismiss="modal" -->			
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</form>
+
+<!--==========================
+  Settings Modal
+============================-->
+
+<div class="container">
+  <div class="modal fade" id="settingsModal" role="dialog">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Save Settings</h4>
+        </div>
+        <div class="modal-body">
+          Are you sure?<br>
+		  This will overwrite all settings.
+        </div>
+        <div class="modal-footer">
+		    <button id="save_settings" name="save_settings" type="submit" class="btn btn-default" value="save_settings" form="mainform">Save</button>
+			<button id="cancel_button" name="cancel_button" type="button" class="btn btn-default" value="cancel" data-dismiss="modal">Cancel</button>			
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--==========================
+  Test Report Modal
+============================-->
+
+<form action="" id="test_report_form" method="post">
+<div class="container">
+  <div class="modal fade" id="testReportModal" role="dialog">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Run Test Report?</h4>
+        </div>
+			<div class="modal-body">
+				<input type="checkbox" name="test_details" value="test_details" style="margin-left:25px"> Include Extra Details? 
+				<div class="mytooltip" style="margin-left:6px;"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
+				Adds extra info when available like Ratings, Cast, Release Date, etc.
+				</span></div>
+			</div>
+        <div class="modal-footer">
+		    <button id="test_report" name="test_report" type="submit" class="btn btn-default" value="test_report">Send</button>
+			<button id="cancel_button" name="cancel_button" type="button" class="btn btn-default" value="cancel" data-dismiss="modal">Cancel</button>	
         </div>
       </div>
     </div>
@@ -554,17 +653,13 @@ Which reports to generate.
 <div id="tools" class="tab-pane fade"></p>
 <h3>Tools</h3>
 <hr width="440px" align="left" style="border-color:black;">
-<form action="" id="test_report_form" method="post">
-<button id="test_button" class="mybutton" type="submit" value="test_report" name="test_report">Test Report</button>
-<input type="checkbox" name="test_details" value="test_details" style="margin-left:25px"> Include Extra Details? 
-<div class="mytooltip" style="margin-left:6px;"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
-Adds extra info when available like Ratings, Cast, Release Date, etc.
-</span></div>
-</form>
+<button id="test_report_button" class="mybutton" type="button" value="test_report" name="test_report_button" data-toggle="modal" data-target="#testReportModal">Test Report</button>
+<p>- Send a test email to yourself & create the webpage.<br>
+Note: Report can take anywhere from 30s - 5m,<br>
+depending on amount of recent content.
+</p>
 
-<p>- Send a test email to yourself & create the webpage.</p>
-
-<button class="mybutton" type="submit" value="submit3n" name="submit3" style="margin-top:4px" onclick="return confirm('Are you sure? This will reset all settings to Defaul values')">Reset to Default</button><br>
+<button class="mybutton" type="submit" value="submit3" name="submit3" style="margin-top:4px" onclick="return confirm('Are you sure? This will reset all settings to Defaul values')">Reset to Default</button><br>
 - Reset all advanced settings to default.</p><br>
 
 <h4>Help Links</h4>
