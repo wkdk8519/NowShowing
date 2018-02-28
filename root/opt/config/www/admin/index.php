@@ -19,117 +19,25 @@
   <link href="../img/favicon.ico" rel="shortcut icon">
   
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Raleway:300,400,500,700,800" rel="stylesheet"> 
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Raleway:300,400,500,700,990" rel="stylesheet"> 
   
   <link rel="stylesheet" href="../lib/admin/bootstrap.min.css">
   <script src="../lib/admin/jquery.min.js"></script>
   <script src="../lib/admin/bootstrap.min.js"></script>
-  <script src="../lib/admin/bootbox.min.js"></script>
+  <!-- <script src="../lib/admin/bootbox.min.js"></script> -->
   <!-- Bootstrap CSS File -->
   
   <!-- Libraries CSS Files -->
   <link href="../lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
   
   <!-- Main Stylesheet File -->
-  <link href="../css/style.css" rel="stylesheet">
+  <link href="../css/admin_style.css" rel="stylesheet">
   <link href="../css/admin.css" rel="stylesheet">
   
-  <?php include '/opt/php/loadadvanced.php';
-  ?>
-  
-<script type="text/javascript">
-$(function() {
-    $("#test_report_form").submit(function() {
-			$('#test_report_button').attr("disabled", true);
-			$('#testReportModal').modal('hide');
-			$.ajax({
-				xhr: function () {
-					var xhr = new window.XMLHttpRequest();
-					xhr.upload.addEventListener("progress", function (evt) {
-						if (evt.lengthComputable) {
-							if (evt.lengthComputable) {
-								console.log("start");
-								$('#status_text').css({
-									color: 'red'
-								});
-								$('#status_text').text("Test Report: Running");
-								$('.status').css({
-									visibility: 'visible'
-								});
-							}
-						}
-					}, false);
-
-					xhr.addEventListener("progress", function (evt) {
-						if (evt.lengthComputable) {
-							console.log("end");
-							$('#status_text').css({
-									color: 'green'
-							});
-							$('.status').css({
-								visibility: 'hidden'
-							});
-						}
-					}, false);
-
-					return xhr;
-				},
-				type: 'POST',
-				url: "test_report.php",
-				data: { 'test_details' : $('input:checkbox:checked').val(),
-						test_report: "test_report"},
-				success: function (data) {
-					$('#status_text').text("Test Report: Finished");
-				},
-				complete: function (data){
-                    $('#test_report_button').attr("disabled", false);
-                }
-			});
-			return false;
-	});
-});
-</script>
-
-<script type="text/javascript">
-  $("#mainform2").submit(function() {
-        $.ajax({
-            url: 'save_settings.php',
-            type: 'post',
-            data: $('#mainform').serialize(),
-            success: function(data) {
-                var response = JSON.parse(data);
-                console.log(response);
-                if (response['success']) {
-					$('#status_text').css({
-						color: 'green'
-					});
-					$('#status_text').text("Settings Saved!");
-                } 
-				else {
-					$('#status_text').css({
-						color: 'red'
-					});
-                    $('#status_text').text("Settings Saved!");
-                    //if(!$("#error").hasClass("alert alert-danger"))
-                    //    $("#error").toggleClass("alert alert-danger");
-                }
-            }
-        });
-	});
-</script>
-
-<script>
-// allows linking directly to tab name .ie: #setup
-$(function() {
-   var hash = window.location.hash;
-   if (hash) {
-     $('.nav-tabs a[href="' + hash + '"]').tab('show');
-   }
- });
- </script>
+  <?php include '/opt/php/loadadvanced.php'?>
  
 </head>
-<body>  
+<body bgcolor="#151515">
   
 <!--==========================
   Header Section
@@ -139,12 +47,14 @@ $(function() {
     
 <!--  link to logo -->
       <div id="logo" class="pull-left">
-        <a href="../index.html"><img src="../img/nowshowing.png" alt="NowShowing"></a>
+	  <a href="../index.html">
+	  <img src="../img/nowshowing-icon.png" alt="NowShowing-Icon" style="margin-bottom:10px;" width="50px">
+      <img src="../img/nowshowing.png" alt="NowShowing"></a>
       </div>
         
       <nav id="nav-menu-container">
         <font color="#e5a00d" size="5"><b>CONFIG SETTINGS</b></font>
-		<a href="../admin/index.php?logout=1" class="mybutton">Logout</a>
+		<button class="mybutton" data-toggle="modal" data-target="#logoutModal" style="margin-bottom:12px;margin-left:50px">Logout</button>
       </nav><!-- #nav-menu-container -->
     </div>
   </header><!-- #header -->
@@ -163,8 +73,7 @@ $(function() {
     <li><a data-toggle="tab" href="#plex">Plex</a></li>
 	<li><a data-toggle="tab" href="#report">Report</a></li>
 	<li><a data-toggle="tab" href="#tools">Tools</a></li>
-    <li><button type="button" class="mybutton" data-toggle="modal" data-target="#settingsModal" style="margin-top:5px;margin-left:10px;vertical-align:middle;font-weight:bold;">Save Settings</button></li>
-	<!-- <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#settingsModal" style="margin-top:5px;margin-left:10px;vertical-align:middle;font-weight:bold;">Save Settings</button> -->
+	<li><button type="button" class="mybutton" data-toggle="modal" data-target="#settingsModal" style="margin-top:5px;margin-left:20px;vertical-align:middle;">Save Settings</button></li>
 	<!-- <button id="save_settings2" class="mybutton" type="submit" value="submit" name="save_settings" form="mainform" style="margin-top:4px;margin-left:50px;">Save Settings</button> ==>
 	<!-- onclick="return confirm('Are you sure? This will overwrite all settings.')" -->
 	<li id="status_text" name="status_text" style="margin-top:10px;margin-left:10px;vertical-align:middle;font-weight:bold;"></li>
@@ -178,7 +87,7 @@ $(function() {
 </ul>
 
 <!-- Start mainform -->
-<form id="mainform" action="save_settings.php" method="post">
+<form id="mainform" action="" method="post">
 
 <!--==========================
   Welcome Tab
@@ -187,7 +96,7 @@ $(function() {
 <div class="tab-content">
 <div id="welcome" class="tab-pane fade in active"></p>
 <h3>Welcome</h3>
-<hr width="440px" align="left" style="border-color:black;"></p>
+<hr width="440px" align="left"></p>
 <p>The NowShowing docker provides a summary of new media that has recently been added to Plex.<br>
 NowShowing can generate an email for your users and a webpage for them to visit.<br>
 Please use the 'Setup' tab to configure the minimum required settings.<br>
@@ -203,7 +112,7 @@ The rest of the tabs can be used for other options and advanced settings.</p>
 
 <div id="setup" class="tab-pane fade"></p>
 <h3>Main Setup Settings</h3>
-<hr width="440px" align="left" style="border-color:black;">
+<hr width="440px" align="left">
 These are the minimum required settings to use NowShowing</p>
 
 <label>
@@ -216,7 +125,7 @@ ie: 192.168.1.20
 
 <label>
 <span>Plex Token:</span>
-<input name="plex_token" value="<?=strip_tags($adv['token']['api_key'])?>" type="text" size="30" />
+<input id="plex_token" name="plex_token" value="<?=strip_tags($adv['token']['api_key'])?>" type="text" size="30" />
 <button type="button" class="mybutton" data-toggle="modal" data-target="#tokenModal" style="margin-bottom:2px;margin-left:6px;font-weight:normal;padding: 2px 8px;">Get Token</button>
 <!-- <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#tokenModal">Get Token</button> -->
 </label><br><br>
@@ -255,7 +164,7 @@ Usually your email address; ie: batman@gmail.com
 Email Password
 </span></div>
 </label><br><br>
-
+<button type="button" class="mybutton" data-toggle="modal" data-target="#settingsModal">Save Settings</button>
 </div>
 
 <!--==========================
@@ -263,7 +172,7 @@ Email Password
 ============================-->
 <div id="email" class="tab-pane fade"></p>
 <h3>Email Settings</h3>
-<hr width="440px" align="left" style="border-color:black;"><br>
+<hr width="440px" align="left"><br>
 
 <label>
 <span>Email Title:</span>
@@ -301,7 +210,7 @@ Optional.
 <div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
 Display name of the sender.<br>
 Required.
-</span></div></label><font style="margin-left:25px;font-weight:normal;color:red;font-size:12px;">(Required)</font>
+</span></div></label><font style="margin-left:25px;font-weight:normal;color:#990000;font-size:12px;">(Required)</font>
 </p>
 
 <label>
@@ -311,7 +220,7 @@ Required.
 Subject of the email.<br>
 Date is automatically added to end of subject.<br>
 Required.
-</span></div></label><font style="margin-left:25px;font-weight:normal;color:red;font-size:12px;">(Required)</font>
+</span></div></label><font style="margin-left:25px;font-weight:normal;color:#990000;font-size:12px;">(Required)</font>
 </p>
 
 <label>
@@ -349,6 +258,7 @@ Email Language. Best-effort when grabbing metadata.<br>
 If language selected is not found, falls back to english.
 </span></div>
 </label><br><br>
+<button type="button" class="mybutton" data-toggle="modal" data-target="#settingsModal">Save Settings</button>
 </div>
 
 <!--==========================
@@ -356,7 +266,7 @@ If language selected is not found, falls back to english.
 ============================-->
 <div id="web" class="tab-pane fade"></p>
 <h3>Web Settings</h3>
-<hr width="440px" align="left" style="border-color:black;"><br>
+<hr width="440px" align="left"><br>
 
 <label>
 <span>Web Title Image:</span>
@@ -385,7 +295,7 @@ ie: https://imgur.com/image.png or img/myimage.png
 Top subtitle under main title image.<br>
 This comes before the scrolling headliners below.<br>
 Required.
-</span></div></label><font style="margin-left:25px;font-weight:normal;color:red;font-size:12px;">(Required)</font>
+</span></div></label><font style="margin-left:25px;font-weight:normal;color:#990000;font-size:12px;">(Required)</font>
 </p>
 
 <label>
@@ -418,7 +328,8 @@ Optional.
 <div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
 Webpage language for title/headlines/footer, etc.
 </span></div>
-</label>
+</label><br><br>
+<button type="button" class="mybutton" data-toggle="modal" data-target="#settingsModal">Save Settings</button>
 </div>
 
 <!--==========================
@@ -426,7 +337,7 @@ Webpage language for title/headlines/footer, etc.
 ============================-->
 <div id="plex" class="tab-pane fade"></p>
 <h3>Plex Settings</h3>
-<hr width="440px" align="left" style="border-color:black;"><br>
+<hr width="440px" align="left"><br>
 
 <label>
 <span>Email Plex Users:</span>
@@ -448,7 +359,8 @@ List of Plex libraries to <i><b>NOT</b></i> report on.<br>
 Enter library names seperated by commas. <b>Case-Sensative!</b><br>
 ie: TV Shows,Kids Movies
 </span></div>
-</label>
+</label><br><br>
+<button type="button" class="mybutton" data-toggle="modal" data-target="#settingsModal">Save Settings</button>
 </div>
 
 <!--==========================
@@ -456,7 +368,7 @@ ie: TV Shows,Kids Movies
 ============================-->
 <div id="report" class="tab-pane fade"></p>
 <h3>Report Settings</h3>
-<hr width="440px" align="left" style="border-color:black;"><br>
+<hr width="440px" align="left"><br>
 
 <label>
 <span>Test Cron Schedule:</span>
@@ -547,6 +459,8 @@ Which reports to generate.
 &nbsp;&nbsp; * &nbsp;&nbsp;* &nbsp;&nbsp;* &nbsp;&nbsp;* &nbsp;&nbsp;*
 </span></div>
 </label>
+<input type="text" id="save_settings" class="hidden" name="save_settings" /><br><br>
+<button type="button" class="mybutton" data-toggle="modal" data-target="#settingsModal">Save Settings</button>
 </div>
 </form>
 
@@ -554,13 +468,13 @@ Which reports to generate.
   Token Modal
 ============================-->
 
-<form action="gettoken.php" id="get_token_form" method="post">
+<form action="" id="get_token_form" method="post">
 <div class="container">
   <div class="modal fade" id="tokenModal" role="dialog">
     <div class="modal-dialog modal-md">
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <button type="button" class="close" data-dismiss="modal"><b style="color:#990000">&times;</b></button>
           <h4 class="modal-title">Get Plex Token</h4>
         </div>
         <div class="modal-body">
@@ -569,7 +483,7 @@ Which reports to generate.
 		  NowShowing does not store your Plex username or password.</p>
 				<label>
 				<span>Plex Username:</span>
-				<input name="plex_username" type="text" size="30" />
+				<input id="plex_username" name="plex_username" type="text" size="30" required />
 				<div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
 				Username or Email Address for plex server account.
 				</span></div>
@@ -577,14 +491,14 @@ Which reports to generate.
 		  
 				<label>
 				<span>Plex Password:</span>
-				<input name="plex_password" type="password" size="30" />
+				<input id="plex_password" name="plex_password" type="password" size="30" required />
 				<div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
 				Password for Plex server account.
 				</span></div>
 				</label><br><br>
         </div>
         <div class="modal-footer">
-		    <button id="gettoken_button" name="gettoken" type="submit" class="btn btn-default" value="gettoken">Get Token</button>
+		    <button id="gettoken" name="gettoken" type="submit" class="mybutton" value="gettoken">Get Token</button>
             <!-- removed this from above button temporarily: data-dismiss="modal" -->			
         </div>
       </div>
@@ -602,7 +516,7 @@ Which reports to generate.
     <div class="modal-dialog modal-sm">
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <button type="button" class="close" data-dismiss="modal"><b style="color:#990000">&times;</b></button>
           <h4 class="modal-title">Save Settings</h4>
         </div>
         <div class="modal-body">
@@ -610,8 +524,8 @@ Which reports to generate.
 		  This will overwrite all settings.
         </div>
         <div class="modal-footer">
-		    <button id="save_settings" name="save_settings" type="submit" class="btn btn-default" value="save_settings" form="mainform">Save</button>
-			<button id="cancel_button" name="cancel_button" type="button" class="btn btn-default" value="cancel" data-dismiss="modal">Cancel</button>			
+		    <button id="save_settings" name="save_settings" type="submit" class="mybutton" value="save_settings" form="mainform">Save</button>
+			<button id="cancel_button" name="cancel_button" type="button" class="mybuttoncancel" value="cancel" data-dismiss="modal">Cancel</button>			
         </div>
       </div>
     </div>
@@ -628,7 +542,7 @@ Which reports to generate.
     <div class="modal-dialog modal-sm">
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <button type="button" class="close" data-dismiss="modal"><b style="color:#990000">&times;</b></button>
           <h4 class="modal-title">Run Test Report?</h4>
         </div>
 			<div class="modal-body">
@@ -638,8 +552,8 @@ Which reports to generate.
 				</span></div>
 			</div>
         <div class="modal-footer">
-		    <button id="test_report" name="test_report" type="submit" class="btn btn-default" value="test_report">Send</button>
-			<button id="cancel_button" name="cancel_button" type="button" class="btn btn-default" value="cancel" data-dismiss="modal">Cancel</button>	
+		    <button id="test_report" name="test_report" type="submit" class="mybutton" value="test_report">Send</button>
+			<button id="cancel_button" name="cancel_button" type="button" class="mybuttoncancel" value="cancel" data-dismiss="modal">Cancel</button>	
         </div>
       </div>
     </div>
@@ -648,11 +562,32 @@ Which reports to generate.
 </form>
 
 <!--==========================
+  Logout Modal
+============================-->
+
+<div class="container">
+  <div class="modal fade" id="logoutModal" role="dialog">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><b style="color:#990000">&times;</b></button>
+          <h4 class="modal-title">Are you sure you want to logout?</h4>
+        </div>
+        <div class="modal-footer">
+		    <a class="mybutton" value="logout" href="../admin/index.php?logout=1">Yes</a></a>
+			<button id="cancel_button" name="cancel_button" type="button" class="mybuttoncancel" value="cancel" data-dismiss="modal">No</button>	
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--==========================
   Tools Tab
 ============================-->
 <div id="tools" class="tab-pane fade"></p>
 <h3>Tools</h3>
-<hr width="440px" align="left" style="border-color:black;">
+<hr width="440px" align="left">
 <button id="test_report_button" class="mybutton" type="button" value="test_report" name="test_report_button" data-toggle="modal" data-target="#testReportModal">Test Report</button>
 <p>- Send a test email to yourself & create the webpage.<br>
 Note: Report can take anywhere from 30s - 5m,<br>
@@ -663,14 +598,14 @@ depending on amount of recent content.
 - Reset all advanced settings to default.</p><br>
 
 <h4>Help Links</h4>
-<hr width="440px" align="left" style="border-color:black;">
+<hr width="440px" align="left">
 <a href="https://github.com/ninthwalker/NowShowing" target="_blank">Github</a><br>
 - Lots of helpful information on the <a href="https://github.com/ninthwalker/NowShowing/wiki" target="_blank">Wiki</a> or open an <a href="https://github.com/ninthwalker/NowShowing/issues" target="_blank">issue</a> for help.</p>
 
 <a href="https://lime-technology.com/forums/topic/56483-support-ninthwalker-nowshowing/" target="_blank">unRAID Forums</a><br>
 - Get help in the support forums.</p>
 
-<hr width="440px" align="left" style="border-color:black;">
+<hr width="440px" align="left">
 
 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
 <input type="hidden" name="cmd" value="_s-xclick">
@@ -693,7 +628,7 @@ depending on amount of recent content.
   <script src="../lib/easing/easing.js"></script>
   
   <!-- Template Specific Custom Javascript File -->
-  <!-- <script src="../js/custom.js"></script> -->
+  <script src="../js/admin_custom.js"></script>
 
 </body>
 </html>

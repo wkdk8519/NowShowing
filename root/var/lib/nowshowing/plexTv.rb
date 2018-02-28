@@ -41,10 +41,10 @@ class PlexTv
 
         if response.code != 200
             if response.code == 401
-                puts "Invalid plex.tv credentials"
+                puts "Invalid Plex.tv Credentials!"
                 abort
             else
-                puts "Cannot connect to plex.tv!  Change your connection."
+                puts "Cannot connect to Plex.tv! Check connection."
                 abort
             end
         end

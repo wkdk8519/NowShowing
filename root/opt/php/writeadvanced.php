@@ -22,13 +22,12 @@ if(isset($_POST['save_settings'])) {
   
   #header("Location: index2.php");
   #header("Location: http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
-  
-  #$response = array();
-  #$response['success'] = success;
-  #$response['error'] = error;
-  #exit(json_encode($response));  
-
-  header("Location: http://".$_SERVER['HTTP_HOST']."/admin");
-  exit;
+  #header("Location: http://".$_SERVER['HTTP_HOST']."/admin");
+  echo "Settings Saved!";
 }
+else {
+echo "Error: Failed to save settings!";
+}
+exit;
 ?>
+
