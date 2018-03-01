@@ -1,5 +1,6 @@
 <?php
 include('spyc.php');
+
 if(isset($_POST['save_settings'])) {
   $adv_file = "../../cfg/advanced.yaml";
 

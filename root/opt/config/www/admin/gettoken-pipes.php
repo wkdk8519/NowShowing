@@ -31,8 +31,19 @@ $process = proc_open('ruby /usr/local/sbin/gettoken-pipes', $descriptorspec, $pi
 
 	$adv_yaml = Spyc::YAMLDump($adv_array,2,0);
 	file_put_contents($adv_file, $adv_yaml);
-	echo "Plex Token Saved!";
-	exit;
+	
+	if (!empty($token)) {
+		$statustext = "Plex Token Saved!";
+		$tokenarray = array( 'token' => $token, 'statustext' => $statustext);
+		echo json_encode($tokenarray);
+		exit;
+	}
+	else {
+		$statustext = "Error: Verify username/password!";
+		$tokenarray = array( 'statustext' => $statustext);
+		echo json_encode($tokenarray);
+		exit;
+	}
 }
 echo "Check username/password!";
 exit;

@@ -1,6 +1,6 @@
-// -----------------------------------------------
-// allows linking directly to tab name .ie: #setup
-// -----------------------------------------------
+// ------------------------------------------------
+// allows linking directly to tab name .ie: #report
+// ------------------------------------------------
 
 $(function() {
    var hash = window.location.hash;
@@ -43,11 +43,11 @@ $("#mainform").submit(function() {
   },
   error: function(){
     // on failure;
-	console.log("Error: Failed to save settings!!");
+	console.log("Error: Could not divide by zero");
 	$('#status_text').css({
 		color: '#990000'
 	});
-	$('#status_text').text("Error: Failed to save settings!!");
+	$('#status_text').text("Error: Could not divide by zero");
   }
 });
   return false;
@@ -121,38 +121,37 @@ $("#get_token_form").submit(function() {
   type: 'post',
   data: $('#get_token_form').serialize(),
   success: function(response){
-		console.log(response);
+	var json = $.parseJSON(response);
     // on success
 	if ( response.indexOf("Saved") > -1 ) {
-	window.location.replace("index.php#setup");
+	$('#plex_token').val(json.token);
 	$('#status_text').css({
 		color: 'green'
 	});
-	$('#status_text').text(response);
+	$('#status_text').text(json.statustext);
 	$("#status_text").delay(3000).fadeOut(2000,function() {
 		$("#status_text").empty().show();
-		//setTimeout(function() { // wait for 5 secs
-			//location.reload(); // then reload the page.
-		//}, 1000); 
 	});
 	}
+	// on credential failure
 	else {
+		console.log(response);
 		$('#status_text').css({
 		color: '#990000'
 	});
-	$('#status_text').text(response);
-	$("#status_text").delay(3000).fadeOut(2000,function() {
+	$('#status_text').text(json.statustext);
+	$("#status_text").delay(4000).fadeOut(2000,function() {
 		$("#status_text").empty().show();
 	});
 	}
   },
   error: function(){
     // on failure
-	console.log("Error: Failed to retrieve token!");
+	console.log(response);
 	$('#status_text').css({
 		color: '#990000'
 	});
-	$('#status_text').text("Error: Failed to retrieve token!!");
+	$('#status_text').text("Error: Could not divide by zero");
 	$("#status_text").delay(3000).fadeOut(2000,function() {
 		$("#status_text").empty().show();
 	});
