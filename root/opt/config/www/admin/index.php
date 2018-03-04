@@ -1,4 +1,4 @@
-<?php include("../../../opt/php/password_protect.php"); ?>
+<?php include("../../cfg/secure.php"); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -131,10 +131,10 @@ ie: 192.168.1.20
 </label><br><br>
 
 <label>
-<span>SMTP Address:</span>
+<span>SMTP Server:</span>
 <input name="smtp_address" value="<?=strip_tags($adv['mail']['address'])?>" type="text" size="30" />
 <div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
-SMTP address for email provider<br>
+SMTP Server for email provider<br>
 ie: smtp.gmail.com
 </span></div>
 </label><br><br>
@@ -149,19 +149,20 @@ ie: 587
 </label><br><br>
 
 <label>
-<span>Email Username:</span>
+<span>SMTP Username:</span>
 <input name="email_username" value="<?=strip_tags($adv['mail']['username'])?>" type="text" size="30" />
 <div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
-Email username<br>
+SMTP Username<br>
 Usually your email address; ie: batman@gmail.com
 </span></div>
 </label><br><br>
 
 <label>
-<span>Email Password:</span>
+<span>SMTP Password:</span>
 <input name="email_password" value="<?=strip_tags($adv['mail']['password'])?>" type="password" size="30" />
 <div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
-Email Password
+SMTP Password<br>
+Usually your Email password
 </span></div>
 </label><br><br>
 <button type="button" class="mybutton" data-toggle="modal" data-target="#settingsModal">Save Settings</button>

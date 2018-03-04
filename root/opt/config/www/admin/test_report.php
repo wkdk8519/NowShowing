@@ -1,4 +1,4 @@
-<?php include("../../../opt/php/password_protect.php"); ?>
+<?php include("../../cfg/secure.php"); ?>
 <?php
 # check for details checkbox
 if (empty($_POST['test_details'])) {

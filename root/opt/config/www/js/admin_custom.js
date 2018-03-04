@@ -9,6 +9,7 @@ $(function() {
    }
  });
  
+ 
 // ----------------------------------------------
 // Save Settings status text: show, then fade out
 // ----------------------------------------------
@@ -161,4 +162,39 @@ $("#get_token_form").submit(function() {
 });
 });
 
+// ---------------------------------------------------------------------
+// Setup Wizard
+// ---------------------------------------------------------------------
+
+	// Enter token manually hideaway
+	$('#showToken').click(function() {
+	  $('#tokenDiv').toggle('fast', function() {
+		// Animation complete.
+	  });
+	});
+	// --------------------
+	
+	// Submit Setup Modal Function
+	function submitSetup() {
+ $.ajax({
+  url: "save_setup.php",
+  type: 'post',
+  data: $('#setupForm').serialize(),
+  success: function(response){
+	location.href = 'index.php';
+	console.log(response);
+  },
+  error: function(){
+    // on failure;
+	console.log("Error: Could not divide by zero");
+  }
+});
+  // return false;
+};
+	
+	
+	// ---------------------
+	
+	
+	
 // ---------------- END --------------------

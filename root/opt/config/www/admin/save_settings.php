@@ -1,3 +1,2 @@
-<?php include("../../../opt/php/password_protect.php"); ?>
-<?php include '/opt/php/writeadvanced.php';
- ?>
+<?php include("../../cfg/secure.php"); ?>
+<?php include '/opt/php/writeadvanced.php'; ?>

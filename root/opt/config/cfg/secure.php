@@ -1,55 +1,13 @@
 <?php
-
 ###############################################################
-# Page Password Protect 2.13
+# Password Protect 2.13
 ###############################################################
 # Visit http://www.zubrag.com/scripts/ for updates
-############################################################### 
-#
-# Usage:
-# Set usernames / passwords below between SETTINGS START and SETTINGS END.
-# Open it in browser with "help" parameter to get the code
-# to add to all files being protected. 
-#    Example: password_protect.php?help
-# Include protection string which it gave you into every file that needs to be protected
-#
-# Add following HTML code to your page where you want to have logout link
-# <a href="http://www.example.com/path/to/protected/page.php?logout=1">Logout</a>
-#
-###############################################################
-
-/*
--------------------------------------------------------------------
-SAMPLE if you only want to request login and password on login form.
-Each row represents different user.
-
-$LOGIN_INFORMATION = array(
-  'zubrag' => 'root',
-  'test' => 'testpass',
-  'admin' => 'passwd'
-);
-
---------------------------------------------------------------------
-SAMPLE if you only want to request only password on login form.
-Note: only passwords are listed
-
-$LOGIN_INFORMATION = array(
-  'root',
-  'testpass',
-  'passwd'
-);
-
---------------------------------------------------------------------
-*/
-
 ##################################################################
 #  SETTINGS START
 ##################################################################
-
-// Add login/password pairs below, like described above
-// NOTE: all rows except last must have comma "," at the end of line
 $LOGIN_INFORMATION = array(
-  'NowShowing' => 'NowShowing'
+'NowShowing' => 'NowShowing'
 );
 
 // request login? true - show login and password boxes, false - password box only
@@ -68,7 +26,6 @@ define('TIMEOUT_CHECK_ACTIVITY', false);
 ##################################################################
 #  SETTINGS END
 ##################################################################
-
 
 ///////////////////////////////////////////////////////
 // do not change code below
@@ -102,55 +59,66 @@ function showLoginPasswordProtect($error_msg) {
 </head>
 <body>
   <style>
-    input { border: 1px solid black; }
-	
-	body  { background-image: url("../img/background.jpg"); 
-		    color: white;
-	}
-	
-	.mybutton {
-	  display: inline-block;
-	  vertical-align: middle;
-	  -webkit-transform: perspective(1px) translateZ(0);
-	  transform: perspective(1px) translateZ(0);
-	  box-shadow: 0 0 1px transparent;
-	  overflow: hidden;
-	  -webkit-transition-duration: 0.2s;
-	  transition-duration: 0.2s;
-	  -webkit-transition-property: color, background-color;
-	  transition-property: color, background-color;
-	  background-color: #404040;
-	  color: #e6e6e6;
-	  padding: 5px 12px;
-	  border: 1px solid #e5a00d;
-	  font-weight:bold;
-	  border-radius: 4px;
-	  font-weight: normal;
-	  -webkit-box-shadow: inset 0 2px 2px rgba(0,0,0,.075),0 0 2px #e5a00d;
-	  box-shadow: inset 0 2px 2px rgba(0,0,0,.075),0 0 2px #e5a00d;
-	}
-	
-	.mybutton:hover, .mybutton:focus, .mybutton:active {
-	  background-color: #e5a00d;
-	  color: #404040;
-	  /* -webkit-box-shadow: inset 0 4px 4px rgba(0,0,0,.075),0 0 4px #e5a00d;
-	  box-shadow: inset 0 4px 4px rgba(0,0,0,.075),0 0 4px #e5a00d; */
-	}
+		body  { background-image: url("../img/background.jpg");
+                color: #e6e6e6;
+        }
+
+        .mybutton {
+          display: inline-block;
+          vertical-align: middle;
+          -webkit-transform: perspective(1px) translateZ(0);
+          transform: perspective(1px) translateZ(0);
+          box-shadow: 0 0 1px transparent;
+          overflow: hidden;
+          -webkit-transition-duration: 0.2s;
+          transition-duration: 0.2s;
+          -webkit-transition-property: color, background-color;
+          transition-property: color, background-color;
+          background-color: #404040;
+          color: #e6e6e6;
+          padding: 5px 12px;
+          border: 1px solid #e5a00d;
+          font-weight:bold;
+          border-radius: 4px;
+          font-weight: normal;
+          -webkit-box-shadow: inset 0 2px 2px rgba(0,0,0,.075),0 0 2px #e5a00d;
+          box-shadow: inset 0 2px 2px rgba(0,0,0,.075),0 0 2px #e5a00d;
+          cursor: pointer;
+        }
+
+        .mybutton:hover, .mybutton:focus, .mybutton:active {
+          background-color: #e5a00d;
+          color: #404040;
+        }
+		
+		input {
+         font-weight:normal;
+         color: #e6e6e6;
+         background-color: #404040;
+         border: 0px;
+        }
+
+        input:focus {
+         border-color: #e5a00d;
+         outline: 0;
+         -webkit-box-shadow: inset 0 8px 8px rgba(0,0,0,.075),0 0 8px #e5a00d;
+         box-shadow: inset 0 8px 8px rgba(0,0,0,.075),0 0 8px #e5a00d;
+        }
   </style>
   <div style="width:500px; margin-left:auto; margin-right:auto; text-align:center">
   <form method="post">
+    <p>
+        <img src="../img/nowshowing-icon.png" alt="nowshowing-Icon" width="68px" style="margin-bottom:5px;margin-right:5px;">
+        <img src="../img/nowshowing.png" alt="NowShowing" width="400px">
     </p>
-        <img src="../img/nowshowing-icon.png" alt="NowShowing-Icon" width="68px" style="margin-bottom:5px;margin-right:5px;">
-        <img src="../img/nowshowing.jpg" alt="NowShowing" width="400px">
-   </p>
-    <h3>Admin Access</h3>
+	<h3>Admin Access</h3>
     <font color="red"><?php echo $error_msg; ?></font><br />
 <?php if (USE_USERNAME) echo 'Username:<br /><input type="input" name="access_login" /><br /><br />Password:<br />'; ?>
     <input type="password" name="access_password" /><p></p>
-	<button class="mybutton" type="submit" name="Submit" value="Enter">Login</button>
+	<button class="mybutton" type="submit" name="Submit" value="Submit">Login</button>
   </form>
   <br />
-  <a style="font-size:9px; color: #B0B0B0; font-family: Verdana, Arial;" href="https://github.com/ninthwalker/nowshowing/wiki" target="_blank">Forgot Password</a>
+  <a style="font-size:9px; color: #B0B0B0; font-family: Verdana, Arial;" href="https://github.com/ninthwalker/nowshowing/wiki">Forgot Password</a>
   <br />
   </div>
 </body>
@@ -189,7 +157,7 @@ else {
 
   // check if password cookie is set
   if (!isset($_COOKIE['NowShowing'])) {
-     showLoginPasswordProtect("");
+    showLoginPasswordProtect("");
   }
 
   // check if cookie is good
@@ -206,9 +174,7 @@ else {
     }
   }
   if (!$found) {
-     showLoginPasswordProtect("");
+    showLoginPasswordProtect("");
   }
-
 }
-
 ?>
