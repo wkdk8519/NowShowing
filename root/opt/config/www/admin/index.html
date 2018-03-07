@@ -91,7 +91,7 @@
 	  <form id="setupForm" action="" method="post">
       <div class="modal-body">
 		
-		<!-- welcome page -->
+		<!-- step 1 welcome page -->
 		<div class="row hide" data-step="1" data-title="Welcome" style="margin-left:10px">
 				<br><span style="color:#e5a006;font-size:18px;"><b>Welcome to NowShowing</b></span></p>
 				This docker provides a summary of new media that has recently been added to Plex.<br>
@@ -101,44 +101,47 @@
 				</div>
 		
 		
-		<!-- step 1 NowShowing Login info -->
+		<!-- step 2 NowShowing Login info -->
 		<div class="row hide" data-step="2" data-title="Create NowShowing Login" style="margin-left:10px">
 		<p>Create a Username/Password for the NowShowing Admin site.</p>
 				<label>
 				<span>Username:</span>
-				<input id="ns_username" name="ns_username" type="text" size="30" required /><br>
+				<input id="ns_username" name="ns_username" type="text" size="30" class="validate" /><br>
 				<font>create your own!</font>
 				</label><br><br>
 		  
 				<label>
 				<span>Password:</span>
-				<input id="ns_password" name="ns_password" type="password" size="30" required /><br>
+				<input id="ns_password" name="ns_password" type="password" size="30" class="validate" /><br>
 				<font>make it <a href="https://xkcd.com/936/" target="_blank">strong</a>!</font>
 				</label><br>
         </div>
 		
-		<!-- step 2 Plex Info -->
+		<!-- step 3 Plex Info -->
 				<div class="row hide" data-step="3" data-title="Plex Authentication" style="margin-left:10px">
 				<p>This will retrieve a token to authenticate to your Plex Server.<br>
 				NowShowing does not store your Plex username or password.</p>
 		   
 				<label>
 				<span>Plex Server IP:<br></span>
-				<input id="server" name="server" type="text" size="30" required /><br>
+				<input id="server" name="server" type="text" size="30" class="validate" /><br>
 				<font>ie: 192.168.1.65</font>
 				</label><br><br>
 				
 				<label>
 				<span>Plex User or Email:</span>
-				<input id="plex_username" name="plex_username" type="text" size="30" required /><br>
+				<input id="plex_username" name="plex_username" type="text" size="30" class="validate" /><br>
 				<font>ie: BatmansPlex or batman@batcave.com</font>
 				</label><br><br>
 		  
 				<label>
 				<span>Plex Password:</span>
-				<input id="plex_password" name="plex_password" type="password" size="30" required /><br>
+				<input id="plex_password" name="plex_password" type="password" size="30" /><br>
 				<font>your plex.tv password</font>
 				</label><br><br>
+				
+				<button id="getToken" type="button" class="mybutton" style="margin-left:150px" disabled="disabled">Get Token</button>
+				<span id="status_text" style="font-weight:bold"></span></p>
 				
 				<a href="#" id="showToken" style="font-size:12px;margin-left:150px;">I have my own token</a><br>
 				<div id="tokenDiv" style="display:none;">
@@ -150,45 +153,44 @@
 				</div>
         </div>
 		
-		<!-- step 3  Email info -->
-
+		<!-- step 4  Email info -->
 				<div class="row hide" data-step="4" data-title="Email Information" style="margin-left:10px">
 			    <p>Fill in your SMTP Email information.<br>Check your email provider for SMTP settings.</p>
 		   
 				<label>
 				<span>SMTP Server:<br></span>
-				<input id="smtp_address" name="smtp_address" type="text" size="30" required /><br>
+				<input id="smtp_address" name="smtp_address" type="text" size="30" /><br>
 				<font>ie: smtp.gmail.com</font>
 				</label><br><br>
 				
 				<label>
 				<span>SMTP Port:<br></span>
-				<input id="smtp_port" name="smtp_port" type="number" size="30" required /><br>
+				<input id="smtp_port" name="smtp_port" type="number" size="30" /><br>
 				<font>ie: 587</font>
 				</label><br><br>
 		  
 				<label>
 				<span>SMTP Username:</span></span>
-				<input id="email_username" name="email_username" type="text" size="30" required /><br>
+				<input id="email_username" name="email_username" type="text" size="30" /><br>
 				<font>usually your email password</font>
 				</label><br><br>
 				
 				<label>
 				<span>SMTP Password:</span>
-				<input id="email_password" name="email_password" type="password" size="30" required /><br>
+				<input id="email_password" name="email_password" type="password" size="30" /><br>
 				<font>usually your email address</font>
 				</label><br>
 				</div>
 		
 		
-		<!-- finish page -->
+		<!-- step 5 finish page -->
 		
 		<div class="row hide" data-step="5" data-title="Finish" style="margin-left:10px">
 				<br>Click the finish button below to complete the initial setup.</p>
 				This will create a test report with the default settings.<br>
 				The webpage will be created and an email sent to yourself.<br>
 				For advanced settings and customization, please login to the admin page.<br>
-				<span color:#e5a006>Thanks for using NowShowing!</span></p>
+				<span style="color:#e5a006">Thanks for using NowShowing!</span></p>
 				</div>
 		
 		
@@ -200,31 +202,86 @@
       <div class="modal-footer">
         <!-- <button type="button" class="btn btn-default js-btn-step pull-left" data-orientation="cancel" data-dismiss="modal"></button> -->
         <button type="button" class="mybuttoncancel js-btn-step" data-orientation="previous"></button>
-        <button type="button" class="mybutton js-btn-step" data-orientation="next" style="margin-left:5px"></button>
+        <button id="mynextbutton" type="button" class="mybutton js-btn-step" data-orientation="next" style="margin-left:5px"></button>
       </div>
     </div>
   </div>
 </div>
 
-<script>
-var callback = function (){
-    console.log('Each step Callback!')
+<script type='text/javascript'>
+<!-- var getToken = function() {getToken();}; -->
+
+<!-- block all steps until form validation allows -->
+var blockNext = function() {
+	blockNext();
+};
+$('#setupModal').modalSteps({
+	callbacks: {
+		'2': blockNext,
+		'3': blockNext,
+		'4': blockNext
+	}
+});
+
+<!-- validate step 2 -->
+$('#ns_username, #ns_password').on('keyup', function() {
+    if(step2filled()) $('#mynextbutton').prop('disabled', false);
+	else{$('#mynextbutton').prop("disabled", true);}
+});
+
+function step2filled() {
+    var filled = true;
+    $('#ns_username, #ns_password').each(function() {
+        if($(this).val() == '') filled = false;
+    });
+    return filled;
+}
+ <!-- end validate step 2 -->
+ 
+ <!-- validate step 3 -->
+ $('#server, #plex_token').on('keyup', function() {
+    if(step3afilled()) $('#mynextbutton').prop('disabled', false);
+	else{$('#mynextbutton').prop("disabled", true);}
+});
+ 
+function step3afilled() {
+    var filled = true;
+    $('#server, #plex_token').each(function() {
+        if($(this).val() == '') filled = false;
+    });
+    return filled;
 }
 
-var callback2 = function (){
-    console.log('A specific callback for step 2!')
-	$('#setupModal').modalSteps({
-    <!-- disableNextButton: true -->
+$('#plex_username, #plex_password, #server').on('keyup', function() {
+    if(step3filled()) $('#getToken').prop('disabled', false);
+	else{$('#getToken').prop("disabled", true);}
 });
-};
 
-$('#setupModal').modalSteps({
-    callbacks: {
-        '*': callback,
-		'2': callback2
-    }
+function step3filled() {
+    var filled = true;
+    $('#plex_username, #plex_password, #server').each(function() {
+        if($(this).val() == '') filled = false;
+    });
+    return filled;
+}
+ <!-- end validate step 3 -->
+ 
+ <!-- validate step 4 -->
+$('#smtp_address, #smtp_port, #email_username, #email_password').on('keyup', function() {
+    if(step4filled()) $('#mynextbutton').prop('disabled', false);
+	else{$('#mynextbutton').prop("disabled", true);}
 });
+
+function step4filled() {
+    var filled = true;
+    $('#smtp_address, #smtp_port, #email_username, #email_password').each(function() {
+        if($(this).val() == '') filled = false;
+    });
+    return filled;
+}
+ <!-- end validate step 4 -->
 </script>
+
 
 <!--====================-->
   <!-- Template Specific Custom Javascript File -->

@@ -8,7 +8,7 @@
 
         var settings = $.extend({
             btnCancelHtml: 'Cancel',
-            btnPreviousHtml: 'Previous',
+            btnPreviousHtml: 'Back',
             btnNextHtml: 'Next',
             btnLastStepHtml: 'Finish',
             disableNextButton: false,
