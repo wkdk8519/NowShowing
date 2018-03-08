@@ -13,7 +13,8 @@ if(isset($_POST['save_settings'])) {
   $adv_array['plex'] = array('plex_user_emails' => strip_tags($_POST['plex_user_emails']), 'libraries_to_skip' => $libraries_to_skip, 'server' => strip_tags($_POST['server']));
   $adv_array['mail'] = array('from' => strip_tags($_POST['from']), 'subject' => strip_tags($_POST['subject']), 'recipients_email' => $recipients_email, 'recipients' => $recipients, 'address' => strip_tags($_POST['smtp_address']), 'port' => strip_tags($_POST['smtp_port']), 'username' => strip_tags($_POST['email_username']), 'password' => strip_tags($_POST['email_password']));
   $adv_array['report'] = array('interval' => strip_tags($_POST['interval']), 'report_type' => strip_tags($_POST['report_type']), 'email_report_time' => strip_tags($_POST['email_report_time']), 'web_report_time' => strip_tags($_POST['web_report_time']), 'extra_details' => strip_tags($_POST['extra_details']), 'test' => strip_tags($_POST['test']));
-  $adv_array['token'] = array('api_key' => strip_tags($_POST['plex_token'])); 
+  $adv_array['token'] = array('api_key' => strip_tags($_POST['plex_token']));
+  $adv_array['avatar'] = array('url' => strip_tags($_POST['avatar']));
   
   $adv_yaml = Spyc::YAMLDump($adv_array,2,0);
   file_put_contents($adv_file, $adv_yaml);

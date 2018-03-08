@@ -350,6 +350,7 @@ Enter library names seperated by commas. <b>Case-Sensative!</b><br>
 ie: TV Shows,Kids Movies
 </span></div>
 </label><br><br>
+<input id="avatar" name="avatar" value="<?=strip_tags($adv['avatar']['url'])?>" type="hidden">
 <button type="button" class="mybutton" data-toggle="modal" data-target="#settingsModal">Save Settings</button>
 </p>
 </div>
