@@ -67,10 +67,10 @@ class Report
 	    $daystoreport = $advanced['report']['interval'].to_i * 86400
 		
 	 # Log-rotate if greater than 50MB
-            logsize = File.size('/config/nowshowing.log')
+            logsize = File.size('/config/logs/nowshowing.log')
             if logsize > 50000000
-                File.delete('/config/nowshowing.log')
-                File.write("/config/nowshowing.log", "")
+                File.delete('/config/logs/nowshowing.log')
+                File.write('/config/logs/nowshowing.log', "")
             end
 
         rescue Errno::ENOENT => e
@@ -78,7 +78,7 @@ class Report
         end
 
         begin 
-            $logger = Logger.new('/config/nowshowing.log')
+            $logger = Logger.new('/config/logs/nowshowing.log')
             
             if $options[:verbose]
                 $logger.level = Logger::DEBUG

@@ -26,7 +26,7 @@ groupmod -g 1000 users && \
 useradd -u 99 -U -d /config -s /bin/false xyz && \
 groupmod -o -g 100 xyz && \
 usermod -G users xyz && \
-mkdir /run/lighttpd && \
+mkdir /run/lighttpd /var/run/fail2ban && \
 
 # Insall NowShowing app dependencies
 bundle config --global silence_root_warning 1 && \
