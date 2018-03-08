@@ -29,7 +29,7 @@ class Setup
 		}
 		owner = self.class.post("/users/sign_in.xml", :basic_auth => auth, :headers => headers)
 		$token =  owner['user']['authToken']
-		$avatar = owner['user']['thumb']
+		$avatar = " " + owner['user']['thumb']
     end
 
     def start
