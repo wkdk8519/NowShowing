@@ -1,3 +1,4 @@
+<?php include("../../cfg/secure.php"); ?>
 <?php
 include('../../../opt/php/spyc.php');
 $adv_file = "../../cfg/advanced.yaml";
@@ -20,7 +21,7 @@ $process = proc_open('ruby /usr/local/sbin/gettoken-pipes', $descriptorspec, $pi
 		$stream = str_replace("\n", '', $stream);
 		$stream = explode(" ",$stream);
 		$token = $stream[0];
-		$avatar = $stream[1];
+		$avatar = isset($stream[1]) ? $stream[1] : "";
 		fclose($pipes[1]);
 		proc_close($process);
 	}
