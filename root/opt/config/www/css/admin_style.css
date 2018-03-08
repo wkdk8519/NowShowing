@@ -3,7 +3,7 @@
 --------------------------------------------------------------*/
 #header {
   background: #111;
-  padding: 20px 0;
+  padding: 5px 0;
   height: 90px;
   background-image: url("../img/background-admin3.png");
   }
@@ -13,9 +13,9 @@
 }
 
 #header #logo h1 {
-  font-size: 36px;
+  font-size: 20px;
   margin: 0;
-  padding: 6px 0;
+  padding: 5px 0;
   line-height: 1;
   font-family: "Raleway", sans-serif;
   font-weight: 700;
@@ -30,7 +30,7 @@
 #header #logo img {
   padding: 0;
   margin: 0;
-  max-height: 50px;
+  max-height: 80px;
 }
 
 @media (max-width: 768px) {

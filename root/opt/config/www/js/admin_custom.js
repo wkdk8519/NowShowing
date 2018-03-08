@@ -185,7 +185,7 @@ $("#get_token_form").submit(function() {
 		// block next button
 		function blockNext() {
 			$('#mynextbutton').prop('disabled', true);
-			$('selector').css( 'cursor', 'not-allowed' );
+			$('#mynextbutton').css( 'cursor', 'not-allowed' );
 		};
 	// --------------------
 	
@@ -212,15 +212,13 @@ function submitSetup() {
 	// Setup - Get Token
 $(function() {
 $("#getToken").click(function() {
-$("#status_text_good").hide();
-$("#status_text_bad").hide();
 $("#status_text").empty();
 var data = { 
  plex_username: $('#plex_username').val(),
  plex_password: $('#plex_password').val()
 }
  $.ajax({
-  url: "gettoken-pipes.php",
+  url: "gettoken-pipes-setup.php",
   type: 'post',
   data: data,
     success: function(response){
@@ -231,9 +229,8 @@ var data = {
 		color: 'green'
 	});
 	$('#status_text').text(json.statustext);
-		$("#status_text_good").show();
-		$('#mynextbutton').prop('disabled', false);
-		$('selector').css( 'cursor', 'default' );
+	$('#mynextbutton').prop('disabled', false);
+	$('#mynextbutton').css('cursor', 'pointer');
 	}
 	// on credential failure
 	else {
@@ -242,8 +239,8 @@ var data = {
 		color: '#990000'
 	});
 	$('#status_text').text(json.statustext);
-	$("#status_text_bad").show();
 	$('#mynextbutton').prop('disabled', true);
+	$('#mynextbutton').css('cursor', 'not-allowed');
 	}
   },
   error: function(){

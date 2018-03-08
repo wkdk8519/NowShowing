@@ -21,6 +21,7 @@ if(!empty($_POST['ns_username']) && !empty($_POST['ns_password'])) {
   
     unlink('/config/www/admin/index.html');
 	unlink('/opt/php/writesetup.php');
+	unlink('/config/www/admin/gettoken-pipes-setup');
 	echo "Setup Completed!";
 }
 else {

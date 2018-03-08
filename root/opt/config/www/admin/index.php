@@ -48,13 +48,14 @@
 <!--  link to logo -->
       <div id="logo" class="pull-left">
 	  <a href="../index.html">
-	  <img src="../img/nowshowing-icon.png" alt="NowShowing-Icon" style="margin-bottom:10px;" width="50px">
-      <img src="../img/nowshowing.png" alt="NowShowing"></a>
+	  <img src="../img/nowshowing-icon2.png" alt="NowShowing-Icon" style="margin-bottom:15px;margin-top:2px;" width="68px">
+      <img src="../img/nowshowing.png" alt="NowShowing" width="350px" style="margin-top:12px;"></a>
       </div>
         
-      <nav id="nav-menu-container">
-        <font color="#e5a00d" size="5"><b>CONFIG SETTINGS</b></font>
-		<button class="mybutton" data-toggle="modal" data-target="#logoutModal" style="margin-bottom:12px;margin-left:50px">Logout</button>
+      <nav id="nav-menu-container" class="pull-right">
+		<img src="<?=strip_tags($adv['avatar']['url'])?>" width="50px"><br>
+        <font color="#e5a00d" size="5"><b></b></font>
+		<button class="mybutton" data-toggle="modal" data-target="#logoutModal" style="padding:1px 4px;font-size:12px;margin-bottom:12px;">Logout</button>
       </nav><!-- #nav-menu-container -->
     </div>
   </header><!-- #header -->
@@ -63,11 +64,9 @@
   Body Section
 ============================-->
  
- 
 <div class="container">
   <ul class="nav nav-tabs">
     <li class="active"><a data-toggle="tab" href="#welcome">Welcome</a></li>
-	<li><a data-toggle="tab" href="#setup">Setup</a></li>
     <li><a data-toggle="tab" href="#email">Email</a></li>
     <li><a data-toggle="tab" href="#web">Web</a></li>
     <li><a data-toggle="tab" href="#plex">Plex</a></li>
@@ -98,36 +97,27 @@
 <h3>Welcome</h3>
 <hr width="440px" align="left"></p>
 <p>The NowShowing docker provides a summary of new media that has recently been added to Plex.<br>
-NowShowing can generate an email for your users and a webpage for them to visit.<br>
-Please use the 'Setup' tab to configure the minimum required settings.<br>
-The rest of the tabs can be used for other options and advanced settings.</p>
+NowShowing will generate an email for your users and a webpage for them to visit.<br>
+Please use the tabs to configure additional settings and customization options.</p>
 - Thanks for using NowShowing!
 </p>
 
 </div>
 
 <!--==========================
-  Setup
+  Email Settings
 ============================-->
-
-<div id="setup" class="tab-pane fade"></p>
-<h3>Main Setup Settings</h3>
-<hr width="440px" align="left">
-These are the minimum required settings to use NowShowing</p>
+<div id="email" class="tab-pane fade"></p>
+<h3>Email Settings</h3>
+<hr width="440px" align="left"><br>
 
 <label>
-<span>Plex Server IP:</span>
-<input name="server" value="<?=strip_tags($adv['plex']['server'])?>" type="text" size="30" />
+<span>SMTP Port:</span>
+<input name="smtp_port" value="<?=strip_tags($adv['mail']['port'])?>" type="text" size="30" />
 <div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
-ie: 192.168.1.20
+SMTP port <br>
+ie: 587
 </span></div>
-</label><br><br>
-
-<label>
-<span>Plex Token:</span>
-<input id="plex_token" name="plex_token" value="<?=strip_tags($adv['token']['api_key'])?>" type="text" size="30" />
-<button type="button" class="mybutton" data-toggle="modal" data-target="#tokenModal" style="margin-bottom:2px;margin-left:6px;font-weight:normal;padding: 2px 8px;">Get Token</button>
-<!-- <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#tokenModal">Get Token</button> -->
 </label><br><br>
 
 <label>
@@ -136,15 +126,6 @@ ie: 192.168.1.20
 <div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
 SMTP Server for email provider<br>
 ie: smtp.gmail.com
-</span></div>
-</label><br><br>
-
-<label>
-<span>SMTP Port:</span>
-<input name="smtp_port" value="<?=strip_tags($adv['mail']['port'])?>" type="text" size="30" />
-<div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
-SMTP port <br>
-ie: 587
 </span></div>
 </label><br><br>
 
@@ -165,15 +146,25 @@ SMTP Password<br>
 Usually your Email password
 </span></div>
 </label><br><br>
-<button type="button" class="mybutton" data-toggle="modal" data-target="#settingsModal">Save Settings</button>
-</div>
 
-<!--==========================
-  Email Settings
-============================-->
-<div id="email" class="tab-pane fade"></p>
-<h3>Email Settings</h3>
-<hr width="440px" align="left"><br>
+<label>
+<span>From:</span>
+<input name="from" value="<?=strip_tags($adv['mail']['from'])?>" type="text" size="30" />
+<div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
+Display name of the sender.<br>
+Required.
+</span></div></label><font style="margin-left:25px;font-weight:normal;color:#990000;font-size:12px;">(Required)</font>
+<br><br>
+
+<label>
+<span>Subject:</span>
+<input name="subject" value="<?=strip_tags($adv['mail']['subject'])?>" type="text" size="30" />
+<div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
+Subject of the email.<br>
+Date is automatically added to end of subject.<br>
+Required.
+</span></div></label><font style="margin-left:25px;font-weight:normal;color:#990000;font-size:12px;">(Required)</font>
+<br><br>
 
 <label>
 <span>Email Title:</span>
@@ -204,25 +195,6 @@ Optional.
 <!--==========================
   Mail Settings
 ============================-->
-
-<label>
-<span>From:</span>
-<input name="from" value="<?=strip_tags($adv['mail']['from'])?>" type="text" size="30" />
-<div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
-Display name of the sender.<br>
-Required.
-</span></div></label><font style="margin-left:25px;font-weight:normal;color:#990000;font-size:12px;">(Required)</font>
-</p>
-
-<label>
-<span>Subject:</span>
-<input name="subject" value="<?=strip_tags($adv['mail']['subject'])?>" type="text" size="30" />
-<div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
-Subject of the email.<br>
-Date is automatically added to end of subject.<br>
-Required.
-</span></div></label><font style="margin-left:25px;font-weight:normal;color:#990000;font-size:12px;">(Required)</font>
-</p>
 
 <label>
 <span>Additional Emails:</span>
@@ -260,6 +232,7 @@ If language selected is not found, falls back to english.
 </span></div>
 </label><br><br>
 <button type="button" class="mybutton" data-toggle="modal" data-target="#settingsModal">Save Settings</button>
+</p>
 </div>
 
 <!--==========================
@@ -331,6 +304,7 @@ Webpage language for title/headlines/footer, etc.
 </span></div>
 </label><br><br>
 <button type="button" class="mybutton" data-toggle="modal" data-target="#settingsModal">Save Settings</button>
+</p>
 </div>
 
 <!--==========================
@@ -339,6 +313,21 @@ Webpage language for title/headlines/footer, etc.
 <div id="plex" class="tab-pane fade"></p>
 <h3>Plex Settings</h3>
 <hr width="440px" align="left"><br>
+
+<label>
+<span>Plex Server IP:</span>
+<input name="server" value="<?=strip_tags($adv['plex']['server'])?>" type="text" size="30" />
+<div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
+ie: 192.168.1.20
+</span></div>
+</label><br><br>
+
+<label>
+<span>Plex Token:</span>
+<input id="plex_token" name="plex_token" value="<?=strip_tags($adv['token']['api_key'])?>" type="text" size="30" />
+<button type="button" class="mybutton" data-toggle="modal" data-target="#tokenModal" style="margin-bottom:2px;margin-left:6px;font-weight:normal;padding: 2px 8px;">Get Token</button>
+<!-- <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#tokenModal">Get Token</button> -->
+</label><br><br>
 
 <label>
 <span>Email Plex Users:</span>
@@ -362,6 +351,7 @@ ie: TV Shows,Kids Movies
 </span></div>
 </label><br><br>
 <button type="button" class="mybutton" data-toggle="modal" data-target="#settingsModal">Save Settings</button>
+</p>
 </div>
 
 <!--==========================
@@ -462,6 +452,7 @@ Which reports to generate.
 </label>
 <input type="text" id="save_settings" class="hidden" name="save_settings" /><br><br>
 <button type="button" class="mybutton" data-toggle="modal" data-target="#settingsModal">Save Settings</button>
+</p>
 </div>
 </form>
 
