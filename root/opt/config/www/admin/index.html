@@ -140,7 +140,7 @@
 				<font>your plex.tv password</font>
 				</label><br><br>
 				
-				<button id="getToken" type="button" class="mybutton" style="margin-left:150px" disabled="disabled">Get Token</button>
+				<button id="getToken" type="button" class="mybutton" style="margin-left:150px;cursor:not-allowed;" disabled="disabled">Get Token</button>
 				<span id="status_text" style="font-weight:bold"></span></p>
 				
 				<a href="#" id="showToken" style="font-size:12px;margin-left:150px;">I have my own token</a><br>
@@ -225,8 +225,14 @@ $('#setupModal').modalSteps({
 
 <!-- validate step 2 -->
 $('#ns_username, #ns_password').on('keyup', function() {
-    if(step2filled()) $('#mynextbutton').prop('disabled', false);
-	else{$('#mynextbutton').prop("disabled", true);}
+    if(step2filled()) {
+		$('#mynextbutton').prop('disabled', false);
+		$('#mynextbutton').css('cursor', 'pointer');
+	}
+	else { 
+		$('#mynextbutton').prop("disabled", true);
+		$('#mynextbutton').css('cursor', 'not-allowed');
+		}
 });
 
 function step2filled() {
@@ -240,8 +246,14 @@ function step2filled() {
  
  <!-- validate step 3 -->
  $('#server, #plex_token').on('keyup', function() {
-    if(step3afilled()) $('#mynextbutton').prop('disabled', false);
-	else{$('#mynextbutton').prop("disabled", true);}
+    if(step3afilled()) {
+		$('#mynextbutton').prop('disabled', false);
+		$('#mynextbutton').css('cursor', 'pointer');
+	}
+	else {
+		$('#mynextbutton').prop("disabled", true);
+		$('#mynextbutton').css('cursor', 'not-allowed');
+		}
 });
  
 function step3afilled() {
@@ -253,8 +265,14 @@ function step3afilled() {
 }
 
 $('#plex_username, #plex_password, #server').on('keyup', function() {
-    if(step3filled()) $('#getToken').prop('disabled', false);
-	else{$('#getToken').prop("disabled", true);}
+    if(step3filled()) {
+		$('#getToken').prop('disabled', false);
+		$('#getToken').css('cursor', 'pointer');
+	}
+	else {
+		$('#getToken').prop("disabled", true);
+		$('#getToken').css('cursor', 'not-allowed');
+	}
 });
 
 function step3filled() {
@@ -268,8 +286,14 @@ function step3filled() {
  
  <!-- validate step 4 -->
 $('#smtp_address, #smtp_port, #email_username, #email_password').on('keyup', function() {
-    if(step4filled()) $('#mynextbutton').prop('disabled', false);
-	else{$('#mynextbutton').prop("disabled", true);}
+    if(step4filled()) {
+		$('#mynextbutton').prop('disabled', false);
+		$('#mynextbutton').css('cursor', 'pointer');
+	}
+	else {
+		$('#mynextbutton').prop("disabled", true);
+		$('#mynextbutton').css('cursor', 'not-allowed');
+		}
 });
 
 function step4filled() {
