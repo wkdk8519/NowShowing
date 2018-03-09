@@ -17,10 +17,10 @@ ruby /usr/local/sbin/create-cron
 #fail2ban setup
 # remove alpine default jail & copy in our jail settings and filter
 rm /etc/fail2ban/jail.d/* /etc/fail2ban/
-cp /opt/f2b/jail.local /etc/fail2ban/
-cp /opt/f2b/fail2ban.local /etc/fail2ban/
+cp /opt/f2b/fail2ban.local /opt/f2b/jail.local /etc/fail2ban/
 cp /opt/f2b/nowshowing.conf /etc/fail2ban/filter.d/
-#fail2ban-client start
+cp /opt/f2b/iptables-common.local /etc/fail2ban/action.d/
+fail2ban-client start
 
 #read nowshowing_schedule.cron on container startup and add to crontab.
 chown xyz:xyz /opt/nowshowing_schedule.cron

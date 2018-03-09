@@ -68,6 +68,7 @@
   <ul class="nav nav-tabs">
     <li class="active"><a data-toggle="tab" href="#welcome">Welcome</a></li>
     <li><a data-toggle="tab" href="#email">Email</a></li>
+	<li><a data-toggle="tab" href="#smtp">SMTP</a></li>
     <li><a data-toggle="tab" href="#web">Web</a></li>
     <li><a data-toggle="tab" href="#plex">Plex</a></li>
 	<li><a data-toggle="tab" href="#report">Report</a></li>
@@ -110,42 +111,6 @@ Please use the tabs to configure additional settings and customization options.<
 <div id="email" class="tab-pane fade"></p>
 <h3>Email Settings</h3>
 <hr width="440px" align="left"><br>
-
-<label>
-<span>SMTP Port:</span>
-<input name="smtp_port" value="<?=strip_tags($adv['mail']['port'])?>" type="text" size="30" />
-<div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
-SMTP port <br>
-ie: 587
-</span></div>
-</label><br><br>
-
-<label>
-<span>SMTP Server:</span>
-<input name="smtp_address" value="<?=strip_tags($adv['mail']['address'])?>" type="text" size="30" />
-<div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
-SMTP Server for email provider<br>
-ie: smtp.gmail.com
-</span></div>
-</label><br><br>
-
-<label>
-<span>SMTP Username:</span>
-<input name="email_username" value="<?=strip_tags($adv['mail']['username'])?>" type="text" size="30" />
-<div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
-SMTP Username<br>
-Usually your email address; ie: batman@gmail.com
-</span></div>
-</label><br><br>
-
-<label>
-<span>SMTP Password:</span>
-<input name="email_password" value="<?=strip_tags($adv['mail']['password'])?>" type="password" size="30" />
-<div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
-SMTP Password<br>
-Usually your Email password
-</span></div>
-</label><br><br>
 
 <label>
 <span>From:</span>
@@ -192,10 +157,6 @@ Optional.
 </span></div>
 </label><br><br>
  
-<!--==========================
-  Mail Settings
-============================-->
-
 <label>
 <span>Additional Emails:</span>
 <textarea name="recipients_email" type="text"><?=strip_tags($recipients_email_array)?></textarea>
@@ -233,6 +194,50 @@ If language selected is not found, falls back to english.
 </label><br><br>
 <button type="button" class="mybutton" data-toggle="modal" data-target="#settingsModal">Save Settings</button>
 </p>
+</div>
+<!--==========================
+  SMTP Settings
+============================-->
+
+<div id="smtp" class="tab-pane fade"></p>
+<h3>SMTP Settings</h3>
+<hr width="440px" align="left"><br>
+
+<label>
+<span>SMTP Port:</span>
+<input name="smtp_port" value="<?=strip_tags($adv['mail']['port'])?>" type="text" size="30" />
+<div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
+SMTP port <br>
+ie: 587
+</span></div>
+</label><br><br>
+
+<label>
+<span>SMTP Server:</span>
+<input name="smtp_address" value="<?=strip_tags($adv['mail']['address'])?>" type="text" size="30" />
+<div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
+SMTP Server for email provider<br>
+ie: smtp.gmail.com
+</span></div>
+</label><br><br>
+
+<label>
+<span>SMTP Username:</span>
+<input name="email_username" value="<?=strip_tags($adv['mail']['username'])?>" type="text" size="30" />
+<div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
+SMTP Username<br>
+Usually your email address; ie: batman@gmail.com
+</span></div>
+</label><br><br>
+
+<label>
+<span>SMTP Password:</span>
+<input name="email_password" value="<?=strip_tags($adv['mail']['password'])?>" type="password" size="30" />
+<div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
+SMTP Password<br>
+Usually your Email password
+</span></div>
+</label><br><br>
 </div>
 
 <!--==========================
