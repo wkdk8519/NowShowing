@@ -49,7 +49,7 @@ filter = nowshowing
 action = iptables[name=NOWSHOWING, port="6878", protocol=TCP]
 logpath = /config/logs/lighttpd_access.log
 bantime = 10m
-findtime  = 10m
-maxretry = 8
-backend = auto
+findtime  = 5m
+maxretry = 15
+backend = polling
 ignoreip = 127.0.0.1/8 ::1

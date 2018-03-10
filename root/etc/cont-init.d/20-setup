@@ -19,7 +19,7 @@ ruby /usr/local/sbin/create-cron
 rm /etc/fail2ban/jail.d/* /etc/fail2ban/
 cp /opt/f2b/fail2ban.local /opt/f2b/jail.local /etc/fail2ban/
 cp /opt/f2b/nowshowing.conf /etc/fail2ban/filter.d/
-cp /opt/f2b/iptables-common.local /etc/fail2ban/action.d/
+cp /opt/f2b/iptables-common.conf /etc/fail2ban/action.d/
 fail2ban-client start
 
 #read nowshowing_schedule.cron on container startup and add to crontab.

@@ -13,16 +13,13 @@ web:
   language: "en"
 plex:
   plex_user_emails: "yes"
-  libraries_to_skip:
-    - ""
+  libraries_to_skip: ""
   server: ""
 mail:
   from: "Plex Server"
   subject: "Now Showing"
-  recipients_email:
-    - ""
-  recipients:
-    - ""
+  recipients_email: ""
+  recipients: ""
   address: ""
   port: ""
   username: ""

@@ -1,9 +1,6 @@
 <?php
 # Load current advanced.yaml settings
 include('spyc.php');
-$adv['mail']['recipients'] = array();
-$adv['mail']['recipients_email'] = array(); 
-$adv['plex']['libraries_to_skip'] = array();
 $adv = Spyc::YAMLLoad('/config/cfg/advanced.yaml');
 
 $recipients_array = implode(',',$adv['mail']['recipients']);
