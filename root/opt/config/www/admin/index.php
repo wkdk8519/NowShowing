@@ -32,7 +32,6 @@
   
   <!-- Main Stylesheet File -->
   <link href="../css/admin_style.css" rel="stylesheet">
-  <link href="../css/admin.css" rel="stylesheet">
   
   <?php include '/opt/php/loadadvanced.php'?>
  
@@ -48,7 +47,7 @@
 <!--  link to logo -->
       <div id="logo" class="pull-left">
 	  <a href="../index.html">
-	  <img src="../img/nowshowing-icon2.png" alt="NowShowing-Icon" style="margin-bottom:15px;margin-top:2px;" width="68px">
+	  <img src="../img/nowshowing-icon2.png" alt="NowShowing-Icon" style="margin-bottom:15px;margin-top:2px;" width="66px">
       <img src="../img/nowshowing.png" alt="NowShowing" width="350px" style="margin-top:12px;"></a>
       </div>
         
