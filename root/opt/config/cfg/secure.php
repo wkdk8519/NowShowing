@@ -42,7 +42,7 @@ $timeout = (TIMEOUT_MINUTES == 0 ? 0 : time() + TIMEOUT_MINUTES * 60);
 // logout?
 if(isset($_GET['logout'])) {
   setcookie("NowShowing", '', $timeout, '/'); // clear password;
-  header("Location: http://".$_SERVER['HTTP_HOST']."/admin");
+  header("Location: http://".$_SERVER['HTTP_HOST']."/admin/index.php");
   exit();
 }
 

@@ -1,7 +1,7 @@
 FROM alpine:3.5
 MAINTAINER ninthwalker
 
-ENV UPDATED_ON 07MAR2018
+ENV UPDATED_ON 11MAR2018
 ENV NOWSHOWING_VERSION 2.0
 
 VOLUME /config
@@ -11,7 +11,7 @@ EXPOSE 6878
 COPY root/ s6-overlay/ /
 
 # Install permanent packages
-RUN apk add --no-cache ruby ruby-json ruby-io-console curl-dev lighttpd php7-cgi php7-json busybox-suid procps fail2ban tzdata shadow && \
+RUN apk add --no-cache ruby ruby-json ruby-io-console curl-dev lighttpd php7-cgi php7-json busybox-suid fail2ban tzdata shadow && \
 
 # Install temporary build dependencies
 apk add --no-cache --virtual build-dependencies \

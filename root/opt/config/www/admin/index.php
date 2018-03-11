@@ -53,9 +53,9 @@
       </div>
         
       <nav id="nav-menu-container" class="pull-right">
-		<img src="<?=strip_tags($adv['avatar']['url'])?>" width="50px"><br>
+		<img src="<?=strip_tags($adv['avatar']['url'])?>" width="80px"><br>
         <font color="#e5a00d" size="5"><b></b></font>
-		<button class="mybutton" data-toggle="modal" data-target="#logoutModal" style="padding:1px 4px;font-size:12px;margin-bottom:12px;">Logout</button>
+		<!-- <button class="mybutton" data-toggle="modal" data-target="#logoutModal" style="padding:1px 4px;font-size:12px;margin-bottom:12px;">Logout</button> -->
       </nav><!-- #nav-menu-container -->
     </div>
   </header><!-- #header -->
@@ -73,8 +73,10 @@
     <li><a data-toggle="tab" href="#plex">Plex</a></li>
 	<li><a data-toggle="tab" href="#report">Report</a></li>
 	<li><a data-toggle="tab" href="#tools">Tools</a></li>
-	<li><button type="button" class="mybutton" data-toggle="modal" data-target="#settingsModal" style="margin-top:5px;margin-left:20px;vertical-align:middle;">Save Settings</button></li>
-	<!-- <button id="save_settings2" class="mybutton" type="submit" value="submit" name="save_settings" form="mainform" style="margin-top:4px;margin-left:50px;">Save Settings</button> ==>
+	<!-- <li class="pull-right"><a class="mybutton" data-toggle="modal" href="#logoutModal">Logout</a></li> -->
+	<li class="pull-right"><button class="mybutton" data-toggle="modal" data-target="#logoutModal" style="padding:2px 4px;font-size:13px;margin-top:8px;">Logout</button></li>
+	<!-- <li><button type="button" class="mybutton" data-toggle="modal" data-target="#settingsModal" style="margin-top:5px;margin-left:20px;vertical-align:middle;">Save Settings</button></li> -->
+	<!-- <button id="save_settings2" class="mybutton" type="submit" value="submit" name="save_settings" form="mainform" style="margin-top:4px;margin-left:50px;">Save Settings</button> -->
 	<!-- onclick="return confirm('Are you sure? This will overwrite all settings.')" -->
 	<li id="status_text" name="status_text" style="margin-top:10px;margin-left:10px;vertical-align:middle;font-weight:bold;"></li>
 	<li class="status">
@@ -238,6 +240,8 @@ SMTP Password<br>
 Usually your Email password
 </span></div>
 </label><br><br>
+<button type="button" class="mybutton" data-toggle="modal" data-target="#settingsModal">Save Settings</button>
+</p>
 </div>
 
 <!--==========================
