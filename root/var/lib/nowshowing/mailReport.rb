@@ -31,13 +31,14 @@ class MailReport
     end
 
     # Method for pulling the email information from the config and emailing all Plex users
+	# set auth to nil, and use ruby smtp.rb modified with auto-detection code.
     def sendMail(body)
         options = { :address              => $advanced['mail']['address'],
                     :port                 => $port,
                     :domain               => 'otherdomain.com',
                     :user_name            => $advanced['mail']['username'],
                     :password             => $advanced['mail']['password'],
-                    :authentication       => 'plain',
+                    :authentication       => nil,
                     :enable_starttls_auto => true  }
             Mail.defaults do
             delivery_method :smtp, options
