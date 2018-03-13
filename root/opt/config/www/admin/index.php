@@ -103,7 +103,7 @@ NowShowing will generate an email for your users and a webpage for them to visit
 Please use the tabs to configure additional settings and customization options.</p>
 - Thanks for using NowShowing!
 </p>
-
+<div><?=$msg?></div>
 </div>
 
 <!--==========================
