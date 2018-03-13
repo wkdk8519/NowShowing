@@ -57,11 +57,14 @@ $("#mainform").submit(function() {
 
 
 // ---------------------------------------------------------------------
-// Test Reort Status: status of running then completed with '...' during
+// Test Report: status of running then completed with '...' during
 // ---------------------------------------------------------------------
 $(function() {
     $("#test_report_form").submit(function() {
 			$('#test_report_button').attr("disabled", true);
+			$('#ondemand_report_button').attr("disabled", true);
+			$('#test_report_button').css( 'cursor', 'not-allowed' );
+			$('#ondemand_report_button').css( 'cursor', 'not-allowed' );
 			$('#testReportModal').modal('hide');
 			$.ajax({
 				xhr: function () {
@@ -71,7 +74,7 @@ $(function() {
 							if (evt.lengthComputable) {
 								console.log("start");
 								$('#status_text').css({
-									color: 'red'
+									color: '#ffff4d'
 								});
 								$('#status_text').text("Test Report: Running");
 								$('.status').css({
@@ -104,6 +107,68 @@ $(function() {
 				},
 				complete: function (data){
                     $('#test_report_button').attr("disabled", false);
+					$('#ondemand_report_button').attr("disabled", false);
+					$('#test_report_button').css( 'cursor', 'pointer' );
+					$('#ondemand_report_button').css( 'cursor', 'pointer' );
+                }
+			});
+			return false;
+	});
+});
+
+// ---------------------------------------------------------------------
+// On Demand Report: status of running then completed with '...' during
+// ---------------------------------------------------------------------
+$(function() {
+    $("#ondemand_report_form").submit(function() {
+			$('#ondemand_report_button').attr("disabled", true);
+			$('#test_report_button').attr("disabled", true);
+			$('#test_report_button').css( 'cursor', 'not-allowed' );
+			$('#ondemand_report_button').css( 'cursor', 'not-allowed' );
+			$('#ondemandReportModal').modal('hide');
+			$.ajax({
+				xhr: function () {
+					var xhr = new window.XMLHttpRequest();
+					xhr.upload.addEventListener("progress", function (evt) {
+						if (evt.lengthComputable) {
+							if (evt.lengthComputable) {
+								console.log("start");
+								$('#status_text').css({
+									color: '#ffff4d'
+								});
+								$('#status_text').text("On Demand Report: Running");
+								$('.status').css({
+									visibility: 'visible'
+								});
+							}
+						}
+					}, false);
+
+					xhr.addEventListener("progress", function (evt) {
+						if (evt.lengthComputable) {
+							console.log("end");
+							$('#status_text').css({
+									color: 'green'
+							});
+							$('.status').css({
+								visibility: 'hidden'
+							});
+						}
+					}, false);
+
+					return xhr;
+				},
+				type: 'POST',
+				url: "ondemand_report.php",
+				data: { ondemand_report: "ondemand_report"},
+				success: function (data) {
+					$('#status_text').text("On Demand Report: Finished");
+				},
+				complete: function (data){
+                    $('#ondemand_report_button').attr("disabled", false);
+					$('#test_report_button').attr("disabled", false);
+					$('#test_report_button').css( 'cursor', 'pointer' );
+					$('#ondemand_report_button').css( 'cursor', 'pointer' );
                 }
 			});
 			return false;

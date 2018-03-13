@@ -334,6 +334,10 @@ ie: 192.168.1.20
 <span>Plex Token:</span>
 <input id="plex_token" name="plex_token" value="<?=strip_tags($adv['token']['api_key'])?>" type="text" size="30" />
 <button type="button" class="mybutton" data-toggle="modal" data-target="#tokenModal" style="margin-bottom:2px;margin-left:6px;font-weight:normal;padding: 2px 8px;">Get Token</button>
+<div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
+Click the Button to retrieve your token.<br>
+You can also manually enter one in the field.
+</span></div>
 <!-- <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#tokenModal">Get Token</button> -->
 </label><br><br>
 
@@ -563,6 +567,34 @@ Which reports to generate.
 </form>
 
 <!--==========================
+  On Demand Report Modal
+============================-->
+
+<form action="" id="ondemand_report_form" method="post">
+<div class="container">
+  <div class="modal fade" id="ondemandReportModal" role="dialog">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><b style="color:#990000">&times;</b></button>
+          <h4 class="modal-title">Run On Demand Report?</h4>
+        </div>
+			<div class="modal-body">
+				This will immediatly run a report using all current settings.<br>
+				Sends an email and/or creates the webpage based off current <a href="#report" onclick="javascript:window.location.href='#report';window.location.reload(true);">Report settings</a>.<br>
+				Useful for sending a report now or updating the webpage without waiting for the normal cron schedule.
+			</div>
+        <div class="modal-footer">
+		    <button id="ondemand_report" name="ondemand_report" type="submit" class="mybutton" value="ondemand_report">Send</button>
+			<button id="cancel_button" name="cancel_button" type="button" class="mybuttoncancel" value="cancel" data-dismiss="modal">Cancel</button>	
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</form>
+
+<!--==========================
   Logout Modal
 ============================-->
 
@@ -587,13 +619,20 @@ Which reports to generate.
   Tools Tab
 ============================-->
 <div id="tools" class="tab-pane fade"></p>
-<h3>Tools</h3>
-<hr width="440px" align="left">
+<h3>Tools</h3><br>
+<hr width="440px" align="left" style="padding:0px;margin:0px;">
+Note: Reports can take anywhere from 30s - 5m depending on amount of recent content.</p>
+
+<!-- Test Report -->
 <button id="test_report_button" class="mybutton" type="button" value="test_report" name="test_report_button" data-toggle="modal" data-target="#testReportModal">Test Report</button>
 <p>- Send a test email to yourself & create the webpage.<br>
-Note: Report can take anywhere from 30s - 5m,<br>
-depending on amount of recent content.
 </p>
+
+<!--  On-Demand Report -->
+<button id="ondemand_report_button" class="mybutton" type="button" value="ondemand_report" name="ondemand_report_button" data-toggle="modal" data-target="#ondemandReportModal">On Demand Report</button>
+<p>- Immediatly run a report using all current settings.<br>
+</p>
+
 
 <button class="mybutton" type="submit" value="submit3" name="submit3" style="margin-top:4px" onclick="return confirm('Are you sure? This will reset all settings to Defaul values')">Reset to Default</button><br>
 - Reset all advanced settings to default.</p><br>
