@@ -35,6 +35,9 @@ cd /opt/gem ; bundle install && \
 # Remove temp files
 apk del --purge build-dependencies
 
+# Extra copy for smtp.rb fix
+COPY root/opt/smtp.rb /usr/lib/ruby/2.3.0/net/
+
 # Start s6 init & webserver
 ENTRYPOINT ["/init"]
 CMD ["lighttpd", "-D", "-f", "/etc/lighttpd/lighttpd.conf"]
