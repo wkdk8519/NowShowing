@@ -2,14 +2,14 @@
 include('spyc.php');
 
 if(!empty($_POST['ns_username']) && !empty($_POST['ns_password'])) {
-  $adv_file = "/config/cfg/advanced.yaml";
+  $adv_file = "/config/.cfg/advanced.yaml";
   $adv_array = Spyc::YAMLLoad($adv_file);
   
   # Write ns user/pass to secure.php
   $user = $_POST['ns_username'];
   $pass = $_POST['ns_password'];
   #system('ls '.escapeshellarg($dir));
-  exec("sed -i \"10s/.*/\'$user\\' => \'$pass\'/\" /config/cfg/secure.php");
+  exec("sed -i \"10s/.*/\'$user\\' => \'$pass\'/\" /config/.cfg/secure.php");
   
   # save main settings to advanced.yaml
   $adv_array['plex'] = array('plex_user_emails' => "yes", 'libraries_to_skip' => "", 'server' => strip_tags($_POST['server']));
