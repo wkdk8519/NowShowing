@@ -1,7 +1,7 @@
 #!/usr/bin/with-contenv sh
 
 #Copies config files and creates advanced config file if not present
-if [ -f /config/.cfg/advanced.yaml ]; then
+if [ -f /config/cfg/advanced.yaml ]; then
   echo "Advanced config file detected. Keeping existing files"
 else
 # copy files incl advanced.yaml

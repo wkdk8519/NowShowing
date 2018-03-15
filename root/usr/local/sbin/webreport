@@ -63,7 +63,7 @@ class Report
 
     def initialize
         begin
-	    $advanced = YAML.load_file('/config/.cfg/advanced.yaml')
+	    $advanced = YAML.load_file('/config/cfg/advanced.yaml')
 	    $daystoreport = $advanced['report']['interval'].to_i * 86400
 		
  	# Log-rotate if greater than 50MB
@@ -381,7 +381,7 @@ def main
     new_seasons = new_episodes[:seasons]
     new_episodes = new_episodes[:new]
 
-    YAML.load_file('/config/.cfg/advanced.yaml')
+    YAML.load_file('/config/cfg/advanced.yaml')
     webtemplate = ERB.new File.new("/config/web_email_body.erb").read, nil, "%"
 
     if (movies.empty? && new_seasons.empty? && new_episodes.empty?)

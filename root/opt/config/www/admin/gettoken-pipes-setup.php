@@ -1,6 +1,6 @@
 <?php
 include('../../../opt/php/spyc.php');
-$adv_file = "../../.cfg/advanced.yaml";
+$adv_file = "../../cfg/advanced.yaml";
 
 if(isset($_POST['plex_username']) && isset($_POST['plex_password'])) {
 
@@ -25,7 +25,7 @@ $process = proc_open('ruby /usr/local/sbin/gettoken-pipes', $descriptorspec, $pi
 		proc_close($process);
 	}
 	
-	$adv_array = Spyc::YAMLLoad('../../.cfg/advanced.yaml');
+	$adv_array = Spyc::YAMLLoad('../../cfg/advanced.yaml');
 	$adv_array['token'] = array('api_key' => $token);
 	$adv_array['avatar'] = array('url' => $avatar);
 

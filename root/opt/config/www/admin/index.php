@@ -1,4 +1,4 @@
-<?php include("../../.cfg/secure.php"); ?>
+<?php include("../../cfg/secure.php"); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

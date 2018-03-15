@@ -2,7 +2,7 @@
 include('spyc.php');
 
 if(isset($_POST['save_settings'])) {
-  $adv_file = "../../.cfg/advanced.yaml";
+  $adv_file = "../../cfg/advanced.yaml";
 
   $libraries_to_skip = explode(',',strip_tags($_POST['libraries_to_skip']));
   $recipients_email = explode(',',strip_tags($_POST['recipients_email']));
