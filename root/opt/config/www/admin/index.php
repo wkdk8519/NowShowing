@@ -52,7 +52,7 @@
       </div>
         
       <nav id="nav-menu-container" class="pull-right">
-		<img src="<?=strip_tags($adv['avatar']['url'])?>" width="60px" style="margin-top:6px;"><br>
+		<img src="../img/avatar.png" width="60px" style="margin-top:6px;"><br>
         <font color="#e5a00d" size="5"><b></b></font>
 		<!-- <button class="mybutton" data-toggle="modal" data-target="#logoutModal" style="padding:1px 4px;font-size:12px;margin-bottom:12px;">Logout</button> -->
       </nav><!-- #nav-menu-container -->

@@ -27,7 +27,9 @@ $process = proc_open('ruby /usr/local/sbin/gettoken-pipes', $descriptorspec, $pi
 	
 	$adv_array = Spyc::YAMLLoad('../../cfg/advanced.yaml');
 	$adv_array['token'] = array('api_key' => $token);
-	$adv_array['avatar'] = array('url' => $avatar);
+	
+	# d/l gravatar avatar
+	exec("wget $avatar -O /config/www/img/avatar.png");
 
 	$adv_yaml = Spyc::YAMLDump($adv_array,2,0);
 	file_put_contents($adv_file, $adv_yaml);

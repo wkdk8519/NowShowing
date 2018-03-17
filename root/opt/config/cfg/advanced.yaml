@@ -33,5 +33,3 @@ report:
   test: "disable"
 token:
   api_key: ""
-avatar:
-  url: ""
