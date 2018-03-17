@@ -119,7 +119,7 @@ Please use the tabs to configure additional settings and customization options.<
 <div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
 Display name of the sender.<br>
 Required.
-</span></div></label><font style="margin-left:25px;font-weight:normal;color:#990000;font-size:12px;">(Required)</font>
+</span></div></label><font style="margin-left:25px;font-weight:normal;color:#cc0000;font-size:12px;">(Required)</font>
 <br><br>
 
 <label>
@@ -129,7 +129,7 @@ Required.
 Subject of the email.<br>
 Date is automatically added to end of subject.<br>
 Required.
-</span></div></label><font style="margin-left:25px;font-weight:normal;color:#990000;font-size:12px;">(Required)</font>
+</span></div></label><font style="margin-left:25px;font-weight:normal;color:#cc0000;font-size:12px;">(Required)</font>
 <br><br>
 
 <label>
@@ -277,7 +277,7 @@ ie: https://imgur.com/image.png or img/myimage.png
 Top subtitle under main title image.<br>
 This comes before the scrolling headliners below.<br>
 Required.
-</span></div></label><font style="margin-left:25px;font-weight:normal;color:#990000;font-size:12px;">(Required)</font>
+</span></div></label><font style="margin-left:25px;font-weight:normal;color:#cc0000;font-size:12px;">(Required)</font>
 </p>
 
 <label>
@@ -479,7 +479,7 @@ Which reports to generate.
     <div class="modal-dialog modal-md">
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal"><b style="color:#990000">&times;</b></button>
+          <button type="button" class="close" data-dismiss="modal"><b style="color:#cc0000">&times;</b></button>
           <h4 class="modal-title">Get Plex Token</h4>
         </div>
         <div class="modal-body">
@@ -521,7 +521,7 @@ Which reports to generate.
     <div class="modal-dialog modal-sm">
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal"><b style="color:#990000">&times;</b></button>
+          <button type="button" class="close" data-dismiss="modal"><b style="color:#cc0000">&times;</b></button>
           <h4 class="modal-title">Save Settings</h4>
         </div>
         <div class="modal-body">
@@ -547,7 +547,7 @@ Which reports to generate.
     <div class="modal-dialog modal-sm">
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal"><b style="color:#990000">&times;</b></button>
+          <button type="button" class="close" data-dismiss="modal"><b style="color:#cc0000">&times;</b></button>
           <h4 class="modal-title">Run Test Report?</h4>
         </div>
 			<div class="modal-body">
@@ -576,7 +576,7 @@ Which reports to generate.
     <div class="modal-dialog modal-md">
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal"><b style="color:#990000">&times;</b></button>
+          <button type="button" class="close" data-dismiss="modal"><b style="color:#cc0000">&times;</b></button>
           <h4 class="modal-title">Run On Demand Report?</h4>
         </div>
 			<div class="modal-body">
@@ -604,14 +604,14 @@ Which reports to generate.
     <div class="modal-dialog modal-md">
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal"><b style="color:#990000">&times;</b></button>
+          <button type="button" class="close" data-dismiss="modal"><b style="color:#cc0000">&times;</b></button>
           <h4 class="modal-title">Reset All Settings?</h4>
         </div>
 			<div class="modal-body">
 				This will reset all settings to default.<br>
 				Any customization you may have done to the html pages will be kept intact.<br>
 				You will need to use the initial setup wizard again to reconfigure all settings.<br>
-				<b><font color=#990000>Are you sure you want to do this!?</font></b>
+				<b><font color=#cc0000>Are you sure you want to do this!?</font></b>
 			</div>
         <div class="modal-footer">
 		    <button id="reset" name="reset" type="submit" class="mybutton" value="reset">Yes</button>
@@ -627,18 +627,19 @@ Which reports to generate.
   Change Password Modal
 ============================-->
 
-<form action="" id="changepass_form" method="post">
+<form action="changepass.php" id="changepass_form" method="post">
 <div class="container">
   <div class="modal fade" id="changepassModal" role="dialog">
     <div class="modal-dialog modal-md">
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal"><b style="color:#990000">&times;</b></button>
+          <button type="button" class="close" data-dismiss="modal"><b style="color:#cc0000">&times;</b></button>
           <h4 class="modal-title">Change NowShowing Admin Credentials</h4>
         </div>
         <div class="modal-body">
           <p>Enter in a new username/password below.<br>
-		     This is used for accessing the NowShowing Admin site.</p>
+		     This is used for accessing the NowShowing Admin site.<br>
+			 After saving, you will logged out and redirected to the login page.</p>
 				<label>
 				<span>Username:</span>
 				<input id="ns_username" name="ns_username" type="text" size="30" required /><br>
@@ -647,12 +648,12 @@ Which reports to generate.
 		  
 				<label>
 				<span>Password:</span>
-				<input id="ns_password" name="ns_password" type="password" size="30" required /><br>
+				<input id="ns_password" name="ns_password" type="password" size="30" required />
 				<font style="margin-left: 150px;;font-size: 12px;color: grey;">make it <a href="https://xkcd.com/936/" target="_blank">strong</a>!</font>
 				</label><br><br>
         </div>
         <div class="modal-footer">
-		    <button id="gettoken" name="gettoken" type="submit" class="mybutton" value="gettoken">Save</button>
+		    <button id="changepass" name="changepass" type="submit" class="mybutton" value="changepass">Save</button>
 			<button id="cancel_button" name="cancel_button" type="button" class="mybuttoncancel" value="cancel" data-dismiss="modal">Cancel</button>
             <!-- removed this from above button temporarily: data-dismiss="modal" -->			
         </div>
@@ -671,7 +672,7 @@ Which reports to generate.
     <div class="modal-dialog modal-sm">
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal"><b style="color:#990000">&times;</b></button>
+          <button type="button" class="close" data-dismiss="modal"><b style="color:#cc0000">&times;</b></button>
           <h4 class="modal-title">Are you sure you want to logout?</h4>
         </div>
         <div class="modal-footer">
@@ -703,7 +704,7 @@ Note: Reports can take anywhere from 30s - 5m depending on amount of recent cont
 
 <!-- Reset settings -->
 <button id="reset_button" class="mybutton" type="button" value="reset" name="reset_button" data-toggle="modal" data-target="#resetModal">Reset to Default</button><br>
-- Reset all settings to default.<br>
+- Reset all settings to default.<br><br>
 
 <!-- Change password -->
 <button id="reset_button" class="mybutton" type="button" value="changepass" name="changepass_button" data-toggle="modal" data-target="#changepassModal">Change Password</button><br>

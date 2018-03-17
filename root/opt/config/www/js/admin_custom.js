@@ -37,7 +37,7 @@ $("#mainform").submit(function() {
 	}
 	else {
 		$('#status_text').css({
-		color: '#990000'
+		color: '#cc0000'
 	});
 	$('#status_text').text(response);
 	}
@@ -46,7 +46,7 @@ $("#mainform").submit(function() {
     // on failure;
 	console.log("Error: Could not divide by zero");
 	$('#status_text').css({
-		color: '#990000'
+		color: '#cc0000'
 	});
 	$('#status_text').text("Error: Could not divide by zero");
   }
@@ -203,7 +203,7 @@ $("#get_token_form").submit(function() {
 	else {
 		console.log(response);
 		$('#status_text').css({
-		color: '#990000'
+		color: '#cc0000'
 	});
 	$('#status_text').text(json.statustext);
 	$("#status_text").delay(4000).fadeOut(2000,function() {
@@ -215,7 +215,7 @@ $("#get_token_form").submit(function() {
     // on failure
 	console.log(response);
 	$('#status_text').css({
-		color: '#990000'
+		color: '#cc0000'
 	});
 	$('#status_text').text("Error: Could not divide by zero");
 	$("#status_text").delay(3000).fadeOut(2000,function() {
@@ -301,7 +301,7 @@ var data = {
 	else {
 		console.log(response);
 		$('#status_text').css({
-		color: '#990000'
+		color: '#cc0000'
 	});
 	$('#status_text').text(json.statustext);
 	$('#mynextbutton').prop('disabled', true);
@@ -312,7 +312,7 @@ var data = {
     // on failure
 	console.log(response);
 	$('#status_text').css({
-		color: '#990000'
+		color: '#cc0000'
 	});
 	$('#status_text').text("Error: Could not divide by zero");
   }

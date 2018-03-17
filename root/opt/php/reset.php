@@ -12,7 +12,8 @@ if (isset($_POST['reset'])) {
   # Update password with another random one
   require '/opt/php/randomPass.php';
 
-  echo "Settings reset!";
+  setcookie("NowShowing", '', -1, '/');
+  header("Location: http://".$_SERVER['HTTP_HOST']."/admin");
   exit;
 }
 exit;
