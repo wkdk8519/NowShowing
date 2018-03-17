@@ -349,7 +349,7 @@ You can also manually enter one in the field.
 </select>
 <div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
 'Yes' will send to all plex users emails.<br>
-'No' will <i><b>NOT</b></i> send to plex user emails and will only send to emails and users in the recipients fields below.
+'No' will <i><b>NOT</b></i> send to plex user emails and will only send to emails and users listed in the Email Settings tab.
 </span></div>
 </label><br><br>
 
@@ -647,7 +647,7 @@ Which reports to generate.
 		  
 				<label>
 				<span>Password:</span>
-				<input id="plex_password" name="plex_password" type="password" size="30" required />
+				<input id="ns_password" name="ns_password" type="password" size="30" required /><br>
 				<font style="margin-left: 150px;;font-size: 12px;color: grey;">make it <a href="https://xkcd.com/936/" target="_blank">strong</a>!</font>
 				</label><br><br>
         </div>
@@ -703,11 +703,11 @@ Note: Reports can take anywhere from 30s - 5m depending on amount of recent cont
 
 <!-- Reset settings -->
 <button id="reset_button" class="mybutton" type="button" value="reset" name="reset_button" data-toggle="modal" data-target="#resetModal">Reset to Default</button><br>
-- Reset all settings to default.</p><br>
+- Reset all settings to default.<br>
 
 <!-- Change password -->
 <button id="reset_button" class="mybutton" type="button" value="changepass" name="changepass_button" data-toggle="modal" data-target="#changepassModal">Change Password</button><br>
-- Reset all settings to default.</p><br>
+- Change Username/Password.</p><br>
 
 <h4>Help Links</h4>
 <hr width="440px" align="left">
