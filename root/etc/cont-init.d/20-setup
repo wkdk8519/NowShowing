@@ -4,8 +4,10 @@
 if [ -f /config/cfg/advanced.yaml ]; then
   echo "Advanced config file detected. Keeping existing files"
 else
-# copy files incl advanced.yaml
+  # copy files incl advanced.yaml
   cp -Rp /opt/config/. /config/
+  # set password to a random one
+  php-cgi7 /opt/php/randomPass.php
 fi
 
 # Always load latest cron settings

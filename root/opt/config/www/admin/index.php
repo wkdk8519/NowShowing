@@ -595,6 +595,74 @@ Which reports to generate.
 </form>
 
 <!--==========================
+  Reset Modal
+============================-->
+
+<form action="reset.php" id="reset_form" method="post">
+<div class="container">
+  <div class="modal fade" id="resetModal" role="dialog">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><b style="color:#990000">&times;</b></button>
+          <h4 class="modal-title">Reset All Settings?</h4>
+        </div>
+			<div class="modal-body">
+				This will reset all settings to default.<br>
+				Any customization you may have done to the html pages will be kept intact.<br>
+				You will need to use the initial setup wizard again to reconfigure all settings.<br>
+				<b><font color=#990000>Are you sure you want to do this!?</font></b>
+			</div>
+        <div class="modal-footer">
+		    <button id="reset" name="reset" type="submit" class="mybutton" value="reset">Yes</button>
+			<button id="cancel_button" name="cancel_button" type="button" class="mybuttoncancel" value="cancel" data-dismiss="modal">No</button>	
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</form>
+
+<!--==========================
+  Change Password Modal
+============================-->
+
+<form action="" id="changepass_form" method="post">
+<div class="container">
+  <div class="modal fade" id="changepassModal" role="dialog">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><b style="color:#990000">&times;</b></button>
+          <h4 class="modal-title">Change NowShowing Admin Credentials</h4>
+        </div>
+        <div class="modal-body">
+          <p>Enter in a new username/password below.<br>
+		     This is used for accessing the NowShowing Admin site.</p>
+				<label>
+				<span>Username:</span>
+				<input id="ns_username" name="ns_username" type="text" size="30" required /><br>
+				<font style="margin-left: 150px;;font-size: 12px;color: grey;">create your own!</font>
+				</label><br><br>
+		  
+				<label>
+				<span>Password:</span>
+				<input id="plex_password" name="plex_password" type="password" size="30" required />
+				<font style="margin-left: 150px;;font-size: 12px;color: grey;">make it <a href="https://xkcd.com/936/" target="_blank">strong</a>!</font>
+				</label><br><br>
+        </div>
+        <div class="modal-footer">
+		    <button id="gettoken" name="gettoken" type="submit" class="mybutton" value="gettoken">Save</button>
+			<button id="cancel_button" name="cancel_button" type="button" class="mybuttoncancel" value="cancel" data-dismiss="modal">Cancel</button>
+            <!-- removed this from above button temporarily: data-dismiss="modal" -->			
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</form>
+
+<!--==========================
   Logout Modal
 ============================-->
 
@@ -625,7 +693,7 @@ Note: Reports can take anywhere from 30s - 5m depending on amount of recent cont
 
 <!-- Test Report -->
 <button id="test_report_button" class="mybutton" type="button" value="test_report" name="test_report_button" data-toggle="modal" data-target="#testReportModal">Test Report</button>
-<p>- Send a test email to yourself & create the webpage.<br>
+<p>- Sends a test email to yourself & creates the webpage.<br>
 </p>
 
 <!--  On-Demand Report -->
@@ -633,9 +701,13 @@ Note: Reports can take anywhere from 30s - 5m depending on amount of recent cont
 <p>- Immediatly run a report using all current settings.<br>
 </p>
 
+<!-- Reset settings -->
+<button id="reset_button" class="mybutton" type="button" value="reset" name="reset_button" data-toggle="modal" data-target="#resetModal">Reset to Default</button><br>
+- Reset all settings to default.</p><br>
 
-<button class="mybutton" type="submit" value="submit3" name="submit3" style="margin-top:4px" onclick="return confirm('Are you sure? This will reset all settings to Defaul values')">Reset to Default</button><br>
-- Reset all advanced settings to default.</p><br>
+<!-- Change password -->
+<button id="reset_button" class="mybutton" type="button" value="changepass" name="changepass_button" data-toggle="modal" data-target="#changepassModal">Change Password</button><br>
+- Reset all settings to default.</p><br>
 
 <h4>Help Links</h4>
 <hr width="440px" align="left">
