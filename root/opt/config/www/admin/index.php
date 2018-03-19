@@ -34,6 +34,20 @@
   <link href="../css/admin_style.css" rel="stylesheet">
   
   <?php include '/opt/php/loadadvanced.php'?>
+  
+  <style>
+.nav .open > a, .nav .open > a:focus, .nav .open > a:hover {
+	background-color: #1f1f1f;
+	border-color: #efa00d;
+	border-bottom-color: transparent;
+}
+.nav > li > a:focus, .nav > li > a:hover {
+		background-color: #1f1f1f;
+	border-color: #efa00d;
+	border-bottom-color: transparent;
+}
+
+  </style>
  
 </head>
 <body bgcolor="#151515">
@@ -71,7 +85,15 @@
     <li><a data-toggle="tab" href="#web">Web</a></li>
     <li><a data-toggle="tab" href="#plex">Plex</a></li>
 	<li><a data-toggle="tab" href="#report">Report</a></li>
-	<li><a data-toggle="tab" href="#tools">Tools</a></li>
+	<li class="dropdown">
+      <a class="dropdown-toggle" data-toggle="dropdown" href="#">Tools <span class="caret"></span></a>
+      <ul class="dropdown-menu">
+        <li><a data-toggle="tab" href="#plex">Announcement Email</a></li>
+        <li><a data-toggle="tab" href="#email">Test Report</a></li>
+        <li><a data-toggle="tab" href="#tools">Submenu 1-3</a></li>                        
+      </ul>
+    </li>
+	
 	<!-- <li class="pull-right"><a class="mybutton" data-toggle="modal" href="#logoutModal">Logout</a></li> -->
 	<li class="pull-right"><button class="mybutton" data-toggle="modal" data-target="#logoutModal" style="padding:2px 4px;font-size:13px;margin-top:8px;margin-right:4px;">Logout</button></li>
 	<!-- <li><button type="button" class="mybutton" data-toggle="modal" data-target="#settingsModal" style="margin-top:5px;margin-left:20px;vertical-align:middle;">Save Settings</button></li> -->
@@ -119,7 +141,7 @@ Please use the tabs to configure additional settings and customization options.<
 <div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
 Display name of the sender.<br>
 Required.
-</span></div></label><font style="margin-left:25px;font-weight:normal;color:#cc0000;font-size:12px;">(Required)</font>
+</span></div></label>
 <br><br>
 
 <label>
@@ -129,7 +151,7 @@ Required.
 Subject of the email.<br>
 Date is automatically added to end of subject.<br>
 Required.
-</span></div></label><font style="margin-left:25px;font-weight:normal;color:#cc0000;font-size:12px;">(Required)</font>
+</span></div></label>
 <br><br>
 
 <label>
@@ -277,7 +299,7 @@ ie: https://imgur.com/image.png or img/myimage.png
 Top subtitle under main title image.<br>
 This comes before the scrolling headliners below.<br>
 Required.
-</span></div></label><font style="margin-left:25px;font-weight:normal;color:#cc0000;font-size:12px;">(Required)</font>
+</span></div></label>
 </p>
 
 <label>
@@ -594,6 +616,81 @@ Which reports to generate.
 </form>
 
 <!--==========================
+  Announcement Modal
+============================-->
+
+<form action="announcement.php" id="announcement_form" method="post">
+<div class="container">
+  <div class="modal fade" id="announcementModal" role="dialog">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><b style="color:#cc0000">&times;</b></button>
+          <h4 class="modal-title">Announcement Email</h4>
+        </div>
+        <div class="modal-body">
+          <p>This will send a one-time email announcement.<br>
+		     Email will be sent to all emails/users configured on the <a href="#email" onclick="javascript:window.location.href='#email';window.location.reload(true);">Email tab.</a><br>
+		     Useful if you want to let your users know of upcoming maintenance,<br>
+			 a special release or any other message.<br><br>
+				
+				<label>
+				<span>Subject:</span>
+				<input id="email_subject" name="email_subject" type="text" size="30" required /><br>
+				<font style="margin-left: 150px;font-size: 12px;color: grey;">Subject of the email.</font>
+				</label><br><br>
+				
+				<label>
+				<span>Email Message:</span>
+				<textarea id="email_message" name="email_message" style="width:300px;height:100px" required></textarea><br>
+				<font style="margin-left: 150px;font-size: 12px;color: grey;">Announcement message for the email HTML/CSS can be used to customize.</font>
+				</label><br><br>
+				
+				<label>
+				<span>Extra Image:</span>
+				<input id="email_image" name="email_image" type="text" size="30" />
+				<font style="font-weight:normal;color:#cc0000;font-size:12px;"> (optional)</font><br>
+				<font style="margin-left: 150px;font-size: 12px;color: grey;">Optional URL to image. Shown after the message.</font>
+				</label><br><br>
+				
+				<label>
+				<span>Email Footer:</span>
+				<input id="email_footer" name="email_footer" type="text" size="30" />
+				<font style="font-weight:normal;color:#cc0000;font-size:12px;"> (Optional)</font><br>
+				<font style="margin-left: 150px;font-size: 12px;color: grey;">Footer text for the email. Shown after the message or image.</font>
+				</label><br?<br>
+				
+				
+				<script>
+					$(document).ready(function(){
+						$("#email_message").keyup(function(){
+							// Getting the current value of textarea
+							var currentText = $(this).val();
+							
+							// Setting the Div content
+							$(".preview").html(currentText);
+						});
+					});
+				</script>
+				<b>Email Preview:</b><br>
+				<hr width="200px"><br>
+				Email clients may render slightly different.<br><br>
+				<div class="preview"></div>
+
+        </div>
+        <div class="modal-footer">
+			<button id="announcement_test" name="announcement_test" type="submit" class="mybutton pull-left" value="announcement_test">Preview</button>
+		    <button id="announcement" name="announcement" type="submit" class="mybutton" value="announcement">Send</button>
+			<button id="cancel_button" name="cancel_button" type="button" class="mybuttoncancel" value="cancel" data-dismiss="modal">Cancel</button>
+            <!-- removed this from above button temporarily: data-dismiss="modal" -->			
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</form>
+
+<!--==========================
   Reset Modal
 ============================-->
 
@@ -638,7 +735,7 @@ Which reports to generate.
         <div class="modal-body">
           <p>Enter in a new username/password below.<br>
 		     This is used for accessing the NowShowing Admin site.<br>
-			 After saving, you will logged out and redirected to the login page.</p>
+			 After saving, you will be logged out and redirected to the login page.</p>
 				<label>
 				<span>Username:</span>
 				<input id="ns_username" name="ns_username" type="text" size="30" required /><br>
@@ -701,14 +798,22 @@ Note: Reports can take anywhere from 30s - 5m depending on amount of recent cont
 <p>- Immediatly run a report using all current settings.<br>
 </p>
 
+
+<!-- Special Announcement -->
+<button id="announcement_button" class="mybutton" type="button" value="announcement" name="announcement_button" data-toggle="modal" data-target="#announcementModal">Announcement Email</button>
+<p>- Sends a one-time Email Announcement.<br>
+</p>
+
 <!-- Reset settings -->
 <button id="reset_button" class="mybutton" type="button" value="reset" name="reset_button" data-toggle="modal" data-target="#resetModal">Reset to Default</button><br>
 - Reset all settings to default.<br><br>
 
 <!-- Change password -->
-<button id="reset_button" class="mybutton" type="button" value="changepass" name="changepass_button" data-toggle="modal" data-target="#changepassModal">Change Password</button><br>
+<button id="changepass_button" class="mybutton" type="button" value="changepass" name="changepass_button" data-toggle="modal" data-target="#changepassModal">Change Password</button><br>
 - Change Username/Password.</p><br>
 
+
+<!-- Help Links -->
 <h4>Help Links</h4>
 <hr width="440px" align="left">
 <a href="https://github.com/ninthwalker/NowShowing" target="_blank">Github</a><br>
