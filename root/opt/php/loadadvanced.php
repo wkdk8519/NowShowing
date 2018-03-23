@@ -38,5 +38,5 @@ function get_data($url) {
         curl_close($ch);
         return $data;
 }
-$msg = get_data('https://raw.githubusercontent.com/ninthwalker/NowShowing/master/msg');
+$msg = get_data('https://raw.githubusercontent.com/ninthwalker/docker-templates/master/msg');
 ?>

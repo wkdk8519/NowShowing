@@ -61,11 +61,10 @@ $("#mainform").submit(function() {
 // ---------------------------------------------------------------------
 $(function() {
     $("#test_report_form").submit(function() {
-			$('#test_report_button').attr("disabled", true);
+			$('#test_report').attr("disabled", true);
 			$('#ondemand_report_button').attr("disabled", true);
-			$('#test_report_button').css( 'cursor', 'not-allowed' );
+			$('#test_report').css( 'cursor', 'not-allowed' );
 			$('#ondemand_report_button').css( 'cursor', 'not-allowed' );
-			$('#testReportModal').modal('hide');
 			$.ajax({
 				xhr: function () {
 					var xhr = new window.XMLHttpRequest();
@@ -100,15 +99,17 @@ $(function() {
 				},
 				type: 'POST',
 				url: "test_report.php",
-				data: { 'test_details' : $('input:checkbox:checked').val(),
-						test_report: "test_report"},
+				data: { extra_details : $('#extra_details').val(),
+						test_report: "test_report",
+						report_type : $('#report_type').val()
+				},
 				success: function (data) {
 					$('#status_text').text("Test Report: Finished");
 				},
 				complete: function (data){
-                    $('#test_report_button').attr("disabled", false);
+                    $('#test_report').attr("disabled", false);
 					$('#ondemand_report_button').attr("disabled", false);
-					$('#test_report_button').css( 'cursor', 'pointer' );
+					$('#test_report').css( 'cursor', 'pointer' );
 					$('#ondemand_report_button').css( 'cursor', 'pointer' );
                 }
 			});

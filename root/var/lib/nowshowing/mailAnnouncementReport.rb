@@ -23,10 +23,10 @@ class MailReport
             $port = 587
         end
 
-        if !$advanced['mail']['subject'].nil?
-            $subject = $advanced['mail']['subject']
+        if !$advanced['mail']['announcement'].nil?
+            $subject = $advanced['mail']['announcement']
         else
-            $subject = "Plex Summary "
+            $subject = "Plex Announcement"
         end
     end
 
@@ -91,7 +91,7 @@ class MailReport
             mail = Mail.new do
                 from "#{$advanced['mail']['from']} <#{$advanced['mail']['username']}>"
                 bcc users
-                subject $advanced['mail']['subject'] + " " + (I18n.l Time.now.to_date)
+                subject $subject
                 content_type 'text/html; charset=UTF-8'
                 body body
             end

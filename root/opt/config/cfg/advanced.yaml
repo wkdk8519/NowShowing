@@ -18,6 +18,7 @@ plex:
 mail:
   from: "Plex Server"
   subject: "Now Showing"
+  announcement: ""
   recipients_email: ""
   recipients: ""
   address: ""

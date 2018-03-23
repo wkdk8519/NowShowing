@@ -38,17 +38,31 @@
   <style>
 .nav .open > a, .nav .open > a:focus, .nav .open > a:hover {
 	background-color: #1f1f1f;
-	border-color: #efa00d;
+	border-color: #e5a00d;
 	border-bottom-color: transparent;
 }
 .nav > li > a:focus, .nav > li > a:hover {
-		background-color: #1f1f1f;
-	border-color: #efa00d;
+	background-color: #1f1f1f;
+	border-color: #e5a00d;
 	border-bottom-color: transparent;
 }
+.caret {
+	color: #eda00d;
+}
 
+<!-- after dropdown choice clicked -->
+
+.dropdown-menu > .active > a, .dropdown-menu > .active > a:focus, .dropdown-menu > .active > a:hover {
+	background-color: #b97f00;
+}
+.dropdown-menu > li > a:focus, .dropdown-menu > li > a:hover {
+	background-color: #1f1f1f;
+}
+.dropdown-menu > .active > a, .dropdown-menu > .active > a:focus, .dropdown-menu > .active > a:hover {
+	background-color: #b97f00;
+}
   </style>
- 
+
 </head>
 <body bgcolor="#151515">
   
@@ -75,7 +89,7 @@
     
 <!--==========================
   Body Section
-============================-->
+============================--> 
  
 <div class="container">
   <ul class="nav nav-tabs">
@@ -87,12 +101,15 @@
 	<li><a data-toggle="tab" href="#report">Report</a></li>
 	<li class="dropdown">
       <a class="dropdown-toggle" data-toggle="dropdown" href="#">Tools <span class="caret"></span></a>
-      <ul class="dropdown-menu">
-        <li><a data-toggle="tab" href="#plex">Announcement Email</a></li>
-        <li><a data-toggle="tab" href="#email">Test Report</a></li>
-        <li><a data-toggle="tab" href="#tools">Submenu 1-3</a></li>                        
+      <ul class="dropdown-menu" style="background-color:#404040;">
+        <li><a data-toggle="tab" href="#test" style="color:#e6e6e6">Test Report</a></li>
+        <li><a data-toggle="tab" href="#ondemand" style="color:#e6e6e6">On-Demand Report</a></li>
+        <li><a data-toggle="tab" href="#announcementpage" style="color:#e6e6e6">Announcement Email</a></li>
+		<li><a data-toggle="tab" href="#admin" style="color:#e6e6e6">Admin Settings</a></li>
+		<li><a data-toggle="tab" href="#help" style="color:#e6e6e6">Help Links</a></li>
       </ul>
     </li>
+	
 	
 	<!-- <li class="pull-right"><a class="mybutton" data-toggle="modal" href="#logoutModal">Logout</a></li> -->
 	<li class="pull-right"><button class="mybutton" data-toggle="modal" data-target="#logoutModal" style="padding:2px 4px;font-size:13px;margin-top:8px;margin-right:4px;">Logout</button></li>
@@ -181,6 +198,18 @@ Optional.
 </label><br><br>
  
 <label>
+<span>Email Plex Users:</span>
+<select name="plex_user_emails">
+  <option value="yes" <?=strip_tags($adv['plex']['plex_user_emails']) == 'yes' ? ' selected="selected"' : '';?>>Yes</option>
+  <option value="no" <?=strip_tags($adv['plex']['plex_user_emails']) == 'no' ? ' selected="selected"' : '';?>>No</option>
+</select>
+<div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
+'Yes' will send to all plex users emails.<br>
+'No' will <i><b>NOT</b></i> send to plex user emails and will only send to emails and users listed below.
+</span></div>
+</label><br><br>
+
+<label>
 <span>Additional Emails:</span>
 <textarea name="recipients_email" type="text"><?=strip_tags($recipients_email_array)?></textarea>
 <div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
@@ -218,6 +247,7 @@ If language selected is not found, falls back to english.
 <button type="button" class="mybutton" data-toggle="modal" data-target="#settingsModal">Save Settings</button>
 </p>
 </div>
+
 <!--==========================
   SMTP Settings
 ============================-->
@@ -255,7 +285,7 @@ Usually your email address; ie: batman@gmail.com
 
 <label>
 <span>SMTP Password:</span>
-<input name="email_password" value="<?=strip_tags($adv['mail']['password'])?>" type="password" size="30" />
+<input name="email_password" value="<?=strip_tags($adv['mail']['password'])?>" type="password" autocomplete="off" readonly onfocus="this.removeAttribute('readonly');" size="30" />
 <div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
 SMTP Password<br>
 Usually your Email password
@@ -361,18 +391,6 @@ Click the Button to retrieve your token.<br>
 You can also manually enter one in the field.
 </span></div>
 <!-- <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#tokenModal">Get Token</button> -->
-</label><br><br>
-
-<label>
-<span>Email Plex Users:</span>
-<select name="plex_user_emails">
-  <option value="yes" <?=strip_tags($adv['plex']['plex_user_emails']) == 'yes' ? ' selected="selected"' : '';?>>Yes</option>
-  <option value="no" <?=strip_tags($adv['plex']['plex_user_emails']) == 'no' ? ' selected="selected"' : '';?>>No</option>
-</select>
-<div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
-'Yes' will send to all plex users emails.<br>
-'No' will <i><b>NOT</b></i> send to plex user emails and will only send to emails and users listed in the Email Settings tab.
-</span></div>
 </label><br><br>
 
 <label>
@@ -491,6 +509,154 @@ Which reports to generate.
 </form>
 
 <!--==========================
+  Test Report Settings
+============================-->
+<div id="test" class="tab-pane fade"></p>
+<h3>Test Report</h3><br>
+<hr width="440px" align="left" style="padding:0px;margin:0px;">
+Note: Reports can take anywhere from 30s - 5m depending on content.</p>
+
+<p>Sends a test email <i>only</i> to yourself and/or creates the webpage.<br>
+Useful to see what the email or webpage will look like before sending to everyone.<br>
+
+<form id="test_report_form" action="" method="post">
+<label>
+<span>Test Report Type:</span>
+<select name="report_type" id="report_type">
+  <option value="both">Web & Email</option>
+  <option value="webonly">Web Only</option>
+  <option value="emailonly">Email Only</option>
+</select>
+<div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
+Which reports to generate.
+</span></div>
+</label><br><br>
+
+<label>
+<span>Extra Details:</span>
+<select name="extra_details" id="extra_details">
+  <option value="yes">Yes</option>
+  <option value="no">No</option>
+</select>
+<div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
+Adds extra info when available like Ratings, Cast, Release Date, etc.<br>
+</span></div>
+</label><br><br>
+
+<button id="test_report_button" class="mybutton" type="button" value="test_report_button" name="test_report_button" data-toggle="modal" data-target="#testReportModal">Send Test Report</button>
+</form></p>
+</div> 
+
+<!--==========================
+  On Demand Settings
+============================-->
+<div id="ondemand" class="tab-pane fade"></p>
+<h3>On-Demand Report</h3><br>
+<hr width="440px" align="left" style="padding:0px;margin:0px;">
+Note: Reports can take anywhere from 30s - 5m depending on content.</p>
+
+<p>
+This will immediatly run a report using all current settings.<br>
+Sends an email and/or creates the webpage based off current <a href="#report" onclick="javascript:window.location.href='#report';window.location.reload(true);">Report settings</a>.<br>
+Useful for sending a report now or updating the webpage without waiting for the normal cron schedule.
+</p>
+
+<button id="ondemand_report_button" class="mybutton" type="button" value="ondemand_report" name="ondemand_report_button" data-toggle="modal" data-target="#ondemandReportModal">Send On-Demand Report</button>
+</p>
+
+</p></div>
+
+<!--==========================
+  Announcement Email Settings
+============================-->
+<div id="announcementpage" class="tab-pane fade"></p>
+<h3>Announcement Email</h3>
+<hr width="440px" align="left"><br>
+
+<form action="" id="announcement_report_form" method="post">
+
+          <p>This will send a one-time email announcement.<br>
+		     Email will be sent to all emails/users configured on the <a href="#email" onclick="javascript:window.location.href='#email';window.location.reload(true);">Email tab.</a><br>
+		     Useful if you want to let your users know of upcoming maintenance, a special release or any other message.</p>
+				
+				<label>
+				<span>Subject:</span>
+				<input id="email_subject" name="email_subject" type="text" size="30" value="<?=strip_tags($adv['mail']['announcement'])?>" required /><br>
+				<font style="margin-left: 150px;font-size: 12px;color: grey;">Subject of the email.</font>
+				</label><br><br>
+				
+				<label>
+				<span>Email Message:</span>
+				<textarea id="email_message" name="email_message" style="width:480px;height:250px" required></textarea><br>
+				<font style="margin-left: 150px;font-size: 12px;color: grey;">Announcement message for the email. Use HTML/CSS for formatting.</font>
+				</label></p>	
+				
+				<script>
+					$(document).ready(function(){
+						$("#email_message").keyup(function(){
+							// Getting the current value of textarea
+							var currentText = $(this).val();
+							
+							// Setting the Div content
+							$(".preview").html(currentText);
+						});
+					});
+				</script>
+				
+				<button id="announcement_button" class="mybutton" type="button" value="announcement" name="announcement_button" data-toggle="modal" data-target="#announcementReportModal">Send Announcement Email</button><br></p>
+				
+				
+				<b>Email Preview:</b><br>
+				<font style="font-size:12px;color:grey;"><b>[</b>Email clients may render slightly different<b>]</b></font></p>
+				<b><hr width="440px" align="left" style="padding:0px;margin:0px;border-style:1px dashed;border:1px dashed"></b></p>
+				
+				<div class="preview" style="max-width:75%;display:block;overflow:auto"></div>
+</form></p>
+</div>
+
+<!--==========================
+  Admin Settings
+============================-->
+<div id="admin" class="tab-pane fade"></p>
+<h3>Admin Site Settings</h3>
+<hr width="440px" align="left"><br>
+
+<!-- Change password -->
+<button id="changepass_button" class="mybutton" type="button" value="changepass" name="changepass_button" data-toggle="modal" data-target="#changepassModal">Change Password</button><br>
+- Change Username/Password.</p><br>
+
+<!-- Reset settings -->
+<button id="reset_button" class="mybutton" type="button" value="reset" name="reset_button" data-toggle="modal" data-target="#resetModal">Reset to Default</button><br>
+- Reset all settings to default.</p>
+</div>
+
+<!--==========================
+  Help Links Settings
+============================-->
+<div id="help" class="tab-pane fade"></p>
+<h3>Help Links</h3>
+<hr width="440px" align="left"><br>
+
+<a href="https://github.com/ninthwalker/NowShowing" target="_blank">Github</a><br>
+- Lots of helpful information on the <a href="https://github.com/ninthwalker/NowShowing/wiki" target="_blank">Wiki</a> or open an <a href="https://github.com/ninthwalker/NowShowing/issues" target="_blank">issue</a> for help.</p>
+
+<a href="https://lime-technology.com/forums/topic/56483-support-ninthwalker-nowshowing/" target="_blank">unRAID Forums</a><br>
+- Get help in the support forums.</p>
+
+<hr width="440px" align="left">
+
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+<input type="hidden" name="cmd" value="_s-xclick">
+<input type="hidden" name="hosted_button_id" value="XH9PZLLBGVK2A">
+<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" border="0" name="submit4" alt="Donate">
+<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+</form>
+- Like NowShowing and want to donate?</p>
+
+</p></div>
+
+
+<!--==========================
   Token Modal
 ============================-->
 
@@ -517,7 +683,7 @@ Which reports to generate.
 		  
 				<label>
 				<span>Plex Password:</span>
-				<input id="plex_password" name="plex_password" type="password" size="30" required />
+				<input id="plex_password" name="plex_password" type="password" size="30" autocomplete="off" readonly onfocus="this.removeAttribute('readonly');" required />
 				<div class="mytooltip"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
 				Password for Plex server account.
 				</span></div>
@@ -562,30 +728,25 @@ Which reports to generate.
   Test Report Modal
 ============================-->
 
-<form action="" id="test_report_form" method="post">
 <div class="container">
   <div class="modal fade" id="testReportModal" role="dialog">
     <div class="modal-dialog modal-sm">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal"><b style="color:#cc0000">&times;</b></button>
-          <h4 class="modal-title">Run Test Report?</h4>
+          <h4 class="modal-title">Send Test Report</h4>
         </div>
 			<div class="modal-body">
-				<input type="checkbox" name="test_details" value="test_details" style="margin-left:25px"> Include Extra Details? 
-				<div class="mytooltip" style="margin-left:6px;"><i class="fa fa-info-circle"></i><span class="mytooltiptext mytooltip-right">
-				Adds extra info when available like Ratings, Cast, Release Date, etc.
-				</span></div>
+				<b><font color=#cc0000>Are you sure you want to do this?</font></b>
 			</div>
         <div class="modal-footer">
-		    <button id="test_report" name="test_report" type="submit" class="mybutton" value="test_report">Send</button>
+		    <button id="test_report" name="test_report" type="submit" class="mybutton" value="test_report" form="test_report_form">Send</button>
 			<button id="cancel_button" name="cancel_button" type="button" class="mybuttoncancel" value="cancel" data-dismiss="modal">Cancel</button>	
         </div>
       </div>
     </div>
   </div>
 </div>
-</form>
 
 <!--==========================
   On Demand Report Modal
@@ -594,16 +755,14 @@ Which reports to generate.
 <form action="" id="ondemand_report_form" method="post">
 <div class="container">
   <div class="modal fade" id="ondemandReportModal" role="dialog">
-    <div class="modal-dialog modal-md">
+    <div class="modal-dialog modal-sm">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal"><b style="color:#cc0000">&times;</b></button>
-          <h4 class="modal-title">Run On Demand Report?</h4>
+          <h4 class="modal-title">Send On-Demand Report</h4>
         </div>
 			<div class="modal-body">
-				This will immediatly run a report using all current settings.<br>
-				Sends an email and/or creates the webpage based off current <a href="#report" onclick="javascript:window.location.href='#report';window.location.reload(true);">Report settings</a>.<br>
-				Useful for sending a report now or updating the webpage without waiting for the normal cron schedule.
+				<b><font color=#cc0000>Are you sure you want to do this?</font></b>
 			</div>
         <div class="modal-footer">
 		    <button id="ondemand_report" name="ondemand_report" type="submit" class="mybutton" value="ondemand_report">Send</button>
@@ -619,76 +778,25 @@ Which reports to generate.
   Announcement Modal
 ============================-->
 
-<form action="announcement.php" id="announcement_form" method="post">
 <div class="container">
-  <div class="modal fade" id="announcementModal" role="dialog">
-    <div class="modal-dialog modal-md">
+  <div class="modal fade" id="announcementReportModal" role="dialog">
+    <div class="modal-dialog modal-sm">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal"><b style="color:#cc0000">&times;</b></button>
-          <h4 class="modal-title">Announcement Email</h4>
+          <h4 class="modal-title">Send Announcment Email</h4>
         </div>
-        <div class="modal-body">
-          <p>This will send a one-time email announcement.<br>
-		     Email will be sent to all emails/users configured on the <a href="#email" onclick="javascript:window.location.href='#email';window.location.reload(true);">Email tab.</a><br>
-		     Useful if you want to let your users know of upcoming maintenance,<br>
-			 a special release or any other message.<br><br>
-				
-				<label>
-				<span>Subject:</span>
-				<input id="email_subject" name="email_subject" type="text" size="30" required /><br>
-				<font style="margin-left: 150px;font-size: 12px;color: grey;">Subject of the email.</font>
-				</label><br><br>
-				
-				<label>
-				<span>Email Message:</span>
-				<textarea id="email_message" name="email_message" style="width:300px;height:100px" required></textarea><br>
-				<font style="margin-left: 150px;font-size: 12px;color: grey;">Announcement message for the email HTML/CSS can be used to customize.</font>
-				</label><br><br>
-				
-				<label>
-				<span>Extra Image:</span>
-				<input id="email_image" name="email_image" type="text" size="30" />
-				<font style="font-weight:normal;color:#cc0000;font-size:12px;"> (optional)</font><br>
-				<font style="margin-left: 150px;font-size: 12px;color: grey;">Optional URL to image. Shown after the message.</font>
-				</label><br><br>
-				
-				<label>
-				<span>Email Footer:</span>
-				<input id="email_footer" name="email_footer" type="text" size="30" />
-				<font style="font-weight:normal;color:#cc0000;font-size:12px;"> (Optional)</font><br>
-				<font style="margin-left: 150px;font-size: 12px;color: grey;">Footer text for the email. Shown after the message or image.</font>
-				</label><br?<br>
-				
-				
-				<script>
-					$(document).ready(function(){
-						$("#email_message").keyup(function(){
-							// Getting the current value of textarea
-							var currentText = $(this).val();
-							
-							// Setting the Div content
-							$(".preview").html(currentText);
-						});
-					});
-				</script>
-				<b>Email Preview:</b><br>
-				<hr width="200px"><br>
-				Email clients may render slightly different.<br><br>
-				<div class="preview"></div>
-
-        </div>
+			<div class="modal-body">
+				<b><font color=#cc0000>Are you sure you want to do this?</font></b>
+			</div>
         <div class="modal-footer">
-			<button id="announcement_test" name="announcement_test" type="submit" class="mybutton pull-left" value="announcement_test">Preview</button>
-		    <button id="announcement" name="announcement" type="submit" class="mybutton" value="announcement">Send</button>
-			<button id="cancel_button" name="cancel_button" type="button" class="mybuttoncancel" value="cancel" data-dismiss="modal">Cancel</button>
-            <!-- removed this from above button temporarily: data-dismiss="modal" -->			
+		    <button id="announcement_report" name="announcement_report" type="submit" class="mybutton" value="announcement_report" form="announcement_report_form">Send</button>
+			<button id="cancel_button" name="cancel_button" type="button" class="mybuttoncancel" value="cancel" data-dismiss="modal">Cancel</button>	
         </div>
       </div>
     </div>
   </div>
 </div>
-</form>
 
 <!--==========================
   Reset Modal
@@ -744,7 +852,7 @@ Which reports to generate.
 		  
 				<label>
 				<span>Password:</span>
-				<input id="ns_password" name="ns_password" type="password" size="30" required />
+				<input id="ns_password" name="ns_password" type="password" size="30" autocomplete="off" readonly onfocus="this.removeAttribute('readonly');" required />
 				<font style="margin-left: 150px;;font-size: 12px;color: grey;">make it <a href="https://xkcd.com/936/" target="_blank">strong</a>!</font>
 				</label><br><br>
         </div>
@@ -769,69 +877,16 @@ Which reports to generate.
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal"><b style="color:#cc0000">&times;</b></button>
-          <h4 class="modal-title">Are you sure you want to logout?</h4>
+          <h4 class="modal-title">Logout of Now Showing</h4>
         </div>
+			<div class="modal-body">
+				<b><font color=#cc0000>Are you sure you want to do this?</font></b>
+			</div>
         <div class="modal-footer">
-		    <a class="mybutton" value="logout" href="../admin/index.php?logout=1">Yes</a></a>
+		    <a class="mybutton" value="logout" href="../admin/index.php?logout=1">Yes</a>
 			<button id="cancel_button" name="cancel_button" type="button" class="mybuttoncancel" value="cancel" data-dismiss="modal">No</button>	
         </div>
       </div>
-    </div>
-  </div>
-</div>
-
-<!--==========================
-  Tools Tab
-============================-->
-<div id="tools" class="tab-pane fade"></p>
-<h3>Tools</h3><br>
-<hr width="440px" align="left" style="padding:0px;margin:0px;">
-Note: Reports can take anywhere from 30s - 5m depending on amount of recent content.</p>
-
-<!-- Test Report -->
-<button id="test_report_button" class="mybutton" type="button" value="test_report" name="test_report_button" data-toggle="modal" data-target="#testReportModal">Test Report</button>
-<p>- Sends a test email to yourself & creates the webpage.<br>
-</p>
-
-<!--  On-Demand Report -->
-<button id="ondemand_report_button" class="mybutton" type="button" value="ondemand_report" name="ondemand_report_button" data-toggle="modal" data-target="#ondemandReportModal">On Demand Report</button>
-<p>- Immediatly run a report using all current settings.<br>
-</p>
-
-
-<!-- Special Announcement -->
-<button id="announcement_button" class="mybutton" type="button" value="announcement" name="announcement_button" data-toggle="modal" data-target="#announcementModal">Announcement Email</button>
-<p>- Sends a one-time Email Announcement.<br>
-</p>
-
-<!-- Reset settings -->
-<button id="reset_button" class="mybutton" type="button" value="reset" name="reset_button" data-toggle="modal" data-target="#resetModal">Reset to Default</button><br>
-- Reset all settings to default.<br><br>
-
-<!-- Change password -->
-<button id="changepass_button" class="mybutton" type="button" value="changepass" name="changepass_button" data-toggle="modal" data-target="#changepassModal">Change Password</button><br>
-- Change Username/Password.</p><br>
-
-
-<!-- Help Links -->
-<h4>Help Links</h4>
-<hr width="440px" align="left">
-<a href="https://github.com/ninthwalker/NowShowing" target="_blank">Github</a><br>
-- Lots of helpful information on the <a href="https://github.com/ninthwalker/NowShowing/wiki" target="_blank">Wiki</a> or open an <a href="https://github.com/ninthwalker/NowShowing/issues" target="_blank">issue</a> for help.</p>
-
-<a href="https://lime-technology.com/forums/topic/56483-support-ninthwalker-nowshowing/" target="_blank">unRAID Forums</a><br>
-- Get help in the support forums.</p>
-
-<hr width="440px" align="left">
-
-<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
-<input type="hidden" name="cmd" value="_s-xclick">
-<input type="hidden" name="hosted_button_id" value="XH9PZLLBGVK2A">
-<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" border="0" name="submit4" alt="Donate">
-<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
-</form>
-- Like NowShowing and want to donate?</p>
-
     </div>
   </div>
 </div>
