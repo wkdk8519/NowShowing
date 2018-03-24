@@ -581,13 +581,13 @@ Useful for sending a report now or updating the webpage without waiting for the 
 				
 				<label>
 				<span>Subject:</span>
-				<input id="email_subject" name="email_subject" type="text" size="30" value="<?=strip_tags($adv['mail']['announcement'])?>" required /><br>
+				<input id="announcementSubject" name="announcementSubject" type="text" size="30" value="<?=strip_tags($announcementSubject)?>" /><br>
 				<font style="margin-left: 150px;font-size: 12px;color: grey;">Subject of the email.</font>
 				</label><br><br>
 				
 				<label>
 				<span>Email Message:</span>
-				<textarea id="email_message" name="email_message" style="width:480px;height:250px" required></textarea><br>
+				<textarea id="announcementMessage" name="announcementMessage" style="width:480px;height:250px"><?=strip_tags($announcementMessage)?></textarea><br>
 				<font style="margin-left: 150px;font-size: 12px;color: grey;">Announcement message for the email. Use HTML/CSS for formatting.</font>
 				</label></p>	
 				

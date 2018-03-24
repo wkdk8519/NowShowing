@@ -61,9 +61,10 @@ $("#mainform").submit(function() {
 // ---------------------------------------------------------------------
 $(function() {
     $("#test_report_form").submit(function() {
-			$('#test_report').attr("disabled", true);
+			$('#testReportModal').modal('hide');
+			$('#test_report_button').attr("disabled", true);
 			$('#ondemand_report_button').attr("disabled", true);
-			$('#test_report').css( 'cursor', 'not-allowed' );
+			$('#test_report_button').css( 'cursor', 'not-allowed' );
 			$('#ondemand_report_button').css( 'cursor', 'not-allowed' );
 			$.ajax({
 				xhr: function () {
@@ -107,9 +108,9 @@ $(function() {
 					$('#status_text').text("Test Report: Finished");
 				},
 				complete: function (data){
-                    $('#test_report').attr("disabled", false);
+                    $('#test_report_button').attr("disabled", false);
 					$('#ondemand_report_button').attr("disabled", false);
-					$('#test_report').css( 'cursor', 'pointer' );
+					$('#test_report_button').css( 'cursor', 'pointer' );
 					$('#ondemand_report_button').css( 'cursor', 'pointer' );
                 }
 			});
@@ -170,6 +171,70 @@ $(function() {
 					$('#test_report_button').attr("disabled", false);
 					$('#test_report_button').css( 'cursor', 'pointer' );
 					$('#ondemand_report_button').css( 'cursor', 'pointer' );
+                }
+			});
+			return false;
+	});
+});
+
+
+// ---------------------------------------------------------------------
+// Announcement Email: status of running then completed with '...' during
+// ---------------------------------------------------------------------
+$(function() {
+    $("#announcement_report_form").submit(function() {
+			$('#ondemand_report_button').attr("disabled", true);
+			$('#test_report_button').attr("disabled", true);
+			$('#test_report_button').css( 'cursor', 'not-allowed' );
+			$('#ondemand_report_button').css( 'cursor', 'not-allowed' );
+			$('#announcement_button').attr("disabled", true);
+			$('#announcement_button').css( 'cursor', 'not-allowed' );
+			$('#announcementReportModal').modal('hide');
+			$.ajax({
+				xhr: function () {
+					var xhr = new window.XMLHttpRequest();
+					xhr.upload.addEventListener("progress", function (evt) {
+						if (evt.lengthComputable) {
+							if (evt.lengthComputable) {
+								console.log("start");
+								$('#status_text').css({
+									color: '#ffff4d'
+								});
+								$('#status_text').text("Announcement Email: Sending");
+								$('.status').css({
+									visibility: 'visible'
+								});
+							}
+						}
+					}, false);
+
+					xhr.addEventListener("progress", function (evt) {
+						if (evt.lengthComputable) {
+							console.log("end");
+							$('#status_text').css({
+									color: 'green'
+							});
+							$('.status').css({
+								visibility: 'hidden'
+							});
+						}
+					}, false);
+
+					return xhr;
+				},
+				type: 'POST',
+				url: "announcement_email.php",
+				data: $('#announcement_report_form').serialize(),
+				success: function (data) {
+					$('#status_text').text("Announcement Email: Finished");
+				},
+				complete: function (data){
+                    $('#ondemand_report_button').attr("disabled", false);
+					$('#test_report_button').attr("disabled", false);
+					$('#test_report_button').css( 'cursor', 'pointer' );
+					$('#ondemand_report_button').css( 'cursor', 'pointer' );
+					$('#announcement_button').attr("disabled", false);
+					$('#announcement_button').css( 'cursor', 'pointer' );
                 }
 			});
 			return false;
