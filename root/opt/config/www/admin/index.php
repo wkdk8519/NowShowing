@@ -593,7 +593,7 @@ Useful for sending a report now or updating the webpage without waiting for the 
 				
 				<script>
 					$(document).ready(function(){
-						$("#email_message").keyup(function(){
+						$("#announcementMessage").keyup(function(){
 							// Getting the current value of textarea
 							var currentText = $(this).val();
 							
