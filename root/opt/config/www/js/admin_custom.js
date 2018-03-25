@@ -182,13 +182,15 @@ $(function() {
 // Announcement Email: status of running then completed with '...' during
 // ---------------------------------------------------------------------
 $(function() {
-    $("#announcement_report_form").submit(function() {
+    $("#announcement_report").click(function() {
 			$('#ondemand_report_button').attr("disabled", true);
 			$('#test_report_button').attr("disabled", true);
 			$('#test_report_button').css( 'cursor', 'not-allowed' );
 			$('#ondemand_report_button').css( 'cursor', 'not-allowed' );
 			$('#announcement_button').attr("disabled", true);
 			$('#announcement_button').css( 'cursor', 'not-allowed' );
+			$('#announcement_test_button').attr("disabled", true);
+			$('#announcement_test_button').css( 'cursor', 'not-allowed' );
 			$('#announcementReportModal').modal('hide');
 			$.ajax({
 				xhr: function () {
@@ -223,10 +225,10 @@ $(function() {
 					return xhr;
 				},
 				type: 'POST',
-				url: "announcement_email.php",
-				data: $('#announcement_report_form').serialize(),
+				url: "announcement.php",
+				data: $('#announcement_report_form').serialize() + '&announcement_report=' + 'announcement_report',
 				success: function (data) {
-					$('#status_text').text("Announcement Email: Finished");
+					$('#status_text').text(data);
 				},
 				complete: function (data){
                     $('#ondemand_report_button').attr("disabled", false);
@@ -235,6 +237,75 @@ $(function() {
 					$('#ondemand_report_button').css( 'cursor', 'pointer' );
 					$('#announcement_button').attr("disabled", false);
 					$('#announcement_button').css( 'cursor', 'pointer' );
+					$('#announcement_test_button').attr("disabled", false);
+					$('#announcement_test_button').css( 'cursor', 'pointer' );
+                }
+			});
+			return false;
+	});
+});
+
+// ---------------------------------------------------------------------
+// Announcement TEST Email: status of running then completed with '...' during
+// ---------------------------------------------------------------------
+$(function() {
+    $("#announcement_test_report").click(function() {
+			$('#ondemand_report_button').attr("disabled", true);
+			$('#test_report_button').attr("disabled", true);
+			$('#test_report_button').css( 'cursor', 'not-allowed' );
+			$('#ondemand_report_button').css( 'cursor', 'not-allowed' );
+			$('#announcement_button').attr("disabled", true);
+			$('#announcement_button').css( 'cursor', 'not-allowed' );
+			$('#announcement_test_button').attr("disabled", true);
+			$('#announcement_test_button').css( 'cursor', 'not-allowed' );
+			$('#announcementTestReportModal').modal('hide');
+			$.ajax({
+				xhr: function () {
+					var xhr = new window.XMLHttpRequest();
+					xhr.upload.addEventListener("progress", function (evt) {
+						if (evt.lengthComputable) {
+							if (evt.lengthComputable) {
+								console.log("start");
+								$('#status_text').css({
+									color: '#ffff4d'
+								});
+								$('#status_text').text("Announcement Test: Sending");
+								$('.status').css({
+									visibility: 'visible'
+								});
+							}
+						}
+					}, false);
+
+					xhr.addEventListener("progress", function (evt) {
+						if (evt.lengthComputable) {
+							console.log("end");
+							$('#status_text').css({
+									color: 'green'
+							});
+							$('.status').css({
+								visibility: 'hidden'
+							});
+						}
+					}, false);
+
+					return xhr;
+				},
+				type: 'POST',
+				url: "announcement.php",
+				data: $('#announcement_report_form').serialize() + '&announcement_test_report=' + 'announcement_test_report',
+				success: function (data) {
+					$('#status_text').text(data);
+				},
+				complete: function (data){
+                    $('#ondemand_report_button').attr("disabled", false);
+					$('#test_report_button').attr("disabled", false);
+					$('#test_report_button').css( 'cursor', 'pointer' );
+					$('#ondemand_report_button').css( 'cursor', 'pointer' );
+					$('#announcement_button').attr("disabled", false);
+					$('#announcement_button').css( 'cursor', 'pointer' );
+					$('#announcement_test_button').attr("disabled", false);
+					$('#announcement_test_button').css( 'cursor', 'pointer' );
                 }
 			});
 			return false;

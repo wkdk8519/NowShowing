@@ -587,12 +587,13 @@ Useful for sending a report now or updating the webpage without waiting for the 
 				
 				<label>
 				<span>Email Message:</span>
-				<textarea id="announcementMessage" name="announcementMessage" style="width:480px;height:250px"><?=strip_tags($announcementMessage)?></textarea><br>
+				<textarea id="announcementMessage" name="announcementMessage" style="width:480px;height:250px"><?=$announcementMessage?></textarea><br>
 				<font style="margin-left: 150px;font-size: 12px;color: grey;">Announcement message for the email. Use HTML/CSS for formatting.</font>
 				</label></p>	
 				
 				<script>
 					$(document).ready(function(){
+						$(".preview").html($("#announcementMessage").val());
 						$("#announcementMessage").keyup(function(){
 							// Getting the current value of textarea
 							var currentText = $(this).val();
@@ -603,15 +604,67 @@ Useful for sending a report now or updating the webpage without waiting for the 
 					});
 				</script>
 				
-				<button id="announcement_button" class="mybutton" type="button" value="announcement" name="announcement_button" data-toggle="modal" data-target="#announcementReportModal">Send Announcement Email</button><br></p>
+				<button id="announcement_test_button" class="mybutton" type="button" value="announcement_test" name="announcement_test_button" data-toggle="modal" data-target="#announcementTestReportModal">Send Test</button>
+				<button id="announcement_button" class="mybutton" type="button" value="announcement" name="announcement_button" data-toggle="modal" data-target="#announcementReportModal" style="margin-left:58px;">Send Announcement Email</button><br></p>
 				
 				
 				<b>Email Preview:</b><br>
 				<font style="font-size:12px;color:grey;"><b>[</b>Email clients may render slightly different<b>]</b></font></p>
 				<b><hr width="440px" align="left" style="padding:0px;margin:0px;border-style:1px dashed;border:1px dashed"></b></p>
 				
-				<div class="preview" style="max-width:75%;display:block;overflow:auto"></div>
-</form></p>
+				<div class="preview" style="max-width:75%;display:block;overflow:auto"></div></p>
+
+<!--==========================
+  Announcement Modal
+============================-->
+
+<div class="container">
+  <div class="modal fade" id="announcementReportModal" role="dialog">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><b style="color:#cc0000">&times;</b></button>
+          <h4 class="modal-title">Send Announcement Email</h4>
+        </div>
+			<div class="modal-body">
+				This will send to users configured on the <a href="#email" onclick="javascript:window.location.href='#email';window.location.reload(true);">Email settings </a>page.<br>
+				<b><font color=#cc0000>Are you sure you want to do this?</font></b>
+			</div>
+        <div class="modal-footer">
+		    <button id="announcement_report" name="announcement_report" type="submit" class="mybutton" value="announcement_report">Send</button>
+			<button id="cancel_button" name="cancel_button" type="button" class="mybuttoncancel" value="cancel" data-dismiss="modal">Cancel</button>	
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--==========================
+  Announcement TEST Modal
+============================-->
+
+<div class="container">
+  <div class="modal fade" id="announcementTestReportModal" role="dialog">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><b style="color:#cc0000">&times;</b></button>
+          <h4 class="modal-title">Send TEST Announcement Email</h4>
+        </div>
+			<div class="modal-body">
+				This will send a TEST Announcement to yourself.<br>
+				<b><font color=#cc0000>Are you sure you want to do this?</font></b>
+			</div>
+        <div class="modal-footer">
+		    <button id="announcement_test_report" name="announcement_test_report" type="submit" class="mybutton" value="announcement_test_report">Send</button>
+			<button id="cancel_button" name="cancel_button" type="button" class="mybuttoncancel" value="cancel" data-dismiss="modal">Cancel</button>	
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+				
+</form>
 </div>
 
 <!--==========================
@@ -773,30 +826,6 @@ Useful for sending a report now or updating the webpage without waiting for the 
   </div>
 </div>
 </form>
-
-<!--==========================
-  Announcement Modal
-============================-->
-
-<div class="container">
-  <div class="modal fade" id="announcementReportModal" role="dialog">
-    <div class="modal-dialog modal-sm">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal"><b style="color:#cc0000">&times;</b></button>
-          <h4 class="modal-title">Send Announcment Email</h4>
-        </div>
-			<div class="modal-body">
-				<b><font color=#cc0000>Are you sure you want to do this?</font></b>
-			</div>
-        <div class="modal-footer">
-		    <button id="announcement_report" name="announcement_report" type="submit" class="mybutton" value="announcement_report" form="announcement_report_form">Send</button>
-			<button id="cancel_button" name="cancel_button" type="button" class="mybuttoncancel" value="cancel" data-dismiss="modal">Cancel</button>	
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 
 <!--==========================
   Reset Modal

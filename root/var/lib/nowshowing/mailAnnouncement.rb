@@ -15,6 +15,7 @@ require_relative '/var/lib/nowshowing/plexTv'
 class MailReport
     def initialize(advanced, options)
 	$advanced = advanced
+	$announcementSubject = File.read('/opt/announcementSubject')
 	$plexEmails = options[:emails]
 	$testEmail = options[:test_email]
         if !$advanced['mail']['port'].nil?
@@ -23,8 +24,8 @@ class MailReport
             $port = 587
         end
 
-        if !$advanced['mail']['announcement'].nil?
-            $subject = $advanced['mail']['announcement']
+        if !$announcementSubject.nil?
+            $subject = $announcementSubject
         else
             $subject = "Plex Announcement"
         end

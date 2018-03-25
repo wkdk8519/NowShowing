@@ -2,6 +2,8 @@
 # Load current advanced.yaml settings
 include('spyc.php');
 $adv = Spyc::YAMLLoad('/config/cfg/advanced.yaml');
+$announcementSubject = file_get_contents('/opt/announcementSubject');
+$announcementMessage = file_get_contents('/config/announcement_body.html');
 
 if (!empty($adv['mail']['recipients'])) {
         $recipients_array = implode(',',$adv['mail']['recipients']);
