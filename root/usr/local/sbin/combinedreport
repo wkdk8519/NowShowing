@@ -383,7 +383,7 @@ def main
 
     YAML.load_file('/config/cfg/advanced.yaml')
     template = ERB.new File.new("/config/email_body.erb").read, nil, "%"
-    webtemplate = ERB.new File.new("/config/web_email_body.erb").read, nil, "%"
+    webtemplate = ERB.new File.new("/config/web_body.erb").read, nil, "%"
     mail = MailReport.new($advanced, $options)
 
     if (movies.empty? && new_seasons.empty? && new_episodes.empty?)

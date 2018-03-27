@@ -312,6 +312,50 @@ $(function() {
 	});
 });
 
+
+// ---------------------------------------------------------------------
+// Announcement save for later
+// ---------------------------------------------------------------------
+
+$(function() {
+$("#announcement_save_report").click(function() {
+ $('#announcementSaveReportModal').modal('hide');
+ $.ajax({
+  url: "save_announcement.php",
+  type: 'post',
+  data: $('#announcement_report_form').serialize() + '&announcement_save_report=' + 'announcement_save_report',
+  success: function(response){
+	console.log(response);
+    // on success
+	if ( response.indexOf("Saved") > -1 ) {
+	$('#status_text').css({
+		color: 'green'
+	});
+	$('#status_text').text(response);
+	$("#status_text").delay(3000).fadeOut(2000,function() {
+		$("#status_text").empty().show();
+	});
+	}
+	else {
+		$('#status_text').css({
+		color: '#cc0000'
+	});
+	$('#status_text').text(response);
+	}
+  },
+  error: function(){
+    // on failure;
+	console.log("Error: Could not divide by zero");
+	$('#status_text').css({
+		color: '#cc0000'
+	});
+	$('#status_text').text("Error: Could not divide by zero");
+  }
+});
+  return false;
+});
+});
+
 // ---------------------------------------------------------------------
 // Get Token
 // ---------------------------------------------------------------------

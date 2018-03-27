@@ -216,7 +216,7 @@ Optional.
 Enter additional emails to send to, besides your Plex friends.<br>
 Enter emails seperated by commas.<br>
 ie: bob@example.com,sally@example.com<br>
-Optional, except when 'Email Plex Users' is set to 'No'. Then at least one email address is required here.
+Optional.
 </span></div>
 </label><br><br>
 
@@ -604,13 +604,14 @@ Useful for sending a report now or updating the webpage without waiting for the 
 					});
 				</script>
 				
-				<button id="announcement_test_button" class="mybutton" type="button" value="announcement_test" name="announcement_test_button" data-toggle="modal" data-target="#announcementTestReportModal">Send Test</button>
-				<button id="announcement_button" class="mybutton" type="button" value="announcement" name="announcement_button" data-toggle="modal" data-target="#announcementReportModal" style="margin-left:58px;">Send Announcement Email</button><br></p>
+				<button id="announcement_button" class="mybutton" type="button" value="announcement" name="announcement_button" data-toggle="modal" data-target="#announcementReportModal" style="margin-left:150px">Send Announcement Email</button>
+				<button id="announcement_test_button" class="mybutton" type="button" value="announcement_test" name="announcement_test_button" data-toggle="modal" data-target="#announcementTestReportModal" style="margin-left:118px;margin-top:4px;padding: 3px 3px;font-size:12px">Send Test</button>
+				<button id="announcement_save_button" class="mybutton" type="button" value="announcement_save" name="announcement_save_button" data-toggle="modal" data-target="#announcementSaveReportModal" style="margin-left:8px;margin-top:4px;padding: 3px 3px;font-size:12px">Save for later</button><br></p>
 				
 				
-				<b>Email Preview:</b><br>
-				<font style="font-size:12px;color:grey;"><b>[</b>Email clients may render slightly different<b>]</b></font></p>
-				<b><hr width="440px" align="left" style="padding:0px;margin:0px;border-style:1px dashed;border:1px dashed"></b></p>
+				<b style="color:#e5a00d">Email Preview:</b><br>
+				<font style="font-size:12px;color:grey;"><b>[</b>Email clients may render slightly different<b>]</b></font><br>
+				<b><hr width="628px" align="left" style="padding:0px;margin:0px;border-style:1px dashed;border:1px dashed"></b></p>
 				
 				<div class="preview" style="max-width:75%;display:block;overflow:auto"></div></p>
 
@@ -657,6 +658,30 @@ Useful for sending a report now or updating the webpage without waiting for the 
 			</div>
         <div class="modal-footer">
 		    <button id="announcement_test_report" name="announcement_test_report" type="submit" class="mybutton" value="announcement_test_report">Send</button>
+			<button id="cancel_button" name="cancel_button" type="button" class="mybuttoncancel" value="cancel" data-dismiss="modal">Cancel</button>	
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--==========================
+  Announcement SAVE Modal
+============================-->
+
+<div class="container">
+  <div class="modal fade" id="announcementSaveReportModal" role="dialog">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><b style="color:#cc0000">&times;</b></button>
+          <h4 class="modal-title">Save Announcement Template</h4>
+        </div>
+			<div class="modal-body">
+				This will save the Subject and HTML Message to use for later.<br>
+			</div>
+        <div class="modal-footer">
+		    <button id="announcement_save_report" name="announcement_save_report" type="submit" class="mybutton" value="announcement_save_report">Save</button>
 			<button id="cancel_button" name="cancel_button" type="button" class="mybuttoncancel" value="cancel" data-dismiss="modal">Cancel</button>	
         </div>
       </div>

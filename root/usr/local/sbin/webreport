@@ -382,7 +382,7 @@ def main
     new_episodes = new_episodes[:new]
 
     YAML.load_file('/config/cfg/advanced.yaml')
-    webtemplate = ERB.new File.new("/config/web_email_body.erb").read, nil, "%"
+    webtemplate = ERB.new File.new("/config/web_body.erb").read, nil, "%"
 
     if (movies.empty? && new_seasons.empty? && new_episodes.empty?)
 	    $logger.info('No new media to report!')
